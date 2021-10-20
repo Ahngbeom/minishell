@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/10/20 19:49:15 by bahn             ###   ########.fr        #
+#    Updated: 2021/10/20 23:21:41 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ $(NAME) : $(OBJS) $(GNL_OBJS)
 
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)
-		$(RM) $(OBJS)
+		$(RM) $(OBJS) $(GNL_OBJS)
 
 fclean : clean
 		$(MAKE) fclean -C $(LIBFT_PATH)
