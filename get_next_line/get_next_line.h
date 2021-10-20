@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/10/20 23:17:22 by bahn             ###   ########.fr       */
+/*   Created: 2021/01/09 15:00:24 by bahn              #+#    #+#             */
+/*   Updated: 2021/10/20 19:45:24 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-# define _XOPEN_SOURCE 500
-
+# include <stdlib.h>
 # include <unistd.h>
-# include <signal.h>
 # include "libft.h"
-# include "get_next_line.h"
-# include <stdio.h>
 
-struct sigaction	g_sigact;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 99
+# endif
 
-typedef struct s_data t_data;
+# ifndef OPEN_MAX
+#  define OPEN_MAX 10
+# endif
 
-struct s_data
-{
-	pid_t	pid;
-	char	*msg;
-};
+int			get_next_line(int fd, char **line);
 
 #endif

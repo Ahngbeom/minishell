@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/10/19 13:23:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/10/20 23:20:06 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ void	interrupt_handler(int signo, siginfo_t *siginfo, void *context)
 	(void)context;
 	if (signo == SIGINT)
 	{
-		ft_putendl_fd("$>", 1);
-		kill(g_data.pid, SIGCONT);
+		ft_putstr_fd("\b\b  \n$> ", 1);
 	}
-	else if (signo == SIGQUIT)
-		return ;
 	else if (signo == SIGTSTP)
 	{
+		ft_putstr_fd("\b\bSIGTSTP(Ctrl + z)\n", 1);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -42,10 +40,8 @@ int main(void)
 	g_sigact.sa_sigaction = interrupt_handler;
 	sigemptyset(&g_sigact.sa_mask);
 	sigaction(SIGINT, &g_sigact, NULL);
-	sigaction(SIGKILL, &g_sigact, NULL);
-	sigaction(SIGQUIT, &g_sigact, NULL);
 	sigaction(SIGTSTP, &g_sigact, NULL);
-	// sigaction(SIGUSR1, &g_sigact, NULL);
+	sigaction(SIGUSR1, &g_sigact, NULL);
 	// sigaction(SIGUSR2, &g_sigact, NULL);
 	
 	g_data.pid = getpid();
@@ -55,5 +51,12 @@ int main(void)
 	ft_putstr_fd(")\n$> ", 1);
 
 	while (1)
-		pause();
+	{
+		if (get_next_line(0, &g_data.msg) != 0)
+		{
+			ft_putendl_fd(g_data.msg, 1);/* code */
+		}
+		else
+			pause();
+	}
 }
