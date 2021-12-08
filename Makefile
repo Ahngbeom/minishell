@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/10/21 15:06:52 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/08 13:47:21 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ GNL_SRCS = $(addprefix $(GNL_PATH), get_next_line.c)
 GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 SRCS_PATH = ./srcs/
-SRCS_NAME = minishell.c handler.c
+SRCS_NAME = minishell.c #handler.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
@@ -37,7 +37,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJS) $(GNL_OBJS)
 		$(MAKE) all -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $^ $(INCFLAGS) $(LIBFT_LINK) -o $@ 
+		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) -lreadline -o $@ 
 
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)
