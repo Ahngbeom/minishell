@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/09 17:43:38 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/09 21:03:13 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <fcntl.h>				// open()
 
 # include "libft.h"
-# include "get_next_line.h"
 
 # define EOT 4
 # define LF	10

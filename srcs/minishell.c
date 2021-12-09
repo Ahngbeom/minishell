@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/09 17:44:45 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/10 00:10:08 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int	minishell(void)
 		free(g_data.input);
 		return (0);
 	}
-	ft_putendl_fd("exit", 1);
-	return (1);
+	else
+	{
+		ft_putendl_fd("exit", 1);
+		return (1);
+	}
 }
