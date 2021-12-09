@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/09 01:06:41 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/09 17:43:38 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 // # define _XOPEN_SOURCE 500		// sigaction
 
-# include <unistd.h>			//
+# include <unistd.h>			// fork()
 # include <signal.h>			// sigaction
 # include <stdio.h>				// printf()
 # include <readline/readline.h> // readline()
 # include <readline/history.h>	// add_history
 # include <termios.h> 			// tcgetattr()
 # include <sys/wait.h>			// wait(), waitpid(), wait3(), wait4()
+# include <fcntl.h>				// open()
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -33,6 +34,8 @@
 typedef struct termios		t_termios;
 typedef struct s_data		t_data;
 typedef struct s_log		t_log;
+
+extern t_data				g_data;
 
 struct s_data
 {
@@ -47,13 +50,18 @@ struct s_data
 
 struct s_log
 {
+	int	index;
 	int	ch;
 	int	sigint;
 };
 
-void	ft_put_prompt(int interrupt);
+// void	prompt(void);
+char	*prompt(void);
 
-void	interrupt_handler(int signo, siginfo_t *siginfo, void *context);
-void	interrupt_handler_child(int signo, siginfo_t *siginfo, void *context);
+void	signal_handler(int signo);
+
+int		minishell(void);
+
+int		keyinput_controller(void);
 
 #endif
