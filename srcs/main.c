@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/10 00:15:02 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/10 01:02:31 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	main(int argc, char *argv[], char *env[])
 {
 	g_data.input = NULL;
 	g_data.env = set_env(argc, argv, env);
-	// signal(SIGINT, signal_handler);
-	// signal(SIGQUIT, signal_handler);
 	// tcgetattr(STDIN_FILENO, &g_data.org_term);
 	// tcgetattr(STDIN_FILENO, &g_data.msh_term);
 	// g_data.msh_term.c_lflag &= ~(ICANON | ECHOCTL);
