@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/09 21:03:13 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/10 23:37:16 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,18 @@ extern t_data				g_data;
 struct s_data
 {
 	pid_t		pid;
-	t_termios	org_term;
-	t_termios	msh_term;
+
+	char		*prompt;
+	// t_termios	org_term;
+	// t_termios	msh_term;
+	char		**argv;
 	char		**env;
+
+	char		*pwd;
+
 	char		*input;
 
-	t_log		*log;
+	// t_log		*log;
 };
 
 struct s_log
@@ -59,8 +65,16 @@ char	*prompt(void);
 
 void	signal_handler(int signo);
 
+char	**set_env(int argc, char *argv[], char *env[]);
+void	free_env(char *env[]);
+
 int		minishell(void);
 
-int		keyinput_controller(void);
+int		parsing(void);
+
+int		change_dir(void);
+
+
+int	argv_counter(char *argv[]);
 
 #endif

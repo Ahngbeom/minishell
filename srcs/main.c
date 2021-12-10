@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/10 01:02:31 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/10 21:52:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,29 @@ t_data	g_data;
 
 char	*prompt(void)
 {
-	// ft_putstr_fd("minishell > ", STDOUT_FILENO);
-	// g_data.input = readline("minishell 🚀 ");
-	return ("minishell > ");
-}
+	char	*temp;
 
-char	**set_env(int argc, char *argv[], char *env[])
-{
-	char	**env_dupl;
-	int		env_len;
-	int		i;
-
-	if (argc != 1)
-		exit(EXIT_FAILURE);
-	(void)argv;
-	env_len = 0;
-	while (env[env_len] != NULL)
-		env_len++;
-	env_dupl = (char **)malloc(sizeof(char *) * env_len + 1);
-	if (env_dupl == NULL)
-		exit(EXIT_FAILURE);
-	i = -1;
-	while (env[++i] != NULL)
-	{
-		env_dupl[i] = ft_strdup(env[i]);
-	}
-	env_dupl[i] = NULL;
-	return (env_dupl);
+	g_data.prompt = ft_strjoin("\e[1;32mminishell\e[0m:", g_data.pwd);
+	temp = ft_strdup(g_data.prompt);
+	free(g_data.prompt);
+	g_data.prompt = ft_strjoin(temp, "$ ");
+	free(temp);
+	// g_data.prompt = ft_strdup("minishell 🚀 ");
+	return (g_data.prompt);
 }
 
 int	main(int argc, char *argv[], char *env[])
 {
 	g_data.input = NULL;
 	g_data.env = set_env(argc, argv, env);
-	// tcgetattr(STDIN_FILENO, &g_data.org_term);
-	// tcgetattr(STDIN_FILENO, &g_data.msh_term);
-	// g_data.msh_term.c_lflag &= ~(ICANON | ECHOCTL);
-	// g_data.msh_term.c_cc[VMIN] = 1;
-	// g_data.msh_term.c_cc[VTIME] = 0;
-	// tcsetattr(STDIN_FILENO, TCSANOW, &g_data.msh_term);
+	g_data.pwd = getcwd(NULL, 0);
 	while (1)
 	{
 		if (minishell() != 0)
 			break ;
 	}
-	free(g_data.log);
-	// tcsetattr(STDIN_FILENO, TCSANOW, &g_data.org_term);
+	free_env(g_data.env);
+	free(g_data.pwd);
+	free(g_data.prompt);
 	return (0);
 }

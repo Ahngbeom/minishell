@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   argv_vector.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/10 14:08:39 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/10 22:45:14 by bahn              #+#    #+#             */
+/*   Updated: 2021/12/11 00:11:40 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
-
-void	signal_handler(int signo)
+int	argv_counter(char *argv[])
 {
-	if (signo == SIGINT)
-	{
-		ft_putendl_fd(NULL, 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	if (signo == SIGQUIT)
-		ft_putstr_fd("\b \b\b \b", 0);
+	int	count;
+
+	count = 0;
+	while (argv[count] != NULL)
+		count++;
+	return (count);
 }
