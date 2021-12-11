@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:20:29 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 22:31:43 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 23:49:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static	void	then_input(int index)
 	while (enclosed_quotes(g_data.argv[index]))
 	{
 		input = readline("> ");
-		temp = ft_strdup(g_data.argv[index]);
+		// temp = ft_strdup(g_data.argv[index]);
+		temp = ft_strjoin(g_data.argv[index], "\n");
 		g_data.argv[index] = ft_strjoin(temp, input);
 		free(temp);
 		free(input);
@@ -44,8 +45,10 @@ int	double_quotation(void)
 {
 	if (argv_counter(g_data.argv) <= 1 && argv_counter(g_data.argv) > 3)
 		return (0);
-	else if (argv_counter(g_data.argv) > 1 && \
-				!ft_strncmp(g_data.argv[1], "-n", ft_strlen(g_data.argv[1])))
+	else if (argv_counter(g_data.argv) == 2 && \
+				(g_data.argv[1][0] != '\'' && g_data.argv[1][0] != '\"'))
+		return (0);
+	else if (!ft_strncmp(g_data.argv[1], "-n", ft_strlen(g_data.argv[1])))
 		then_input(2);
 	else
 		then_input(1);
