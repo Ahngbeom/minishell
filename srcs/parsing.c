@@ -6,27 +6,49 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 00:48:37 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 15:12:46 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	double_quotation(void)
+{
+	char	*trim;
+
+	if (argv_counter(g_data.argv) <= 1 && argv_counter(g_data.argv) > 3)
+		return (0);
+	else if (argv_counter(g_data.argv) > 1 && \
+				!ft_strncmp(g_data.argv[1], "-n", ft_strlen(g_data.argv[1])))
+	{
+		trim = ft_strtrim(g_data.argv[2], "\"");
+		free(g_data.argv[2]);
+		g_data.argv[2] = trim;
+	}
+	else
+	{	
+		trim = ft_strtrim(g_data.argv[1], "\"");
+		free(g_data.argv[1]);
+		g_data.argv[1] = trim;
+	}
+	return (0);
+}
+
 int	command_finder(char *command)
 {
-	if (!ft_strncmp(command, "echo", ft_strlen(g_data.input)))
-		return (0);
-	else if (!ft_strncmp(command, "cd", ft_strlen(g_data.input)))
+	if (!ft_strncmp(command, "echo", ft_strlen(command)))
+		return (double_quotation());
+	else if (!ft_strncmp(command, "cd", ft_strlen(command)))
 		return (change_dir());
-	else if (!ft_strncmp(command, "pwd", ft_strlen(g_data.input)))
+	else if (!ft_strncmp(command, "pwd", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "export", ft_strlen(g_data.input)))
+	else if (!ft_strncmp(command, "export", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "unset", ft_strlen(g_data.input)))
+	else if (!ft_strncmp(command, "unset", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "env", ft_strlen(g_data.input)))
+	else if (!ft_strncmp(command, "env", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "exit", ft_strlen(g_data.input)))
+	else if (!ft_strncmp(command, "exit", ft_strlen(command)))
 		return (0);
 	else
 		return (1);
@@ -51,7 +73,13 @@ int	parsing(void)
 				exit(EXIT_FAILURE);
 		}
 		else
-			wait(&status);
+		{	
+			waitpid(execve_pid, &status, 0);
+			// printf("%s\n", g_data.input);
+			//// execve 함수 호출 후 g_data.input 데이터가 사라짐
+			//// execve의 출력문에 의해 사라지는건가?
+			// add_history(g_data.input);
+		}
 		free(cmd_path);
 		return (0);
 	}
