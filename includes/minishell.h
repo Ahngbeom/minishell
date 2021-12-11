@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 21:41:12 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 22:32:44 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_data		t_data;
 typedef struct s_log		t_log;
 
 extern t_data				g_data;
+
+t_data						g_data;
 
 struct s_data
 {
@@ -78,7 +80,6 @@ int		change_dir(void);
 int		argv_counter(char *argv[]);
 
 // Quotes
-int		enclosed_quotes(char *str);
 int		double_quotation(void);
 
 #endif

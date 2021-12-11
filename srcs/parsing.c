@@ -6,13 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 21:41:23 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 22:32:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	command_finder(char *command)
+static	int	command_finder(char *command)
 {
 	if (!ft_strncmp(command, "echo", ft_strlen(command)))
 		return (double_quotation());

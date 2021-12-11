@@ -6,13 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:20:29 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 22:30:59 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 22:31:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	enclosed_quotes(char *str)
+static	int	enclosed_quotes(char *str)
 {
 	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
 		return (0);
@@ -22,7 +22,7 @@ int	enclosed_quotes(char *str)
 		return (1);
 }
 
-void	then_input(int index)
+static	void	then_input(int index)
 {
 	char	*input;
 	char	*temp;
