@@ -6,33 +6,11 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 15:12:46 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 21:41:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	double_quotation(void)
-{
-	char	*trim;
-
-	if (argv_counter(g_data.argv) <= 1 && argv_counter(g_data.argv) > 3)
-		return (0);
-	else if (argv_counter(g_data.argv) > 1 && \
-				!ft_strncmp(g_data.argv[1], "-n", ft_strlen(g_data.argv[1])))
-	{
-		trim = ft_strtrim(g_data.argv[2], "\"");
-		free(g_data.argv[2]);
-		g_data.argv[2] = trim;
-	}
-	else
-	{	
-		trim = ft_strtrim(g_data.argv[1], "\"");
-		free(g_data.argv[1]);
-		g_data.argv[1] = trim;
-	}
-	return (0);
-}
 
 int	command_finder(char *command)
 {

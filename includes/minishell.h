@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/10 23:37:16 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/11 21:41:12 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,11 @@ int		parsing(void);
 
 int		change_dir(void);
 
+// Arguments Vector
+int		argv_counter(char *argv[]);
 
-int	argv_counter(char *argv[]);
+// Quotes
+int		enclosed_quotes(char *str);
+int		double_quotation(void);
 
 #endif
