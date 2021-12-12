@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 22:32:03 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/12 03:01:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ int	parsing(void)
 	pid_t	execve_pid;
 	int		status;
 	char	*cmd_path;
+	int		rtn;
 
 	g_data.argv = ft_split(g_data.input, ' ');
-	if (!command_finder(g_data.argv[0]))
+	rtn = command_finder(g_data.argv[0]);
+	if (rtn == 0)
 	{
 		execve_pid = fork();
 		if (execve_pid < 0)
@@ -61,6 +63,8 @@ int	parsing(void)
 		free(cmd_path);
 		return (0);
 	}
+	else if (rtn < 0)
+		return (0);
 	else
 		return (1);
 }
