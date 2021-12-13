@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 22:32:55 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 14:40:16 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,25 @@ char	*prompt(void)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	g_data.input = NULL;
-	g_data.env = set_env(argc, argv, env);
+	if (argc != 1)
+		exit(EXIT_FAILURE);
+	(void)argv;
+	// g_data.env = set_env(argc, argv, env);
+	g_data.env = env;
+	if (g_data.bin_path != NULL)
+		free(g_data.bin_path);
+	g_data.bin_path = ft_strdup("/bin/");
+	if (g_data.cmd_path != NULL)
+		free(g_data.cmd_path);
+	if (g_data.home_path == NULL)
+		g_data.home_path = getcwd(NULL, 0);
 	g_data.pwd = getcwd(NULL, 0);
 	while (1)
 	{
 		if (minishell() != 0)
 			break ;
 	}
-	free_env(g_data.env);
+	free(g_data.home_path);
 	free(g_data.pwd);
 	free(g_data.prompt);
 	return (0);

@@ -6,11 +6,39 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/12 02:54:06 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 14:32:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	envvar_checker(void)
+{
+	char	*temp;
+
+	if (argv_counter(g_data.argv) == 2 && g_data.argv[1][0] == '$')
+	{
+		temp = ft_strtrim(g_data.argv[1], "$\n");
+		if (getenv(temp))
+			printf("%s\n", getenv(temp));
+		else
+			printf("\n");
+		free(temp);
+		return (-1);
+	}
+	else if (argv_counter(g_data.argv) == 3 && g_data.argv[2][0] == '$')
+	{
+		temp = ft_strtrim(g_data.argv[2], "$\n");
+		if (getenv(temp))
+			printf("%s\n", getenv(temp));
+		else
+			printf("\n");
+		free(temp);
+		return (-1);
+	}
+	else
+		return (0);
+}
 
 char	**set_env(int argc, char *argv[], char *env[])
 {

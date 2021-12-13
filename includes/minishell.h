@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/11 22:32:44 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 14:35:12 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ struct s_data
 	pid_t		pid;
 
 	char		*prompt;
-	// t_termios	org_term;
-	// t_termios	msh_term;
 	char		**argv;
 	char		**env;
+
+	char		*home_path;
+	char		*bin_path;
+	char		*cmd_path;
 
 	char		*pwd;
 
 	char		*input;
-
-	// t_log		*log;
 };
 
 struct s_log
@@ -67,6 +67,11 @@ char	*prompt(void);
 
 void	signal_handler(int signo);
 
+// Arguments Vector
+int		argv_counter(char *argv[]);
+
+// Environment Variable
+int		envvar_checker(void);
 char	**set_env(int argc, char *argv[], char *env[]);
 void	free_env(char *env[]);
 
@@ -76,10 +81,10 @@ int		parsing(void);
 
 int		change_dir(void);
 
-// Arguments Vector
-int		argv_counter(char *argv[]);
-
 // Quotes
 int		double_quotation(void);
+
+// echo option
+int		echo_option_checker(void);
 
 #endif
