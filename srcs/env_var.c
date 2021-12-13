@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 14:32:39 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 14:59:55 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ int	envvar_checker(void)
 	if (argv_counter(g_data.argv) == 2 && g_data.argv[1][0] == '$')
 	{
 		temp = ft_strtrim(g_data.argv[1], "$\n");
+		ft_split(g_data.argv[1], LF);
 		if (getenv(temp))
 			printf("%s\n", getenv(temp));
 		else
+		{
 			printf("\n");
+		}
 		free(temp);
 		return (-1);
 	}

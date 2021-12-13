@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 13:54:43 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 22:06:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	minishell(void)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
 	g_data.input = readline(prompt());
-	if (g_data.input != NULL)
+	if (ft_strncmp(g_data.input, "exit", ft_strlen("exit")) && g_data.input != NULL)
 	{
 		if (!ft_strncmp(g_data.input, "\n", ft_strlen(g_data.input)))
 			return (0);

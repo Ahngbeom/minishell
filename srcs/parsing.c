@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 14:23:17 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 22:07:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ static	int	command_finder(char *command)
 	else if (!ft_strncmp(command, "unset", ft_strlen("unset")))
 		return (0);
 	else if (!ft_strncmp(command, "env", ft_strlen("env")))
-		return (0);
-	else if (!ft_strncmp(command, "exit", ft_strlen("exit")))
 		return (0);
 	else
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 14:35:12 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/13 21:50:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		parsing(void);
 int		change_dir(void);
 
 // Quotes
-int		double_quotation(void);
+int		then_input(int index, char start_quotes);
 
 // echo option
 int		echo_option_checker(void);

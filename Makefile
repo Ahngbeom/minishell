@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/11 21:42:03 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/13 14:48:10 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,18 +28,23 @@ SRCS_NAME = main.c minishell.c \
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
+CMD_SRCS_PATH = ./srcs/command/
+CMD_SRCS_NAME = echo.c
+CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
+CMD_OBJS = $(CMD_SRCS:.c=.o)
+
 all : $(NAME)
 
 .c.o :
 	$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFT_LINK) -c $< -o $@
 
-$(NAME) : $(OBJS)
+$(NAME) : $(OBJS) $(CMD_OBJS)
 		$(MAKE) all -C $(LIBFT_PATH)
 		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) -lreadline -o $@ 
 
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)
-		$(RM) $(OBJS)
+		$(RM) $(OBJS) $(CMD_OBJS)
 
 fclean : clean
 		$(MAKE) fclean -C $(LIBFT_PATH)
