@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 22:07:57 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/14 20:27:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static	int	command_finder(char *command)
 {
 	if (!ft_strncmp(command, "echo", ft_strlen("echo")))
-		return (echo_option_checker());
+		// return (minishell_echo_for_execve());
+		return (minishell_echo());
 	else if (!ft_strncmp(command, "cd", ft_strlen("cd")))
 		return (change_dir());
 	else if (!ft_strncmp(command, "pwd", ft_strlen("pwd")))

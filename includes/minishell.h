@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 21:50:50 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/14 20:27:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int		change_dir(void);
 int		then_input(int index, char start_quotes);
 
 // echo option
-int		echo_option_checker(void);
+int		minishell_echo(void);
+int		minishell_echo_for_execve(void);
 
 #endif

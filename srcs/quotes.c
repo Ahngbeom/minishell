@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:20:29 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 21:51:30 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/14 20:48:42 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ int	then_input(int index, char start_quotes)
 	free(temp);
 	free(g_data.argv[index]);
 	g_data.argv[index] = input;
-	return (envvar_checker());
+	// return (envvar_checker());
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 14:59:55 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/14 14:38:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int	envvar_checker(void)
 {
 	char	*temp;
-
+	int		i;
+	int		j;
+	
 	if (argv_counter(g_data.argv) == 2 && g_data.argv[1][0] == '$')
 	{
 		temp = ft_strtrim(g_data.argv[1], "$\n");
@@ -40,7 +42,26 @@ int	envvar_checker(void)
 		return (-1);
 	}
 	else
-		return (0);
+	{
+		i = 0;
+		while (g_data.argv[++i] != NULL)
+		{
+			j = -1;
+			while (g_data.argv[i][++j] != '\0')
+			{
+				printf("-n\n");
+				if (g_data.argv[i][j] == '\\' && ft_isprint(g_data.argv[i][j + 1]))
+					ft_putchar_fd(g_data.argv[i][++j], 1);
+				else
+					ft_putchar_fd(g_data.argv[i][j], 1);
+			}
+			if (g_data.argv[i + 1] != NULL)
+				ft_putchar_fd(' ', 1);
+		}
+		if (g_data.argv[1] != NULL && ft_strncmp(g_data.argv[1], "-n", ft_strlen("-n")))
+			ft_putchar_fd('\n', 1);
+		return (-1);
+	}
 }
 
 char	**set_env(int argc, char *argv[], char *env[])
