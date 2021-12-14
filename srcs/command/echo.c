@@ -6,32 +6,11 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/14 23:47:58 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/15 01:01:08 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	minishell_echo_for_execve(void)
-{
-	if (argv_counter(g_data.argv) == 1)
-		return (0);
-	else if (ft_strncmp(g_data.argv[1], "-n", ft_strlen(g_data.argv[1])) == 0)
-	{
-		if (argv_counter(g_data.argv) == 2)
-			return (0);
-		else if (g_data.argv[2][0] != '\'' && g_data.argv[2][0] != '\"')
-			return (0);
-		else
-			return (then_input(2, g_data.argv[2][0]));
-	}
-	else if (g_data.argv[1][0] == '\'' || g_data.argv[1][0] == '\"')
-	{
-		return (then_input(1, g_data.argv[1][0]));
-	}
-	else // argv_counter > 2 && not option echo
-		return (envvar_checker());
-}
 
 int	minishell_echo(void)
 {
@@ -74,4 +53,23 @@ int	minishell_echo(void)
 	if (g_data.argv[1] == NULL || ft_strncmp(g_data.argv[1], "-n", ft_strlen("-n")))
 		ft_putchar_fd('\n', 1);
 	return (-1);
+}
+
+int	minishell_echo_for_execve(void)
+{
+	if (argv_counter(g_data.argv) == 1)
+		return (0);
+	else if (ft_strncmp(g_data.argv[1], "-n", ft_strlen(g_data.argv[1])) == 0)
+	{
+		if (argv_counter(g_data.argv) == 2)
+			return (0);
+		else if (g_data.argv[2][0] != '\'' && g_data.argv[2][0] != '\"')
+			return (0);
+		else
+			return (then_input(2, g_data.argv[2][0]));
+	}
+	else if (g_data.argv[1][0] == '\'' || g_data.argv[1][0] == '\"')
+		return (then_input(1, g_data.argv[1][0]));
+	else
+		return (envvar_checker());
 }
