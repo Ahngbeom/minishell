@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/14 21:50:02 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/14 23:47:58 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ int	minishell_echo(void)
 		{
 			if (g_data.argv[i][j] == '\\' && !ft_isalnum(g_data.argv[i][j + 1]))
 				ft_putchar_fd(g_data.argv[i][++j], 1);
+			else if (g_data.argv[i][j] == '$')
+			{
+				temp = g_data.argv[i];
+				g_data.argv[i] = ft_strtrim(g_data.argv[i], "$");
+				free(temp);
+				ft_putstr_fd(getenv(g_data.argv[i]), 1);
+				break ;
+			}
 			else if (!ft_isalnum(g_data.argv[i][j]))
 				continue ;
 			else
