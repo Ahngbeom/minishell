@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/14 20:27:37 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/15 19:44:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,17 @@
 
 static	int	command_finder(char *command)
 {
-	if (!ft_strncmp(command, "echo", ft_strlen("echo")))
-		// return (minishell_echo_for_execve());
+	if (!ft_strncmp(command, "echo", ft_strlen(command)))
 		return (minishell_echo());
-	else if (!ft_strncmp(command, "cd", ft_strlen("cd")))
-		return (change_dir());
-	else if (!ft_strncmp(command, "pwd", ft_strlen("pwd")))
+	else if (!ft_strncmp(command, "cd", ft_strlen(command)))
+		return (minishell_cd());
+	else if (!ft_strncmp(command, "pwd", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "export", ft_strlen("export")))
+	else if (!ft_strncmp(command, "export", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "unset", ft_strlen("unset")))
+	else if (!ft_strncmp(command, "unset", ft_strlen(command)))
 		return (0);
-	else if (!ft_strncmp(command, "env", ft_strlen("env")))
+	else if (!ft_strncmp(command, "env", ft_strlen(command)))
 		return (0);
 	else
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/14 20:27:37 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/15 16:00:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,22 @@
 # include <termios.h> 			// tcgetattr()
 # include <sys/wait.h>			// wait(), waitpid(), wait3(), wait4()
 # include <fcntl.h>				// open()
-
+# include <sys/stat.h>			// stat()
+# include <errno.h>				// errno
 # include "libft.h"
 
 # define EOT 4
 # define LF	10
+
+// # define CMD_ECHO "echo"
+// # define CMD_CD "cd"
+// # define CMD_PWD "pwd"
+// # define CMD_EXPORT "export"
+// # define CMD_UNSET "unset"
+// # define CMD_ENV "env"
+// # define CMD_EXIT "exit"
+
+# define SELF_PROCESSING 1
 
 // struct sigaction		g_sigact;
 typedef struct termios		t_termios;
@@ -84,8 +95,11 @@ int		change_dir(void);
 // Quotes
 int		then_input(int index, char start_quotes);
 
-// echo option
+// echo
 int		minishell_echo(void);
 int		minishell_echo_for_execve(void);
+
+// cd
+int	minishell_cd(void);
 
 #endif

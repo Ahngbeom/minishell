@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/13 14:40:16 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/15 16:12:56 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	main(int argc, char *argv[], char *env[])
 		free(g_data.cmd_path);
 	if (g_data.home_path == NULL)
 		g_data.home_path = getcwd(NULL, 0);
+	if (chdir(getenv("HOME")) == -1)
+		exit(errno);
 	g_data.pwd = getcwd(NULL, 0);
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 16:01:24 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/14 21:49:44 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/15 19:43:05 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	s1_first = start_point(s1, set);
 	s1_last = last_point(s1, set);
 	if (s1_first > s1_last)
-		return ("\0");
+		return (NULL);
 	else
 	{
 		result = (char *)malloc(s1_last - s1_first + 2);
