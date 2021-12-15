@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/13 14:48:10 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/15 20:49:35 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
-INCFLAGS = -I./includes -I./libft
+INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
 RM = rm -fv
 
@@ -36,11 +36,17 @@ CMD_OBJS = $(CMD_SRCS:.c=.o)
 all : $(NAME)
 
 .c.o :
-	$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFT_LINK) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
+ifeq ($(OS), Linux)
 $(NAME) : $(OBJS) $(CMD_OBJS)
 		$(MAKE) all -C $(LIBFT_PATH)
 		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) -lreadline -o $@ 
+else
+$(NAME) : $(OBJS) $(CMD_OBJS)
+		$(MAKE) all -C $(LIBFT_PATH)
+		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@ 
+endif
 
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)
