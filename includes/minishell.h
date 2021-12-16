@@ -6,14 +6,12 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 00:58:29 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 03:27:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-// # define _XOPEN_SOURCE 500		// sigaction
 
 # include <unistd.h>			// fork()
 # include <signal.h>			// sigaction
@@ -43,7 +41,6 @@
 
 # define BIN_PATH "/bin/"
 
-// struct sigaction		g_sigact;
 typedef struct termios		t_termios;
 typedef struct s_data		t_data;
 typedef struct s_log		t_log;
