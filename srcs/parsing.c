@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/15 19:44:30 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 13:45:49 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static	int	command_finder(char *command)
 	else if (!ft_strncmp(command, "cd", ft_strlen(command)))
 		return (minishell_cd());
 	else if (!ft_strncmp(command, "pwd", ft_strlen(command)))
-		return (0);
+		return (EXEC_PROC);
 	else if (!ft_strncmp(command, "export", ft_strlen(command)))
 		return (0);
 	else if (!ft_strncmp(command, "unset", ft_strlen(command)))
@@ -38,7 +38,7 @@ int	parsing(void)
 
 	g_data.argv = ft_split(g_data.input, ' ');
 	rtn = command_finder(g_data.argv[0]);
-	if (rtn == 0)
+	if (rtn == EXEC_PROC)
 	{
 		execve_pid = fork();
 		if (execve_pid < 0)
@@ -56,8 +56,6 @@ int	parsing(void)
 		}
 		return (rtn);
 	}
-	else if (rtn < 0)
-		return (rtn);
 	else
 		return (rtn);
 }

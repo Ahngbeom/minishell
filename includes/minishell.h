@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/15 16:00:25 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 14:29:35 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@
 // # define CMD_ENV "env"
 // # define CMD_EXIT "exit"
 
-# define SELF_PROCESSING 1
+# define EXEC_PROC 0
+# define SELF_PROC 1
 
 // struct sigaction		g_sigact;
 typedef struct termios		t_termios;
@@ -94,6 +95,7 @@ int		change_dir(void);
 
 // Quotes
 int		then_input(int index, char start_quotes);
+char	quotes_counter(char *str);
 
 // echo
 int		minishell_echo(void);

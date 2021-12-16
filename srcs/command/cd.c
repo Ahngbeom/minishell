@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/15 20:53:31 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 15:08:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,26 @@ int	minishell_cd(void)
 			if (chdir(getenv("HOME")) == -1)
 				printf("minishell: cd: %s: %s\n", getenv("HOME"), strerror(errno));
 		}
-		else if (g_data.argv[1] != NULL && ft_strlen(g_data.argv[1]) > 1)
+		else if (g_data.argv[1] != NULL)
 		{
 			temp = homepath_translator(g_data.argv[1]);
-			if (g_data.argv[1] != NULL && chdir(temp) == -1)
-				printf("minishell: cd: %s: %s\n", g_data.argv[1], strerror(errno));
-			free(temp);
+			if (temp != NULL)
+			{
+				if (chdir(temp) == -1)
+					printf("minishell: cd: %s: %s\n", g_data.argv[1], strerror(errno));
+				if (temp != g_data.argv[1])
+					free(temp);
+			}
 		}
 	}
 	free(g_data.pwd);
 	g_data.pwd = getcwd(NULL, 0);
-	return (-1);
+	return (SELF_PROC);
 }
 
+/********************************
+ This Function is For execve()
+********************************/
 int	change_dir(void)
 {
 	if (argv_counter(g_data.argv) > 2)

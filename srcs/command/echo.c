@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/15 01:01:08 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 15:09:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,12 @@ int	minishell_echo(void)
 	}
 	if (g_data.argv[1] == NULL || ft_strncmp(g_data.argv[1], "-n", ft_strlen("-n")))
 		ft_putchar_fd('\n', 1);
-	return (-1);
+	return (SELF_PROC);
 }
 
+/********************************
+ This Function is For execve()
+********************************/
 int	minishell_echo_for_execve(void)
 {
 	if (argv_counter(g_data.argv) == 1)

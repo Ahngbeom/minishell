@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:20:29 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/14 20:48:42 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 14:43:48 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,23 @@ int	then_input(int index, char start_quotes)
 	g_data.argv[index] = input;
 	// return (envvar_checker());
 	return (0);
+}
+
+char	quotes_counter(char *str)
+{
+	char	quotes;
+	int		i;
+
+	printf("quotes counter\n");
+	quotes = 0;
+	i = -1;
+	while (str[++i] != '\0')
+	{
+		if (quotes == str[i])
+			quotes = 0;
+		if ((str[i] == '\'' || str[i] == '\"') && str[i - 1] != '\\')
+			quotes = str[i];
+	}
+	printf("%c\n", quotes);
+	return (quotes);
 }
