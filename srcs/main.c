@@ -6,26 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/15 16:12:56 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 15:07:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*prompt(void)
-{
-	char	*temp;
-
-	g_data.prompt = ft_strjoin("\e[1;32mminishell\e[0m:", g_data.pwd);
-	temp = ft_strdup(g_data.prompt);
-	free(g_data.prompt);
-	g_data.prompt = ft_strjoin(temp, "$ ");
-	free(temp);
-	// g_data.prompt = ft_strdup("minishell 🚀 ");
-	return (g_data.prompt);
-}
-
-int	main(int argc, char *argv[], char *env[])
+static	void	minishell_init(int argc, char *argv[], char *env[])
 {
 	if (argc != 1)
 		exit(EXIT_FAILURE);
@@ -42,13 +29,23 @@ int	main(int argc, char *argv[], char *env[])
 	if (chdir(getenv("HOME")) == -1)
 		exit(errno);
 	g_data.pwd = getcwd(NULL, 0);
+}
+
+static	void	minishell_finalize()
+{
+	free(g_data.home_path);
+	free(g_data.pwd);
+	free(g_data.prompt);
+}
+
+int	main(int argc, char *argv[], char *env[])
+{
+	minishell_init(argc, argv, env);
 	while (1)
 	{
 		if (minishell() != 0)
 			break ;
 	}
-	free(g_data.home_path);
-	free(g_data.pwd);
-	free(g_data.prompt);
+	minishell_finalize();
 	return (0);
 }

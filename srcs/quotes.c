@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:20:29 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 14:33:49 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 14:43:48 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	quotes_counter(char *str)
 	{
 		if (quotes == str[i])
 			quotes = 0;
-		if (str[i] == '\'' || str[i] == '\"')
+		if ((str[i] == '\'' || str[i] == '\"') && str[i - 1] != '\\')
 			quotes = str[i];
 	}
 	printf("%c\n", quotes);

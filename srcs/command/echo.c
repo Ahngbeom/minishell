@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 14:30:57 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 14:47:41 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ int	minishell_echo(void)
 	{
 		if (!ft_strncmp(g_data.argv[i], "-n", ft_strlen("-n")))
 			continue ;
-		else if (quotes_counter(g_data.argv[i]) != 0)
-		{
-			printf("need than input\n");
-			return (-1);
-		}
 		else
 		{
 			temp = g_data.argv[i];
