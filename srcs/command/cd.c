@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 15:08:57 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	minishell_cd(void)
 			}
 		}
 	}
-	free(g_data.pwd);
-	g_data.pwd = getcwd(NULL, 0);
+	free(g_data.current_path);
+	g_data.current_path = getcwd(NULL, 0);
 	return (SELF_PROC);
 }
 
@@ -89,7 +89,7 @@ int	change_dir(void)
 	}
 	else
 		exit(EXIT_FAILURE);
-	free(g_data.pwd);
-	g_data.pwd = getcwd(NULL, 0);
+	free(g_data.current_path);
+	g_data.current_path = getcwd(NULL, 0);
 	return (0);
 }

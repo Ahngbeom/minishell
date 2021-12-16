@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 15:09:04 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 16:30:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	minishell_echo(void)
 				g_data.argv[i] = ft_strtrim(g_data.argv[i], "$");
 				free(temp);
 				ft_putstr_fd(getenv(g_data.argv[i]), 1);
+				// export 명령어로 인해 변경된 env를 적용시켜야함
+				// history 명령어도 적용되는지 확인 필요 -> 적용됨! 다행!
 				break ;
 			}
 			else if (!ft_isalnum(g_data.argv[i][j]))

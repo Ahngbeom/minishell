@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/16 14:59:30 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/16 15:27:58 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,13 @@ LIBFT_PATH = ./libft
 LIBFT_LINK = -Llibft -lft
 
 SRCS_PATH = ./srcs/
-SRCS_NAME = main.c minishell.c argv.c env.c prompt.c \
+SRCS_NAME = main.c minishell.c argv.c prompt.c \
 			handler.c parsing.c quotes.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
 CMD_SRCS_PATH = ./srcs/command/
-CMD_SRCS_NAME = echo.c cd.c export.c
+CMD_SRCS_NAME = echo.c cd.c pwd.c export.c env.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 

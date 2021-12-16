@@ -6,12 +6,52 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/15 20:53:54 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 15:48:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		minishell_env(void)
+{
+	int	i;
+
+	i = -1;
+	while (g_data.env[++i] != NULL)
+		ft_putendl_fd(g_data.env[i], 1);
+	return (SELF_PROC);
+}
+
+char	**set_env(char *env[])
+{
+	char	**env_dupl;
+	int		env_len;
+	int		i;
+
+	env_len = 0;
+	while (env[env_len] != NULL)
+		env_len++;
+	env_dupl = ft_calloc(sizeof(char *), env_len + 1);
+	if (env_dupl == NULL)
+		exit(EXIT_FAILURE);
+	i = -1;
+	while (env[++i] != NULL)
+		env_dupl[i] = ft_strdup(env[i]);
+	env_dupl[i] = NULL;
+	return (env_dupl);
+}
+
+void	free_env(char *env[])
+{
+	int	i;
+
+	i = -1;
+	while (env[++i] != NULL)
+		free(env[i]);
+	free(env);
+}
+
+// Not used now
 int	envvar_checker(void)
 {
 	char	*temp;
@@ -62,36 +102,4 @@ int	envvar_checker(void)
 			ft_putchar_fd('\n', 1);
 		return (-1);
 	}
-}
-
-char	**set_env(int argc, char *argv[], char *env[])
-{
-	char	**env_dupl;
-	int		env_len;
-	int		i;
-
-	if (argc != 1)
-		exit(EXIT_FAILURE);
-	(void)argv;
-	env_len = 0;
-	while (env[env_len] != NULL)
-		env_len++;
-	env_dupl = (char **)malloc(sizeof(char *) * env_len + 1);
-	if (env_dupl == NULL)
-		exit(EXIT_FAILURE);
-	i = -1;
-	while (env[++i] != NULL)
-		env_dupl[i] = ft_strdup(env[i]);
-	env_dupl[i] = NULL;
-	return (env_dupl);
-}
-
-void	free_env(char *env[])
-{
-	int	i;
-
-	i = -1;
-	while (env[++i] != NULL)
-		free(env[i]);
-	free(env);
 }

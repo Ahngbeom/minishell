@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 13:45:49 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static	int	command_finder(char *command)
 	else if (!ft_strncmp(command, "cd", ft_strlen(command)))
 		return (minishell_cd());
 	else if (!ft_strncmp(command, "pwd", ft_strlen(command)))
-		return (EXEC_PROC);
+		return (minishell_pwd());
 	else if (!ft_strncmp(command, "export", ft_strlen(command)))
-		return (0);
+		return (minishell_export());
 	else if (!ft_strncmp(command, "unset", ft_strlen(command)))
 		return (0);
 	else if (!ft_strncmp(command, "env", ft_strlen(command)))
-		return (0);
+		return (minishell_env());
 	else
-		return (1);
+		return (-1);
 }
 
 int	parsing(void)
@@ -45,8 +45,8 @@ int	parsing(void)
 			exit(EXIT_FAILURE);
 		else if (execve_pid == 0)
 		{
-			g_data.cmd_path = ft_strjoin(g_data.bin_path, g_data.argv[0]);
-			if (execve(g_data.cmd_path, g_data.argv, g_data.env) == -1)
+			free(g_data.argv);
+			if (execve(g_data.current_path, g_data.argv, g_data.env) == -1)
 				exit(EXIT_FAILURE);
 		}
 		else
