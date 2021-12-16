@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 14:06:13 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 15:08:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ int	minishell_cd(void)
 	return (SELF_PROC);
 }
 
+/********************************
+ This Function is For execve()
+********************************/
 int	change_dir(void)
 {
 	if (argv_counter(g_data.argv) > 2)
