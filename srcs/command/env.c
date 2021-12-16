@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 15:48:18 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 19:41:31 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@ int		minishell_env(void)
 	while (g_data.env[++i] != NULL)
 		ft_putendl_fd(g_data.env[i], 1);
 	return (SELF_PROC);
+}
+
+char	*env_getvalue(char *key)
+{
+	char	**temp;
+	char	*value;
+	int		i;
+
+	i = -1;
+	while (g_data.env[++i] != NULL)
+	{
+		temp = ft_split(g_data.env[i], '=');
+		if (ft_strnstr(g_data.env[i], key, ft_strlen(temp[0])) != NULL)
+		{
+			value = ft_strdup(temp[1]);
+			split_free(temp);
+			return (value);
+		}
+	}
+	return (NULL);
 }
 
 char	**set_env(char *env[])

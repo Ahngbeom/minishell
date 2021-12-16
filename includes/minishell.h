@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 00:58:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define EXEC_PROC 0
 # define SELF_PROC 1
 
+# define BIN_PATH "/bin/"
+
 // struct sigaction		g_sigact;
 typedef struct termios		t_termios;
 typedef struct s_data		t_data;
@@ -57,6 +59,7 @@ struct s_data
 	char		*prompt;
 	char		**argv;
 	char		**env;
+	t_list		*env;
 
 	char		*home_path;
 	char		*bin_path;
@@ -77,6 +80,7 @@ struct s_log
 // void	prompt(void);
 char	*prompt(void);
 
+// Key Interrupt Handler
 void	signal_handler(int signo);
 
 // Arguments Vector
@@ -87,11 +91,11 @@ int		envvar_checker(void);
 char	**set_env(char *env[]);
 void	free_env(char *env[]);
 
+// Command processer
 int		minishell(void);
 
+// Command Parsing
 int		parsing(void);
-
-int		change_dir(void);
 
 // Quotes
 int		then_input(int index, char start_quotes);
@@ -103,6 +107,7 @@ int		minishell_echo_for_execve(void);
 
 // cd
 int		minishell_cd(void);
+int		change_dir(void); // Not used now
 
 // pwd
 int		minishell_pwd(void);
@@ -110,7 +115,14 @@ int		minishell_pwd(void);
 // export
 int		minishell_export(void);
 
+// unset
+int		minishell_unset(void);
+
 // env
 int		minishell_env(void);
+char	*env_getvalue(char *key);
+
+// Utils
+void	split_free(char **split);
 
 #endif

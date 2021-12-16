@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 15:47:58 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 22:30:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ int	minishell(void)
 	{
 		if (!ft_strncmp(g_data.input, "\n", ft_strlen(g_data.input)))
 			return (0);
-		else if (!ft_strncmp(g_data.input, "exit", ft_strlen(g_data.input)))
+		else if (!ft_strncmp(g_data.input, "exit", ft_strlen(g_data.input) + 1))
 		{
 			ft_putendl_fd("exit", 1);
 			return (1);
 		}
 		rtn = parsing();
 		if (rtn < 0)
-			printf("%s: command not found\n", g_data.input);
+			printf("%s: command not found\n", g_data.argv[0]);
 		// else if (rtn == SELF_PROC)
 		// {
 			add_history(g_data.input);
