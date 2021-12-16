@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 14:29:35 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ struct s_data
 	char		*bin_path;
 	char		*cmd_path;
 
-	char		*pwd;
+	char		*current_path;
 
 	char		*input;
 };
@@ -84,7 +84,7 @@ int		argv_counter(char *argv[]);
 
 // Environment Variable
 int		envvar_checker(void);
-char	**set_env(int argc, char *argv[], char *env[]);
+char	**set_env(char *env[]);
 void	free_env(char *env[]);
 
 int		minishell(void);
@@ -102,6 +102,15 @@ int		minishell_echo(void);
 int		minishell_echo_for_execve(void);
 
 // cd
-int	minishell_cd(void);
+int		minishell_cd(void);
+
+// pwd
+int		minishell_pwd(void);
+
+// export
+int		minishell_export(void);
+
+// env
+int		minishell_env(void);
 
 #endif
