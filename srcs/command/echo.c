@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 19:44:35 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 16:11:20 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ int	minishell_echo(void)
 				temp = g_data.argv[i];
 				g_data.argv[i] = ft_strtrim(g_data.argv[i], "$");
 				free(temp);
-				temp = env_getvalue(g_data.argv[i]);
-				ft_putstr_fd(temp, 1);
-				free(temp);
+				// ft_putstr_fd(env_getvalue(g_data.argv[i]), 1);
+				ft_putstr_fd(env_getvalue2(g_data.argv[i]), 1);
 				break ;
 			}
 			else if (!ft_isalnum(g_data.argv[i][j]))

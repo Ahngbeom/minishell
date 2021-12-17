@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 22:40:42 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 16:36:51 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ static	int	command_finder(char *command)
 	else if (!ft_strncmp(command, "pwd", ft_strlen("pwd") + 1))
 		return (minishell_pwd());
 	else if (!ft_strncmp(command, "export", ft_strlen("export") + 1))
-		return (minishell_export());
+		// return (minishell_export());
+		return (minishell_export2());
 	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
 		return (minishell_unset());
 	else if (!ft_strncmp(command, "env", ft_strlen("env") + 1))
-		return (minishell_env());
+		// return (minishell_env());
+		return (minishell_env2());
 	else
 		return (-1);
 }
@@ -46,7 +48,7 @@ int	parsing(void)
 		else if (execve_pid == 0)
 		{
 			free(g_data.argv);
-			if (execve(g_data.current_path, g_data.argv, g_data.env) == -1)
+			if (execve(g_data.current_path, g_data.argv, NULL) == -1)
 				exit(EXIT_FAILURE);
 		}
 		else

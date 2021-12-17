@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 03:27:28 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 16:32:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 
 typedef struct termios		t_termios;
 typedef struct s_data		t_data;
-typedef struct s_log		t_log;
+typedef struct s_hash		t_hash;
 
 extern t_data				g_data;
 
@@ -56,10 +56,10 @@ struct s_data
 	char		*prompt;
 	char		**argv;
 	char		**env;
-	t_list		*env;
+	t_list		**envv;
 
 	char		*home_path;
-	char		*bin_path;
+	// char		*bin_path;
 	char		*cmd_path;
 
 	char		*current_path;
@@ -67,11 +67,10 @@ struct s_data
 	char		*input;
 };
 
-struct s_log
+struct s_hash
 {
-	int	index;
-	int	ch;
-	int	sigint;
+	char	*key;
+	char	*value;
 };
 
 // void	prompt(void);
@@ -86,6 +85,7 @@ int		argv_counter(char *argv[]);
 // Environment Variable
 int		envvar_checker(void);
 char	**set_env(char *env[]);
+t_list	**set_env2(char *env[]);
 void	free_env(char *env[]);
 
 // Command processer
@@ -111,13 +111,16 @@ int		minishell_pwd(void);
 
 // export
 int		minishell_export(void);
+int		minishell_export2(void);
 
 // unset
 int		minishell_unset(void);
 
 // env
 int		minishell_env(void);
+int		minishell_env2(void);
 char	*env_getvalue(char *key);
+char	*env_getvalue2(char *key);
 
 // Utils
 void	split_free(char **split);

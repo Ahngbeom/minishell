@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 22:30:37 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 11:29:27 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ int	minishell(void)
 		rtn = parsing();
 		if (rtn < 0)
 			printf("%s: command not found\n", g_data.argv[0]);
-		// else if (rtn == SELF_PROC)
-		// {
-			add_history(g_data.input);
-			free(g_data.input);
-		// }
+		add_history(g_data.input);
+		free(g_data.input);
 		split_free(g_data.argv);
 		return (0);
 	}

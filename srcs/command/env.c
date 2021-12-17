@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 19:41:31 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 16:18:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,51 @@ int		minishell_env(void)
 	return (SELF_PROC);
 }
 
+// For t_list
+int		minishell_env2(void)
+{
+	t_list	*ptr;
+
+	ptr = *g_data.envv;
+	while (ptr != NULL)
+	{
+		ft_putstr_fd(((t_hash *)ptr->content)->key, 1);
+		ft_putchar_fd('=', 1);
+		ft_putendl_fd(((t_hash *)ptr->content)->value, 1);
+		ptr = ptr->next;
+	}
+	return (SELF_PROC);
+}
+
 char	*env_getvalue(char *key)
 {
 	char	**temp;
-	char	*value;
 	int		i;
 
 	i = -1;
 	while (g_data.env[++i] != NULL)
 	{
 		temp = ft_split(g_data.env[i], '=');
-		if (ft_strnstr(g_data.env[i], key, ft_strlen(temp[0])) != NULL)
+		if (!ft_strncmp(temp[0], key, ft_strlen(key) + 1))
 		{
-			value = ft_strdup(temp[1]);
 			split_free(temp);
-			return (value);
+			return (ft_strchr(g_data.env[i], '=') + 1);
 		}
+	}
+	return (NULL);
+}
+
+//	For t_list
+char	*env_getvalue2(char *key)
+{
+	t_list	*ptr;
+
+	ptr = *g_data.envv;
+	while (ptr != NULL)
+	{
+		if (!ft_strncmp(((t_hash *)ptr->content)->key, key, ft_strlen(key) + 1))
+			return (((t_hash *)ptr->content)->value);
+		ptr = ptr->next;
 	}
 	return (NULL);
 }
@@ -61,6 +90,32 @@ char	**set_env(char *env[])
 	return (env_dupl);
 }
 
+t_list	**set_env2(char *env[])
+{
+	t_list	**lst;
+	t_hash	*hash;
+	char	**temp;
+	int		env_len;
+	int		i;
+
+	i = -1;
+	env_len = 0;
+	while (env[++i] != NULL)
+		env_len++;
+	lst = ft_calloc(sizeof(t_list *), env_len);
+	i = -1;
+	while (env[++i] != NULL)
+	{
+		temp = ft_split(env[i], '=');
+		hash = ft_calloc(sizeof(t_hash), 1);
+		hash->key = temp[0];
+		hash->value = temp[1];
+		free(temp);
+		ft_lstadd_back(lst, ft_lstnew(hash));
+	}
+	return (lst);
+}
+
 void	free_env(char *env[])
 {
 	int	i;
@@ -71,7 +126,9 @@ void	free_env(char *env[])
 	free(env);
 }
 
-// Not used now
+/****************
+   Not used now
+****************/
 int	envvar_checker(void)
 {
 	char	*temp;

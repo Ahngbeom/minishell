@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 15:27:22 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 		exit(EXIT_FAILURE);
 	(void)argv;
 	g_data.env = set_env(env);
-	// g_data.env = env;
-	if (g_data.bin_path != NULL)
-		free(g_data.bin_path);
-	g_data.bin_path = ft_strdup("/bin/");
+	g_data.envv = set_env2(env);
 	if (g_data.cmd_path != NULL)
 		free(g_data.cmd_path);
 	if (g_data.home_path == NULL)
@@ -34,6 +31,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 static	void	minishell_finalize()
 {
 	free_env(g_data.env);
+	ft_lstclear(g_data.envv, free);
 	free(g_data.home_path);
 	free(g_data.current_path);
 	free(g_data.prompt);
