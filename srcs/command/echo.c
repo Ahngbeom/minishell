@@ -6,11 +6,28 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 18:59:46 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:55:27 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	find_n(char *argv)
+{
+	int		j;
+	
+	if (argv[0] == '-')
+	{
+		j = 1;
+		while (argv[j] == 'n' && argv[j] != '\0')
+			j++;
+		if (argv[j] == '\0')
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
+}
 
 int	minishell_echo(void)
 {
@@ -21,7 +38,9 @@ int	minishell_echo(void)
 	i = 0;
 	while (g_data.argv[++i] != NULL)
 	{
-		if (!ft_strncmp(g_data.argv[i], "-n", ft_strlen("-n") + 1))
+		// printf("(%s)", g_data.argv[i]);
+		// printf("[%d]", find_n(g_data.argv[i]));
+		if (i == 1 && find_n(g_data.argv[i]))
 			continue ;
 		else
 		{
@@ -49,12 +68,10 @@ int	minishell_echo(void)
 			else
 				ft_putchar_fd(g_data.argv[i][j], 1);
 		}
-		// if (g_data.argv[i][j] == ';')
-		// 	minishell_run(j + 1);
 		if (g_data.argv[i + 1] != NULL)
 			ft_putchar_fd(' ', 1);
 	}
-	if (g_data.argv[1] == NULL || ft_strncmp(g_data.argv[1], "-n", ft_strlen("-n") + 1))
+	if (g_data.argv[1] == NULL || !(find_n(g_data.argv[1])))
 		ft_putchar_fd('\n', 1);
 	return (SELF_PROC);
 }
