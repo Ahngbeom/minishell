@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 15:47:58 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 15:32:54 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	minishell(void)
 	g_data.input = readline(prompt());
 	if (g_data.input != NULL)
 	{
-		if (!ft_strncmp(g_data.input, "\n", ft_strlen(g_data.input)))
+		if (!ft_strncmp(g_data.input, "\n", ft_strlen("\n") + 1))
 			return (0);
-		else if (!ft_strncmp(g_data.input, "exit", ft_strlen(g_data.input)))
+		else if (!ft_strncmp(g_data.input, "exit", ft_strlen("exit") + 1))
 		{
 			ft_putendl_fd("exit", 1);
 			return (1);

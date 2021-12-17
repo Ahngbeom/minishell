@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 15:32:26 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 static	int	command_finder(char *command)
 {
-	if (!ft_strncmp(command, "echo", ft_strlen(command)))
+	if (!ft_strncmp(command, "echo", ft_strlen("echo") + 1))
 		return (minishell_echo());
-	else if (!ft_strncmp(command, "cd", ft_strlen(command)))
+	else if (!ft_strncmp(command, "cd", ft_strlen("cd") + 1))
 		return (minishell_cd());
-	else if (!ft_strncmp(command, "pwd", ft_strlen(command)))
+	else if (!ft_strncmp(command, "pwd", ft_strlen("pwd") + 1))
 		return (minishell_pwd());
-	else if (!ft_strncmp(command, "export", ft_strlen(command)))
+	else if (!ft_strncmp(command, "export", ft_strlen("export") + 1))
 		return (minishell_export());
-	else if (!ft_strncmp(command, "unset", ft_strlen(command)))
+	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
 		return (0);
-	else if (!ft_strncmp(command, "env", ft_strlen(command)))
+	else if (!ft_strncmp(command, "env", ft_strlen("env") + 1))
 		return (minishell_env());
 	else
 		return (-1);
