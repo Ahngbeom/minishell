@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 16:36:51 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 21:53:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,31 @@ static	int	command_finder(char *command)
 
 int	parsing(void)
 {
-	pid_t	execve_pid;
-	int		status;
-	int		rtn;
+	// pid_t	execve_pid;
+	// int		status;
+	// int		rtn;
 
 	g_data.argv = ft_split(g_data.input, ' ');
-	rtn = command_finder(g_data.argv[0]);
-	if (rtn == EXEC_PROC)
-	{
-		execve_pid = fork();
-		if (execve_pid < 0)
-			exit(EXIT_FAILURE);
-		else if (execve_pid == 0)
-		{
-			free(g_data.argv);
-			if (execve(g_data.current_path, g_data.argv, NULL) == -1)
-				exit(EXIT_FAILURE);
-		}
-		else
-		{	
-			waitpid(execve_pid, &status, 0);
-			add_history(g_data.input);
-		}
-		return (rtn);
-	}
-	else
-		return (rtn);
+	return (command_finder(g_data.argv[0]));
+	// rtn = command_finder(g_data.argv[0]);
+	// if (rtn == EXEC_PROC)
+	// {
+	// 	execve_pid = fork();
+	// 	if (execve_pid < 0)
+	// 		exit(EXIT_FAILURE);
+	// 	else if (execve_pid == 0)
+	// 	{
+	// 		free(g_data.argv);
+	// 		if (execve(g_data.current_path, g_data.argv, NULL) == -1)
+	// 			exit(EXIT_FAILURE);
+	// 	}
+	// 	else
+	// 	{	
+	// 		waitpid(execve_pid, &status, 0);
+	// 		add_history(g_data.input);
+	// 	}
+	// 	return (rtn);
+	// }
+	// else
+	// 	return (rtn);
 }
