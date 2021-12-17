@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:57:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 01:17:02 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/18 01:25:02 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,19 @@ static t_list	*export_dupl_checker(char *key)
 	return (NULL);
 }
 
+static	int		noargv_export(void)
+{
+	t_list	*ptr;
+
+	ptr = *g_data.envv;
+	while (ptr != NULL)
+	{
+		printf("declare -x %s=\"%s\"\n", ((t_hash *)ptr->content)->key, ((t_hash *)ptr->content)->value);
+		ptr = ptr->next;
+	}
+	return (SELF_PROC);	
+}
+
 int	minishell_export(void)
 {
 	t_list	*ptr;
@@ -49,10 +62,8 @@ int	minishell_export(void)
 	char	**temp;
 	int		i;
 
-	// 인자가 여려 개일 경우 정상 처리해야함 !
-
 	if (g_data.argv[1] == NULL)
-		return (SELF_PROC);	// 인자없는 export 명령 구현해야함
+		return (noargv_export());	
 	i = 0;
 	while (g_data.argv[++i] != NULL)
 	{
