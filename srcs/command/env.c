@@ -6,24 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 16:18:45 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/18 00:59:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		minishell_env(void)
-{
-	int	i;
-
-	i = -1;
-	while (g_data.env[++i] != NULL)
-		ft_putendl_fd(g_data.env[i], 1);
-	return (SELF_PROC);
-}
-
-// For t_list
-int		minishell_env2(void)
 {
 	t_list	*ptr;
 
@@ -38,26 +27,8 @@ int		minishell_env2(void)
 	return (SELF_PROC);
 }
 
-char	*env_getvalue(char *key)
-{
-	char	**temp;
-	int		i;
-
-	i = -1;
-	while (g_data.env[++i] != NULL)
-	{
-		temp = ft_split(g_data.env[i], '=');
-		if (!ft_strncmp(temp[0], key, ft_strlen(key) + 1))
-		{
-			split_free(temp);
-			return (ft_strchr(g_data.env[i], '=') + 1);
-		}
-	}
-	return (NULL);
-}
-
 //	For t_list
-char	*env_getvalue2(char *key)
+char	*env_getvalue(char *key)
 {
 	t_list	*ptr;
 
@@ -71,26 +42,7 @@ char	*env_getvalue2(char *key)
 	return (NULL);
 }
 
-char	**set_env(char *env[])
-{
-	char	**env_dupl;
-	int		env_len;
-	int		i;
-
-	env_len = 0;
-	while (env[env_len] != NULL)
-		env_len++;
-	env_dupl = ft_calloc(sizeof(char *), env_len + 1);
-	if (env_dupl == NULL)
-		exit(EXIT_FAILURE);
-	i = -1;
-	while (env[++i] != NULL)
-		env_dupl[i] = ft_strdup(env[i]);
-	env_dupl[i] = NULL;
-	return (env_dupl);
-}
-
-t_list	**set_env2(char *env[])
+t_list	**set_env(char *env[])
 {
 	t_list	**lst;
 	t_hash	*hash;
@@ -116,6 +68,9 @@ t_list	**set_env2(char *env[])
 	return (lst);
 }
 
+/****************
+   Not used now
+****************/
 void	free_env(char *env[])
 {
 	int	i;

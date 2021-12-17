@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:57:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 17:50:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/18 01:17:02 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,91 +28,51 @@ static int	export_format_checker(char *arg)
 		return (1);
 }
 
-static int	export_dupl_checker(char *arg)
+static t_list	*export_dupl_checker(char *key)
 {
-	char	**split_temp;
-	char	*key;
-	char	*temp;
-	int	i;
+	t_list	*ptr;
 
-	i = -1;
-	split_temp = ft_split(arg, '=');
-	key = ft_strdup(split_temp[0]);
-	free(split_temp[0]);
-	free(split_temp[1]);
-	free(split_temp);
-	while (g_data.env[++i] != NULL)
+	ptr = *g_data.envv;
+	while (ptr != NULL)
 	{
-		split_temp = ft_split(g_data.env[i], '=');
-		if (!ft_strncmp(key, split_temp[0], ft_strlen(key) + 1))
-		{
-			free(split_temp[0]);
-			free(split_temp[1]);
-			free(split_temp);
-			temp = g_data.env[i];
-			g_data.env[i] = ft_strdup(arg);
-			free(temp);
-			return (1);
-		}
+		if (!ft_strncmp(((t_hash *)ptr->content)->key, key, ft_strlen(key) + 1))
+			return (ptr);
+		ptr = ptr->next;
 	}
-	return (0);
+	return (NULL);
 }
 
 int	minishell_export(void)
 {
-	char	**update_env;
-	int		env_len;
-	int		i;
-	
-	// 인자가 여려 개일 경우 정상 처리
-	
-	if (g_data.argv[1] == NULL)
-		return (SELF_PROC);
-	if (export_format_checker(g_data.argv[1]))
-		return (SELF_PROC);
-	if (export_dupl_checker(g_data.argv[1]))
-		return (SELF_PROC);
-	env_len = 0;
-	while (g_data.env[env_len] != NULL)
-		env_len++;
-	update_env = ft_calloc(sizeof(char *), env_len + 2);
-	i = -1;
-	while (++i < env_len)
-	{
-		update_env[i] = g_data.env[i];
-	}
-	free(g_data.env);
-	update_env[i] = ft_strdup(g_data.argv[1]);
-	update_env[++i] = NULL;
-	g_data.env = update_env;
-	return (EXEC_PROC);
-}
-
-// For t_list
-int	minishell_export2(void)
-{
+	t_list	*ptr;
 	t_hash	*hash;
 	char	**temp;
 	int		i;
 
 	// 인자가 여려 개일 경우 정상 처리해야함 !
-	
+
 	if (g_data.argv[1] == NULL)
-		return (SELF_PROC);
-	if (export_format_checker(g_data.argv[1]))
-		return (SELF_PROC);
-	// t_list를 위한 중복체크 필요
-	// if (export_dupl_checker(g_data.argv[1]))
-		// return (SELF_PROC);
+		return (SELF_PROC);	// 인자없는 export 명령 구현해야함
 	i = 0;
 	while (g_data.argv[++i] != NULL)
 	{
+		if (export_format_checker(g_data.argv[i]))
+			continue ;
 		temp = ft_split(g_data.argv[i], '=');
 		hash = ft_calloc(sizeof(t_hash), 1);
 		hash->key = temp[0];
 		hash->value = temp[1];
 		free(temp);
-		ft_lstadd_back(g_data.envv, ft_lstnew(hash));
+		ptr = export_dupl_checker(hash->key);
+		if (ptr)
+		{
+			free(hash->key);
+			free(((t_hash *)ptr->content)->value);
+			((t_hash *)ptr->content)->value = hash->value;
+			free(hash);
+		}
+		else
+			ft_lstadd_back(g_data.envv, ft_lstnew(hash));
 	}
 	return (SELF_PROC);
 }

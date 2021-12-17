@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 00:56:29 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/18 00:59:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	int	envmark_checker(char *env, int dest_idx)
 		// Try echo $HOME@@@@ on bash, minishell
 		g_data.argv[dest_idx] = ft_substr(env, 1, ft_strlen(env) - 1);
 		free(env);
-		ft_putstr_fd(env_getvalue2(g_data.argv[dest_idx]), 1);
+		ft_putstr_fd(env_getvalue(g_data.argv[dest_idx]), 1);
 		return (1);
 	}
 	return (0);

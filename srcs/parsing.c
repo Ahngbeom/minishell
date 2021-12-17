@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 21:53:50 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/18 00:57:32 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ static	int	command_finder(char *command)
 		return (minishell_pwd());
 	else if (!ft_strncmp(command, "export", ft_strlen("export") + 1))
 		// return (minishell_export());
-		return (minishell_export2());
+		return (minishell_export());
 	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
 		return (minishell_unset());
 	else if (!ft_strncmp(command, "env", ft_strlen("env") + 1))
 		// return (minishell_env());
-		return (minishell_env2());
+		return (minishell_env());
 	else
 		return (-1);
 }
