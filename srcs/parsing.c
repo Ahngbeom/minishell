@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 15:32:26 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/17 18:54:09 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static	int	command_finder(char *command)
 		return (-1);
 }
 
-int	parsing(void)
+int	parsing(int i)
 {
 	pid_t	execve_pid;
 	int		status;
 	int		rtn;
 
-	g_data.argv = ft_split(g_data.input, ' ');
+	g_data.argv = ft_split(g_data.s_input[i], ' ');
 	rtn = command_finder(g_data.argv[0]);
 	if (rtn == EXEC_PROC)
 	{
@@ -52,7 +52,7 @@ int	parsing(void)
 		else
 		{	
 			waitpid(execve_pid, &status, 0);
-			add_history(g_data.input);
+			add_history(g_data.s_input[i]);
 		}
 		return (rtn);
 	}

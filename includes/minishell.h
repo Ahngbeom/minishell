@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/17 18:51:02 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ struct s_data
 	char		*current_path;
 
 	char		*input;
+	char		**s_input;
 };
 
 struct s_log
@@ -87,9 +88,10 @@ int		envvar_checker(void);
 char	**set_env(char *env[]);
 void	free_env(char *env[]);
 
+int		minishell_run();
 int		minishell(void);
 
-int		parsing(void);
+int		parsing(int i);
 
 int		change_dir(void);
 
