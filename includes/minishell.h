@@ -6,14 +6,12 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 18:51:02 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/19 20:29:18 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-// # define _XOPEN_SOURCE 500		// sigaction
 
 # include <unistd.h>			// fork()
 # include <signal.h>			// sigaction
@@ -41,10 +39,11 @@
 # define EXEC_PROC 0
 # define SELF_PROC 1
 
-// struct sigaction		g_sigact;
+# define BIN_PATH "/bin/"
+
 typedef struct termios		t_termios;
 typedef struct s_data		t_data;
-typedef struct s_log		t_log;
+typedef struct s_hash		t_hash;
 
 extern t_data				g_data;
 
@@ -56,10 +55,11 @@ struct s_data
 
 	char		*prompt;
 	char		**argv;
-	char		**env;
+	char		**env;//
+	t_list		**envv;
 
 	char		*home_path;
-	char		*bin_path;
+	// char		*bin_path;
 	char		*cmd_path;
 
 	char		*current_path;
@@ -68,16 +68,16 @@ struct s_data
 	char		**s_input;
 };
 
-struct s_log
+struct s_hash
 {
-	int	index;
-	int	ch;
-	int	sigint;
+	char	*key;
+	char	*value;
 };
 
 // void	prompt(void);
 char	*prompt(void);
 
+// Key Interrupt Handler
 void	signal_handler(int signo);
 
 // Arguments Vector
@@ -85,15 +85,13 @@ int		argv_counter(char *argv[]);
 
 // Environment Variable
 int		envvar_checker(void);
-char	**set_env(char *env[]);
+t_list	**set_env(char *env[]);
 void	free_env(char *env[]);
 
 int		minishell_run();
 int		minishell(void);
 
 int		parsing(int i);
-
-int		change_dir(void);
 
 // Quotes
 int		then_input(int index, char start_quotes);
@@ -105,6 +103,7 @@ int		minishell_echo_for_execve(void);
 
 // cd
 int		minishell_cd(void);
+int		change_dir(void); // Not used now
 
 // pwd
 int		minishell_pwd(void);
@@ -112,7 +111,14 @@ int		minishell_pwd(void);
 // export
 int		minishell_export(void);
 
+// unset
+int		minishell_unset(void);
+
 // env
 int		minishell_env(void);
+char	*env_getvalue(char *key);
+
+// Utils
+void	split_free(char **split);
 
 #endif

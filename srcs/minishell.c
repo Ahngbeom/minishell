@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 18:56:27 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/19 20:47:48 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	minishell(void)
 			printf("minishell: %s: command not found\n", g_data.s_input[i]);
 		// else if (rtn == SELF_PROC)
 		// {
-			add_history(g_data.s_input[i]);
-			free(g_data.s_input[i]);
+		add_history(g_data.s_input[i]);
+		free(g_data.s_input[i]);
 		// }
 		split_free(g_data.argv);
 		i++;

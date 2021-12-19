@@ -6,14 +6,14 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/16 15:27:58 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/17 14:43:19 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
 RM = rm -fv
@@ -28,7 +28,7 @@ SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
 CMD_SRCS_PATH = ./srcs/command/
-CMD_SRCS_NAME = echo.c cd.c pwd.c export.c env.c
+CMD_SRCS_NAME = echo.c cd.c pwd.c export.c unset.c env.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
@@ -38,7 +38,7 @@ all : $(NAME)
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(NAME) : $(OBJS) $(CMD_OBJS)
-		$(MAKE) all -C $(LIBFT_PATH)
+		$(MAKE) all bonus -C $(LIBFT_PATH)
 		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@ 
 
 clean : 

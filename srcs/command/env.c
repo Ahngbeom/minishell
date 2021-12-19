@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 15:48:18 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/18 00:59:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,63 @@
 
 int		minishell_env(void)
 {
-	int	i;
+	t_list	*ptr;
 
-	i = -1;
-	while (g_data.env[++i] != NULL)
-		ft_putendl_fd(g_data.env[i], 1);
+	ptr = *g_data.envv;
+	while (ptr != NULL)
+	{
+		ft_putstr_fd(((t_hash *)ptr->content)->key, 1);
+		ft_putchar_fd('=', 1);
+		ft_putendl_fd(((t_hash *)ptr->content)->value, 1);
+		ptr = ptr->next;
+	}
 	return (SELF_PROC);
 }
 
-char	**set_env(char *env[])
+//	For t_list
+char	*env_getvalue(char *key)
 {
-	char	**env_dupl;
+	t_list	*ptr;
+
+	ptr = *g_data.envv;
+	while (ptr != NULL)
+	{
+		if (!ft_strncmp(((t_hash *)ptr->content)->key, key, ft_strlen(key) + 1))
+			return (((t_hash *)ptr->content)->value);
+		ptr = ptr->next;
+	}
+	return (NULL);
+}
+
+t_list	**set_env(char *env[])
+{
+	t_list	**lst;
+	t_hash	*hash;
+	char	**temp;
 	int		env_len;
 	int		i;
 
+	i = -1;
 	env_len = 0;
-	while (env[env_len] != NULL)
+	while (env[++i] != NULL)
 		env_len++;
-	env_dupl = ft_calloc(sizeof(char *), env_len + 1);
-	if (env_dupl == NULL)
-		exit(EXIT_FAILURE);
+	lst = ft_calloc(sizeof(t_list *), env_len);
 	i = -1;
 	while (env[++i] != NULL)
-		env_dupl[i] = ft_strdup(env[i]);
-	env_dupl[i] = NULL;
-	return (env_dupl);
+	{
+		temp = ft_split(env[i], '=');
+		hash = ft_calloc(sizeof(t_hash), 1);
+		hash->key = temp[0];
+		hash->value = temp[1];
+		free(temp);
+		ft_lstadd_back(lst, ft_lstnew(hash));
+	}
+	return (lst);
 }
 
+/****************
+   Not used now
+****************/
 void	free_env(char *env[])
 {
 	int	i;
@@ -51,7 +81,9 @@ void	free_env(char *env[])
 	free(env);
 }
 
-// Not used now
+/****************
+   Not used now
+****************/
 int	envvar_checker(void)
 {
 	char	*temp;
