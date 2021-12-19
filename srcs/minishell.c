@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 11:29:27 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 00:21:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	split_free(char **split)
 
 int	minishell(void)
 {
-	int	rtn;
+	int		rtn;
+	pid_t	execve_pid;
+	int		status;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
@@ -41,8 +43,26 @@ int	minishell(void)
 			return (1);
 		}
 		rtn = parsing();
-		if (rtn < 0)
-			printf("%s: command not found\n", g_data.argv[0]);
+		if (rtn == EXEC_PROC)
+		{
+			execve_pid = fork();
+			if (execve_pid < 0)
+				exit(EXIT_FAILURE);
+			else if (execve_pid == 0)
+			{
+				// free(g_data.argv);
+				g_data.cmd_path = ft_strjoin(BIN_PATH, g_data.input);
+				if (execve(g_data.cmd_path, g_data.argv, NULL) == -1)
+					exit(EXIT_FAILURE);
+			}
+			else
+			{	
+				waitpid(execve_pid, &status, 0);
+				add_history(g_data.input);
+				// free(g_data.input);
+			}
+			return (0);
+		}
 		add_history(g_data.input);
 		free(g_data.input);
 		split_free(g_data.argv);

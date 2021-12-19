@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 00:57:32 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 00:11:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static	int	command_finder(char *command)
 		// return (minishell_env());
 		return (minishell_env());
 	else
-		return (-1);
+		return (EXEC_PROC);
 }
 
 int	parsing(void)

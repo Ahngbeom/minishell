@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 00:59:25 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 00:13:21 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ struct s_data
 	char		*current_path;
 
 	char		*input;
+
+	int			nf_cmd;
 };
 
 struct s_hash

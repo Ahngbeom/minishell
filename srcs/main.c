@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 00:59:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 00:14:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	if (chdir(getenv("HOME")) == -1)
 		exit(errno);
 	g_data.current_path = getcwd(NULL, 0);
+	g_data.nf_cmd = 0;
 }
 
 static	void	minishell_finalize()
