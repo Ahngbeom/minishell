@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 19:55:27 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/18 00:05:48 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	minishell_echo(void)
 				// history 명령어도 적용되는지 확인 필요 -> 적용됨! 다행!
 				break ;
 			}
-			else if (!ft_isalnum(g_data.argv[i][j]))
-				continue ;
+			//else if (!ft_isalnum(g_data.argv[i][j]))
+			//	continue ;
 			else
 				ft_putchar_fd(g_data.argv[i][j], 1);
 		}
