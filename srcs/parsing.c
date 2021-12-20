@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/20 21:31:21 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 21:48:06 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static	int	command_finder(char *command)
 	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
 		return (minishell_unset());
 	else if (!ft_strncmp(command, "env", ft_strlen("env") + 1))
-		// return (minishell_env());
-		return (EXEC_PROC);
+		return (minishell_env());
+		// return (EXEC_PROC);
 	else
 		return (EXEC_PROC);
 }
