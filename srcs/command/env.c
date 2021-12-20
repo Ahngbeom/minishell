@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 00:59:00 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 21:42:34 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,24 @@ char	*env_getvalue(char *key)
 		ptr = ptr->next;
 	}
 	return (NULL);
+}
+
+void	env_chararr_converter(void)
+{
+	t_list	*ptr;
+	int		i;
+	char	*temp;
+
+	ptr = *g_data.envv;
+	i = -1;
+	g_data.org_env = ft_calloc(sizeof(char *), ft_lstsize(*g_data.envv) + 1);
+	while (ptr != NULL)
+	{
+		temp = ft_strjoin(((t_hash *)ptr->content)->key, "=");
+		g_data.org_env[++i] = ft_strjoin(temp, ((t_hash *)ptr->content)->value);
+		free(temp);
+	}
+	g_data.org_env[i] = NULL;
 }
 
 t_list	**set_env(char *env[])

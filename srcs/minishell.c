@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/20 00:21:04 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 21:43:44 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	minishell(void)
 	int		rtn;
 	pid_t	execve_pid;
 	int		status;
-
+	
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
 	g_data.input = readline(prompt());
@@ -51,9 +51,13 @@ int	minishell(void)
 			else if (execve_pid == 0)
 			{
 				// free(g_data.argv);
-				g_data.cmd_path = ft_strjoin(BIN_PATH, g_data.input);
-				if (execve(g_data.cmd_path, g_data.argv, NULL) == -1)
+				g_data.cmd_path = ft_strjoin(BIN_PATH, g_data.argv[0]);
+				// env_chararr_converter();
+				if (execve(g_data.cmd_path, g_data.argv, g_data.org_env) == -1)
+				{
+					printf("execve Error: %s\n", strerror(errno));
 					exit(EXIT_FAILURE);
+				}
 			}
 			else
 			{	

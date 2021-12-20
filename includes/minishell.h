@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/20 00:13:21 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/20 21:42:44 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct s_data
 
 	char		*prompt;
 	char		**argv;
-	// char		**env;
+	char		**org_env;
 	t_list		**envv;
 
 	char		*home_path;
@@ -119,6 +119,7 @@ int		minishell_unset(void);
 // env
 int		minishell_env(void);
 char	*env_getvalue(char *key);
+void	env_chararr_converter(void);
 
 // Utils
 void	split_free(char **split);
