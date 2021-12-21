@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 14:52:34 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 15:23:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*input_gnl(char *input)
 
 int	minishell(void)
 {
-	int	rtn;
+	// int	rtn;
 	int	i;
 
 	signal(SIGINT, signal_handler);
@@ -69,12 +69,10 @@ int	minishell(void)
 				printf("minishell: exit: %s: numeric argument required\n", g_data.split_input[i] + 5);
 			return (1);
 		}
-		rtn = parsing(i);
-		if (rtn < 0)
-			printf("minishell: %s: command not found\n", g_data.split_input[i]);
-		add_history(g_data.split_input[i]);
-		free(g_data.split_input[i]);
-		split_free(g_data.argv);
+		parsing(g_data.split_input[i]);
+		// free(g_data.split_input[i]);
+		// split_free(g_data.argv);
 	}
+	add_history(g_data.input);
 	return (0);
 }

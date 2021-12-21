@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 14:47:29 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 15:24:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	free_env(char *env[]);
 int		minishell_run();
 int		minishell(void);
 
-int		parsing(int i);
+void	parsing(char *str);
 
 // Quotes
 int		then_input(int index, char start_quotes);

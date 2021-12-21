@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 14:50:32 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 15:21:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,26 +105,4 @@ int	minishell_echo(void)
 	if (g_data.argv[1] == NULL || !(n_flag_checker(g_data.argv[1])))
 		ft_putchar_fd('\n', 1);
 	return (SELF_PROC);
-}
-
-/********************************
- This Function is For execve()
-********************************/
-int	minishell_echo_for_execve(void)
-{
-	if (argv_counter(g_data.argv) == 1)
-		return (0);
-	else if (ft_strncmp(g_data.argv[1], "-n", ft_strlen("-n") + 1) == 0)
-	{
-		if (argv_counter(g_data.argv) == 2)
-			return (0);
-		else if (g_data.argv[2][0] != '\'' && g_data.argv[2][0] != '\"')
-			return (0);
-		else
-			return (then_input(2, g_data.argv[2][0]));
-	}
-	else if (g_data.argv[1][0] == '\'' || g_data.argv[1][0] == '\"')
-		return (then_input(1, g_data.argv[1][0]));
-	else
-		return (envvar_checker());
 }
