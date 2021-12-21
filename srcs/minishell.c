@@ -6,28 +6,15 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:54:50 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:24:51 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_free(char **split)
-{
-	int	i;
-
-	if (split == NULL)
-		return ;
-	i = -1;
-	while (split[++i] != NULL)
-		free(split[i]);
-	free(split);
-}
-
 int	minishell(void)
 {
-	// int	rtn;
-	int	i;
+	int		i;
 
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
@@ -37,6 +24,7 @@ int	minishell(void)
 		ft_putendl_fd("exit", 1);
 		return (1);
 	}
+	pipe(g_data.pipe);
 	g_data.split_input = ft_split(g_data.input, ';');
 	i = -1;
 	while (g_data.split_input[++i] != NULL)
@@ -55,6 +43,8 @@ int	minishell(void)
 		// free(g_data.split_input[i]);
 		// split_free(g_data.argv);
 	}
+	read(g_data.pipe[0], g_data.output, sizeof(g_data.output));
+	printf("%s", g_data.output);
 	add_history(g_data.input);
 	return (0);
 }

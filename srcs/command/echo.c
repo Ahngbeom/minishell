@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:21:45 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:27:02 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ int	minishell_echo(void)
 {
 	int		i;
 	int		j;
-	
+	int		len;
+
+	len = 0;
 	i = 0;
 	while (g_data.argv[++i] != NULL)
 	{
@@ -92,17 +94,25 @@ int	minishell_echo(void)
 		{
 			if (envmark_checker(g_data.argv[i], i))
 				break ;
-			//else if (!ft_isalnum(g_data.argv[i][j]))
-			//	continue ;
 			else if (backslash_checker(i, &j))
-				ft_putchar_fd(g_data.argv[i][j], 1);
+			{
+				ft_putchar_fd(g_data.argv[i][j], g_data.pipe[1]);
+				len++;
+			}
 			else
 				continue;
 		}
 		if (g_data.argv[i + 1] != NULL)
-			ft_putchar_fd(' ', 1);
+		{
+			ft_putchar_fd(' ', g_data.pipe[1]);
+			len++;
+		}
 	}
 	if (g_data.argv[1] == NULL || !(n_flag_checker(g_data.argv[1])))
-		ft_putchar_fd('\n', 1);
+	{
+		ft_putchar_fd('\n', g_data.pipe[1]);
+		len++;
+	}
+	g_data.output = ft_calloc(sizeof(char), ++len);
 	return (SELF_PROC);
 }

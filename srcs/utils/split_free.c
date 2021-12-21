@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   split_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 14:58:58 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 16:35:37 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/21 15:57:25 by bahn              #+#    #+#             */
+/*   Updated: 2021/12/21 15:57:38 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*prompt(void)
+void	split_free(char **split)
 {
-	char	*temp;
+	int	i;
 
-	g_data.prompt = ft_strjoin("\e[1;32mminishell\e[0m:", getcwd(NULL, 0));
-	temp = ft_strdup(g_data.prompt);
-	free(g_data.prompt);
-	g_data.prompt = ft_strjoin(temp, "$ ");
-	free(temp);
-	// g_data.prompt = ft_strdup("minishell 🚀 ");
-	return (g_data.prompt);
+	if (split == NULL)
+		return ;
+	i = -1;
+	while (split[++i] != NULL)
+		free(split[i]);
+	free(split);
 }

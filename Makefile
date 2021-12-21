@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/17 14:43:19 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/21 16:01:18 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,18 +32,23 @@ CMD_SRCS_NAME = echo.c cd.c pwd.c export.c unset.c env.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
+UTILS_SRCS_PATH = ./srcs/utils/
+UTILS_SRCS_NAME = split_free.c
+UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
+UTILS_OBJS = $(UTILS_SRCS:.c=.o)
+
 all : $(NAME)
 
 .c.o :
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
-$(NAME) : $(OBJS) $(CMD_OBJS)
+$(NAME) : $(OBJS) $(CMD_OBJS) $(UTILS_OBJS)
 		$(MAKE) all bonus -C $(LIBFT_PATH)
 		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@ 
 
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)
-		$(RM) $(OBJS) $(CMD_OBJS)
+		$(RM) $(OBJS) $(CMD_OBJS) $(UTILS_OBJS)
 
 fclean : clean
 		$(MAKE) fclean -C $(LIBFT_PATH)

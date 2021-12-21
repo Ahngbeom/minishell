@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:24:43 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:22:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,15 @@ struct s_data
 	t_list		**envv;
 
 	char		*home_path;
-	char		*cmd_path;
 
-	char		*current_path;
+	int			(*command_fp)(void);
 
 	char		*input;
 	char		**split_input;
+
+	char		*output;
+	
+	int			*pipe;
 };
 
 struct s_hash

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 16:36:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,31 +65,7 @@ int	minishell_cd(void)
 			}
 		}
 	}
-	free(g_data.current_path);
-	g_data.current_path = getcwd(NULL, 0);
+	// free(g_data.current_path);
+	// g_data.current_path = getcwd(NULL, 0);
 	return (SELF_PROC);
-}
-
-/********************************
- This Function is For execve()
-********************************/
-int	change_dir(void)
-{
-	if (argv_counter(g_data.argv) > 2)
-		printf("minishell: cd: too many arguments\n");
-	else if (!ft_strncmp(g_data.argv[1], "~", 1) || g_data.argv[1] == NULL)
-	{
-		if (chdir(g_data.home_path) == -1)
-			exit(EXIT_FAILURE);
-	}
-	else if (g_data.argv[1] != NULL)
-	{	
-		if (chdir(g_data.argv[1]) == -1)
-			exit(EXIT_FAILURE);
-	}
-	else
-		exit(EXIT_FAILURE);
-	free(g_data.current_path);
-	g_data.current_path = getcwd(NULL, 0);
-	return (0);
 }
