@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 17:13:07 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:47:40 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static	void	minishell_finalize()
 	ft_lstclear(g_data.envv, free);
 	split_free(g_data.argv);
 	split_free(g_data.split_input);
+	free(g_data.output);
+	free(g_data.pipe);
 	free(g_data.home_path);
 	free(g_data.prompt);
 }

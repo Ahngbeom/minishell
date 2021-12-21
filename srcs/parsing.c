@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 17:07:40 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 17:56:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	parsing(char *str)
 		else if (execve_pid == 0)
 		{
 			cmd_path = ft_strjoin(BIN_PATH, g_data.argv[0]);
+			dup2(g_data.pipe[0], STDOUT_FILENO);
 			if (execve(cmd_path, g_data.argv, NULL) == -1) // execve 에서 envp는 NULL?
 			{
 				printf("bash: %s: command not found\n", g_data.argv[0]);
@@ -105,5 +106,10 @@ void	parsing(char *str)
 			if (cmd_path != NULL)
 				free(cmd_path);
 		}
+	}
+	else
+	{
+		read(g_data.pipe[0], g_data.output, sizeof(g_data.output));
+		printf("%s", g_data.output);
 	}
 }
