@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:23:30 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 15:54:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,6 @@ void	split_free(char **split)
 	while (split[++i] != NULL)
 		free(split[i]);
 	free(split);
-}
-
-char	*input_gnl(char *input)
-{
-	char	*temp;
-	int		i;
-
-	i = 0;
-	while (input[i] != '\0' && input[i] != ';')
-		i++;
-	temp = malloc(sizeof(char) * i);
-	i = 0;
-	while (input[i] != '\0' && input[i] != ';')
-	{
-		temp[i] = input[i];
-		i++;
-	}
-	return (temp);
 }
 
 int	minishell(void)
