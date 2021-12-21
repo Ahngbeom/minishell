@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 12:10:27 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 13:33:28 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static	int	command_finder(char *command)
 static	int	command_finder2(char *command)
 {
 	if (!ft_strncmp(command, "/bin/", ft_strlen("/bin/")))
-		return (1);
+		return (2);
 	else
 		return (-1);
 }
@@ -48,7 +48,7 @@ int	parsing(i)
 	rtn = command_finder(g_data.argv[0]);
 	if (rtn < 0)
 		rtn = command_finder2(g_data.argv[0]);
-	if (rtn == 1)
+	if (rtn == 2)
 	{
 		execve_pid = fork(); // fork
 		if (execve_pid < 0)
