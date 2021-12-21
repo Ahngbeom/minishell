@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/19 20:47:48 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:29:26 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ int	minishell(void)
 	{
 		if (!ft_strncmp(g_data.s_input[i], "\n", ft_strlen("\n") + 1))
 			return (0);
-		else if (!ft_strncmp(g_data.s_input[i], "exit", ft_strlen("exit")))
+		else if (!ft_strncmp(g_data.s_input[i], "exit", ft_strlen("exit") + 1))
 		{
 			if (g_data.s_input[i][4] == ' ' || !(g_data.s_input[i][4]))
 				ft_putendl_fd("exit", 1);
-			if (g_data.input[5])
+			if (g_data.input[5]) // && counter(s_input) == 1
 				printf("minishell: exit: %s: numeric argument required\n", g_data.s_input[i] + 5);
 			return (1);
 		}

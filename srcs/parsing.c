@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/19 20:48:45 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 12:10:27 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,45 @@ static	int	command_finder(char *command)
 		return (-1);
 }
 
+static	int	command_finder2(char *command)
+{
+	if (!ft_strncmp(command, "/bin/", ft_strlen("/bin/")))
+		return (1);
+	else
+		return (-1);
+}
+
 int	parsing(i)
 {
-	// pid_t	execve_pid;//
-	// int		status;//
-	// int		rtn;//
+	pid_t	execve_pid;//
+	int		status;//
+	int		rtn;//
 
-	// g_data.argv = ft_split(g_data.s_input[i], ' ');
-	// rtn = command_finder(g_data.argv[0]);
-	// if (rtn == EXEC_PROC)
-	// {
-	// 	execve_pid = fork();
-	// 	if (execve_pid < 0)
-	// 		exit(EXIT_FAILURE);
-	// 	else if (execve_pid == 0)
-	// 	{
-	// 		free(g_data.argv);
-	// 		if (execve(g_data.current_path, g_data.argv, g_data.env) == -1) //// envv?
-	// 			exit(EXIT_FAILURE);
-	// 	}
-	// 	else
-	// 	{	
-	// 		waitpid(execve_pid, &status, 0);
-	// 		add_history(g_data.s_input[i]);
-	// 	}
-	// 	return (rtn);
-	// }
-	// else
-	// 	return (rtn);
 	g_data.argv = ft_split(g_data.s_input[i], ' ');
-	return (command_finder(g_data.argv[0]));
+	rtn = command_finder(g_data.argv[0]);
+	if (rtn < 0)
+		rtn = command_finder2(g_data.argv[0]);
+	if (rtn == 1)
+	{
+		execve_pid = fork(); // fork
+		if (execve_pid < 0)
+			exit(EXIT_FAILURE);
+		else if (execve_pid == 0) // 자식
+		{
+			free(g_data.argv);
+			if (execve(g_data.argv[0], g_data.argv, g_data.env) == -1) //// envv?
+			{
+				printf("minishell: %s: No such file or directory\n", g_data.argv[0]);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else // 부모
+		{	
+			waitpid(execve_pid, &status, 0);
+			add_history(g_data.s_input[i]);
+		}
+		return (rtn);
+	}
+	else
+		return (rtn);
 }

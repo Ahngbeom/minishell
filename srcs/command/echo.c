@@ -6,13 +6,13 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/19 18:32:27 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 11:59:36 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	find_n(char *argv)
+int	n_flag_checker(char *argv)
 {
 	int		j;
 	
@@ -82,7 +82,7 @@ int	minishell_echo(void)
 	{
 		// printf("(%s)", g_data.argv[i]);
 		// printf("[%d]", find_n(g_data.argv[i]));
-		if (i == 1 && find_n(g_data.argv[i]))
+		if (i == 1 && n_flag_checker(g_data.argv[i]))
 			continue ;
 		else
 			g_data.argv[i] = remove_enclosed_quotes(g_data.argv[i]);
@@ -101,7 +101,7 @@ int	minishell_echo(void)
 		if (g_data.argv[i + 1] != NULL)
 			ft_putchar_fd(' ', 1);
 	}
-	if (g_data.argv[1] == NULL || !(find_n(g_data.argv[1])))
+	if (g_data.argv[1] == NULL || !(n_flag_checker(g_data.argv[1])))
 		ft_putchar_fd('\n', 1);
 	return (SELF_PROC);
 }
