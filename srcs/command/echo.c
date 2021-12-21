@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/20 00:04:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 14:02:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static	char	*remove_enclosed_quotes(char *argv)
 	char	*result;
 	
 	// Redirection
-	if (argv[0] )
 	result = ft_strtrim(argv, "\"\'");
 	free(argv);
 	return (result);
