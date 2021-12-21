@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 11:56:58 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 14:48:21 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	if (argc != 1)
 		exit(EXIT_FAILURE);
 	(void)argv;
+	g_data.org_env = env;
 	g_data.envv = set_env(env);
-	g_data.env = env; ////
 	if (g_data.cmd_path != NULL)
 		free(g_data.cmd_path);
 	if (g_data.home_path == NULL)

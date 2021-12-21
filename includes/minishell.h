@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/19 20:29:18 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 14:47:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,16 @@ struct s_data
 
 	char		*prompt;
 	char		**argv;
-	char		**env;//
+	char		**org_env;
 	t_list		**envv;
 
 	char		*home_path;
-	// char		*bin_path;
 	char		*cmd_path;
 
 	char		*current_path;
 
 	char		*input;
-	char		**s_input;
+	char		**split_input;
 };
 
 struct s_hash
@@ -117,6 +116,7 @@ int		minishell_unset(void);
 // env
 int		minishell_env(void);
 char	*env_getvalue(char *key);
+void	env_chararr_converter(void);
 
 // Utils
 void	split_free(char **split);

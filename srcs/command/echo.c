@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 11:59:36 by minsikim         ###   ########.fr       */
+/*   Updated: 2021/12/21 14:50:32 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static	char	*remove_enclosed_quotes(char *argv)
 {
 	char	*result;
 	
+	// Redirection
 	result = ft_strtrim(argv, "\"\'");
 	free(argv);
 	return (result);
@@ -42,7 +43,7 @@ static	int	envmark_checker(char *env, int dest_idx)
 {
 	if (*env == '$')
 	{
-		// Try echo $HOME@@@@ on bash, minishell
+		// Try echo $HOME@@@@ on bash and minishell
 		g_data.argv[dest_idx] = ft_substr(env, 1, ft_strlen(env) - 1);
 		free(env);
 		ft_putstr_fd(env_getvalue(g_data.argv[dest_idx]), 1);
