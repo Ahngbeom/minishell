@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 14:30:59 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 15:55:08 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int		minishell_echo(t_command *command);
 int		minishell_cd(t_command *command);
 
 // pwd
-int		minishell_pwd(void);
+int		minishell_pwd(t_command *command);
 
 // export
 int		minishell_export(void);

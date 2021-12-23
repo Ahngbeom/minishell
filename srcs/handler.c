@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 13:42:06 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 15:47:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,4 @@ void	signal_handler(int signo)
 	}
 	if (signo == SIGQUIT) // ctrl + "\"
 		ft_putstr_fd("\b \b\b \b", 0);
-	// if (signo == 15) // ctrl + D
-	// {
-	// 	printf("exit");
-	// 	exit(0);
-	// }
 }
