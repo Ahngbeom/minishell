@@ -6,27 +6,41 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 15:03:21 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 15:25:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static	int	quotes_finder(char *argv, char quetes)
+{
+	if (ft_strchr(argv, quetes) != NULL)
+	{
+		if (ft_strchr(argv, quetes) == ft_strrchr(argv, quetes))
+			return (1);
+		else
+			return (0);
+	}
+	else
+		return (0);
+}
+
 char	*remove_enclosed_quotes(char *argv)
 {
 	char	*more_input;
 	char	*result;
-	
-	// Redirection
+	char	*temp;
+
 	if (argv == NULL)
 		return (argv);
-	while (ft_strchr(argv, '\"') == ft_strrchr(argv, '\"') && \
-			ft_strchr(argv, '\'') == ft_strrchr(argv, '\''))
+	result = argv;
+	while (quotes_finder(result, '\"') || quotes_finder(result, '\''))
 	{
 		more_input = readline("> ");
-		
+		temp = result;
+		result = ft_strjoin(result, more_input);
+		free(temp);
+		free(more_input);
 	}
-	result = ft_strtrim(argv, "\"\'");
-	free(argv);
 	return (result);
 }
