@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 21:45:03 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 23:30:15 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 23:34:14 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static	char	*redirection_finder(char *dest, char **src, char **find_redirection)
 {
-	char	*find_ptr;
-	char	*forefront;
+	char	*find_ptr;	// 리다이렉션 탐색 결과를 저장할 변수
+	char	*forefront;	// 가장 전방에 있는 리다이렉션
 	int		i;
 
 	forefront = NULL;
@@ -26,6 +26,7 @@ static	char	*redirection_finder(char *dest, char **src, char **find_redirection)
 	while (src[++i] != NULL)
 	{
 		find_ptr = ft_strnstr(dest, src[i], ft_strlen(dest));
+		// 만약 현재 find_ptr이 이전에 찾은 find_ptr(forefront)보다 전방에 위치한다면
 		if (find_ptr != NULL && (forefront == NULL || forefront > find_ptr))
 		{
 			forefront = find_ptr;
