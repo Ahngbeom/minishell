@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:51:53 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 21:55:24 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ t_data						g_data;
 
 struct s_data
 {
-	pid_t		pid;
-
 	char		*prompt;
 	t_list		**envv;
 
