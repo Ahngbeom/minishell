@@ -6,16 +6,17 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/22 13:56:03 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 16:21:33 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		minishell_env(void)
+int		minishell_env(t_command *command)
 {
 	t_list	*ptr;
 
+	(void)command;
 	ptr = *g_data.envv;
 	while (ptr != NULL)
 	{

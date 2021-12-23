@@ -6,14 +6,14 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/23 14:32:12 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/23 16:25:36 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = #-Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra #-g
 INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
 RM = rm -fv
@@ -36,7 +36,8 @@ UTILS_SRCS_PATH = ./srcs/utils/
 UTILS_SRCS_NAME = split_free.c \
 					command_free.c \
 					ft_split_command.c \
-					remove_enclosed_quotes.c
+					remove_enclosed_quotes.c \
+					incorrect_exit.c
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 

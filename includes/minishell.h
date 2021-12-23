@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 15:55:08 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 16:29:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ struct s_data
 	char		*home_path;
 
 	char		*input;
-	// char		**split_input;
 
 	char		**arr_redirect;
 
@@ -83,15 +82,9 @@ struct s_hash
 struct s_command
 {
 	int			(*func)(t_command *);
-
 	char		**argv;
 	char		*redirect;
-	
-	// char		*input;
-	// char		**split_input;
-
 };
-
 
 // void	prompt(void);
 char	*prompt(void);
@@ -131,16 +124,20 @@ int		minishell_export(void);
 int		minishell_unset(void);
 
 // env
-int		minishell_env(void);
+int		minishell_env(t_command *command);
 char	*env_getvalue(char *key);
 void	env_chararr_converter(void);
 
 // Utils
+void	minishell_finalize(void);
+
 void	split_free(char **split);
 void	command_free(void *command);
 
 void	ft_split_command(t_list **list, char *s, char **redirect);
 
 char	*remove_enclosed_quotes(char *argv);
+
+int		incorrect_exit(t_command *command);
 
 #endif

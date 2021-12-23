@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 13:58:42 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 16:20:07 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	minishell(void)
 {
-	int		i;
 	t_list		*ptr;
 
 	signal(SIGINT, signal_handler);
@@ -22,6 +21,8 @@ int	minishell(void)
 	g_data.input = readline(prompt());
 	if (g_data.input == NULL || !ft_strncmp(g_data.input, "exit", ft_strlen(g_data.input) + 1))
 	{
+		// if (argv_counter())
+		// 	printf("minishell: exit: %s: numeric argument required\n", g_data.command->split_input[i] + 5);
 		ft_putendl_fd("exit", 1);
 		return (1);
 	}

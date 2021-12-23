@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 15:52:07 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 16:26:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static	void	command_finder(t_command *command)
 	else if (!ft_strncmp(command->argv[0], "unset", ft_strlen("unset") + 1))
 		command->func = NULL; //minishell_unset;
 	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
-		command->func = NULL; //minishell_env;
+		command->func = minishell_env;
+	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("env") + 1))
+		command->func = incorrect_exit;
 	else
 		command->func = NULL;
 }
@@ -41,6 +43,7 @@ void	parsing(t_list *commands)
 	command_finder(command);
 	if (command->func == NULL)
 	{
+		cmd_path = NULL;
 		execve_pid = fork();
 		if (execve_pid < 0)
 			exit(EXIT_FAILURE);
