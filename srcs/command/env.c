@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 16:21:33 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 21:20:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		minishell_env(t_command *command)
 	return (SELF_PROC);
 }
 
-char	*env_getvalue(char *key)
+char	*envv_getvalue(char *key)
 {
 	t_list	*ptr;
 
@@ -42,22 +42,17 @@ char	*env_getvalue(char *key)
 	return (NULL);
 }
 
-void	env_chararr_converter(void)
+int		envv_name_format_checker(char *key)
 {
-	t_list	*ptr;
-	int		i;
-	char	*temp;
+	int	i;
 
-	ptr = *g_data.envv;
-	i = -1;
-	g_data.org_env = ft_calloc(sizeof(char *), ft_lstsize(*g_data.envv) + 1);
-	while (ptr != NULL)
-	{
-		temp = ft_strjoin(((t_hash *)ptr->content)->key, "=");
-		g_data.org_env[++i] = ft_strjoin(temp, ((t_hash *)ptr->content)->value);
-		free(temp);
-	}
-	g_data.org_env[i] = NULL;
+	i = 0;
+	while (ft_isalpha(key[i]) != 0 || key[i] == '_')
+		i++;
+	if (key[i] != '\0')
+		return (1);
+	else
+		return (0);
 }
 
 t_list	**set_lstenv(char *env[])
@@ -85,3 +80,22 @@ t_list	**set_lstenv(char *env[])
 	}
 	return (lst);
 }
+
+// Not used now
+// void	env_chararr_converter(void)
+// {
+// 	t_list	*ptr;
+// 	int		i;
+// 	char	*temp;
+
+// 	ptr = *g_data.envv;
+// 	i = -1;
+// 	g_data.org_env = ft_calloc(sizeof(char *), ft_lstsize(*g_data.envv) + 1);
+// 	while (ptr != NULL)
+// 	{
+// 		temp = ft_strjoin(((t_hash *)ptr->content)->key, "=");
+// 		g_data.org_env[++i] = ft_strjoin(temp, ((t_hash *)ptr->content)->value);
+// 		free(temp);
+// 	}
+// 	g_data.org_env[i] = NULL;
+// }

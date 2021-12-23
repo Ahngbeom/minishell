@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 16:26:23 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 16:35:58 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static	void	command_finder(t_command *command)
 	else if (!ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd") + 1))
 		command->func = minishell_pwd;
 	else if (!ft_strncmp(command->argv[0], "export", ft_strlen("export") + 1))
-		command->func = NULL; //minishell_export;
+		command->func = minishell_export;
 	else if (!ft_strncmp(command->argv[0], "unset", ft_strlen("unset") + 1))
-		command->func = NULL; //minishell_unset;
+		command->func = minishell_unset;
 	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
 		command->func = minishell_env;
 	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("env") + 1))

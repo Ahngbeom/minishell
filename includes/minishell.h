@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 16:29:28 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 21:06:55 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,25 +108,27 @@ void	parsing(t_list *commands);
 int		then_input(int index, char start_quotes);
 char	quotes_counter(char *str);
 
-// echo
+// COMMAND echo
 int		minishell_echo(t_command *command);
 
-// cd
+// COMMAND cd
 int		minishell_cd(t_command *command);
 
-// pwd
+// COMMAND pwd
 int		minishell_pwd(t_command *command);
 
-// export
-int		minishell_export(void);
+// COMMAND export
+int		minishell_export(t_command *command);
 
-// unset
-int		minishell_unset(void);
+// COMMAND unset
+int		minishell_unset(t_command *command);
 
-// env
+// COMMAND env
 int		minishell_env(t_command *command);
-char	*env_getvalue(char *key);
-void	env_chararr_converter(void);
+
+// Environment Variable Utils
+char	*envv_getvalue(char *key);
+int		envv_name_format_checker(char *key);
 
 // Utils
 void	minishell_finalize(void);

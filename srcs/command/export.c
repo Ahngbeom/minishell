@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:57:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/18 01:25:02 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 21:22:34 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_list	*export_dupl_checker(char *key)
 	return (NULL);
 }
 
-static	int		noargv_export(void)
+static	int		noarguments_export(void)
 {
 	t_list	*ptr;
 
@@ -55,21 +55,27 @@ static	int		noargv_export(void)
 	return (SELF_PROC);	
 }
 
-int	minishell_export(void)
+int	minishell_export(t_command *command)
 {
 	t_list	*ptr;
 	t_hash	*hash;
 	char	**temp;
 	int		i;
 
-	if (g_data.argv[1] == NULL)
-		return (noargv_export());	
+	if (argv_counter(command->argv) == 1)
+		return (noarguments_export());
 	i = 0;
-	while (g_data.argv[++i] != NULL)
+	while (command->argv[++i] != NULL)
 	{
-		if (export_format_checker(g_data.argv[i]))
+		if (export_format_checker(command->argv[i]))
 			continue ;
-		temp = ft_split(g_data.argv[i], '=');
+		temp = ft_split(command->argv[i], '=');
+		if (envv_name_format_checker(temp[0]))
+		{
+			printf("bash: export: `%s': not a valid identifier\n", command->argv[i]);
+			split_free(temp);
+			continue ;
+		}
 		hash = ft_calloc(sizeof(t_hash), 1);
 		hash->key = temp[0];
 		hash->value = temp[1];
