@@ -6,97 +6,50 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 17:56:39 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 14:24:38 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	command_finder(char *command)
+static	void	command_finder(t_command *command)
 {
-	if (!ft_strncmp(command, "echo", ft_strlen("echo") + 1))
-		return (minishell_echo());
-	else if (!ft_strncmp(command, "cd", ft_strlen("cd") + 1))
-		return (minishell_cd());
-	else if (!ft_strncmp(command, "pwd", ft_strlen("pwd") + 1))
-		return (minishell_pwd());
-	else if (!ft_strncmp(command, "export", ft_strlen("export") + 1))
-		return (minishell_export());
-	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
-		return (minishell_unset());
-	else if (!ft_strncmp(command, "env", ft_strlen("env") + 1))
-		return (minishell_env());
-		// return (EXEC_PROC);
+	if (!ft_strncmp(command->argv[0], "echo", ft_strlen("echo") + 1))
+		command->func = minishell_echo;
+	else if (!ft_strncmp(command->argv[0], "cd", ft_strlen("cd") + 1))
+		command->func = minishell_cd;
+	else if (!ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd") + 1))
+		command->func = NULL; //minishell_pwd;
+	else if (!ft_strncmp(command->argv[0], "export", ft_strlen("export") + 1))
+		command->func = NULL; //minishell_export;
+	else if (!ft_strncmp(command->argv[0], "unset", ft_strlen("unset") + 1))
+		command->func = NULL; //minishell_unset;
+	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
+		command->func = NULL; //minishell_env;
 	else
-		return (EXEC_PROC);
+		command->func = NULL;
 }
 
-// static	void	command_finder2(char *command)
-// {
-// 	if (!ft_strncmp(command, "echo", ft_strlen("echo") + 1))
-// 		g_data.command_fp = minishell_echo;
-// 	else if (!ft_strncmp(command, "cd", ft_strlen("cd") + 1))
-// 		g_data.command_fp = minishell_cd;
-// 	else if (!ft_strncmp(command, "pwd", ft_strlen("pwd") + 1))
-// 		g_data.command_fp = minishell_pwd;
-// 	else if (!ft_strncmp(command, "export", ft_strlen("export") + 1))
-// 		g_data.command_fp = minishell_export;
-// 	else if (!ft_strncmp(command, "unset", ft_strlen("unset") + 1))
-// 		g_data.command_fp = minishell_unset;
-// 	else if (!ft_strncmp(command, "env", ft_strlen("env") + 1))
-// 		g_data.command_fp = minishell_env;
-// }
-
-void	parsing(char *str)
+void	parsing(t_list *commands)
 {
-	char	*cmd_path;
-	pid_t	execve_pid;
-	int		status;
+	t_command	*command;
+	char		*cmd_path;
+	pid_t		execve_pid;
+	int			status;
 
-	cmd_path = NULL;
-	g_data.argv = ft_split(str, ' ');
-
-	// execve_pid = fork();
-	// if (execve_pid < 0)
-	// 	exit(EXIT_FAILURE);
-	// else if (execve_pid == 0)
-	// {
-	// 	command_finder2(g_data.argv[0]);
-	// 	if (g_data.command_fp != NULL)
-	// 	{
-	// 		g_data.command_fp();
-	// 		g_data.command_fp = NULL;
-	// 		exit(EXIT_SUCCESS);
-	// 	}
-	// 	else
-	// 	{
-	// 		cmd_path = ft_strjoin(BIN_PATH, g_data.argv[0]);
-	// 		if (execve(cmd_path, g_data.argv, NULL) == -1) // execve 에서 envp는 NULL?
-	// 		{
-	// 			printf("bash: %s: command not found\n", g_data.argv[0]);
-	// 			exit(EXIT_FAILURE);
-	// 		}
-	// 	}
-	// }
-	// else
-	// {
-	// 	waitpid(execve_pid, &status, 0);
-	// 	if (cmd_path != NULL)
-	// 		free(cmd_path);
-	// }
-
-	if (command_finder(g_data.argv[0]) == EXEC_PROC)
+	command = commands->content;
+	command_finder(command);
+	if (command->func == NULL)
 	{
 		execve_pid = fork();
 		if (execve_pid < 0)
 			exit(EXIT_FAILURE);
 		else if (execve_pid == 0)
 		{
-			cmd_path = ft_strjoin(BIN_PATH, g_data.argv[0]);
-			dup2(g_data.pipe[0], STDOUT_FILENO);
-			if (execve(cmd_path, g_data.argv, NULL) == -1) // execve 에서 envp는 NULL?
+			cmd_path = ft_strjoin(BIN_PATH, command->argv[0]);
+			if (execve(cmd_path, command->argv, NULL) == -1) // execve 에서 envp는 NULL?
 			{
-				printf("bash: %s: command not found\n", g_data.argv[0]);
+				printf("bash: %s: command not found\n", command->argv[0]);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -108,8 +61,6 @@ void	parsing(char *str)
 		}
 	}
 	else
-	{
-		read(g_data.pipe[0], g_data.output, sizeof(g_data.output));
-		printf("%s", g_data.output);
-	}
+		command->func(command);
 }
+	

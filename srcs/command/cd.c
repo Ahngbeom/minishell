@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 16:36:43 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 14:37:33 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,38 +34,37 @@ char	*homepath_translator(char *path)
 		return (path);
 }
 
-int	minishell_cd(void)
+int	minishell_cd(t_command *command)
 {
 	char	*temp;
 
-	if (argv_counter(g_data.argv) > 2)
+	if (argv_counter(command->argv) > 2)
 		printf("minishell: cd: too many arguments\n");
 	else
 	{
-		if (g_data.argv[1] != NULL)
+		if (command->argv[1] != NULL)
 		{
-			temp = g_data.argv[1];
-			g_data.argv[1] = ft_strtrim(g_data.argv[1], "\'\"");
+			temp = command->argv[1];
+			command->argv[1] = ft_strtrim(command->argv[1], "\'\"");
 			free(temp);
+			// command->argv[1] = remove_enclosed_quotes(command->argv[1]);
 		}
-		if (g_data.argv[1] == NULL || !ft_strncmp(g_data.argv[1], "~", ft_strlen(g_data.argv[1])))
+		if (command->argv[1] == NULL || !ft_strncmp(command->argv[1], "~", ft_strlen(command->argv[1])))
 		{
 			if (chdir(getenv("HOME")) == -1)
 				printf("minishell: cd: %s: %s\n", getenv("HOME"), strerror(errno));
 		}
-		else if (g_data.argv[1] != NULL)
+		else if (command->argv[1] != NULL)
 		{
-			temp = homepath_translator(g_data.argv[1]);
+			temp = homepath_translator(command->argv[1]);
 			if (temp != NULL)
 			{
 				if (chdir(temp) == -1)
-					printf("minishell: cd: %s: %s\n", g_data.argv[1], strerror(errno));
-				if (temp != g_data.argv[1])
+					printf("minishell: cd: %s: %s\n", command->argv[1], strerror(errno));
+				if (temp != command->argv[1])
 					free(temp);
 			}
 		}
 	}
-	// free(g_data.current_path);
-	// g_data.current_path = getcwd(NULL, 0);
 	return (SELF_PROC);
 }

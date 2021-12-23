@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 17:22:17 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/23 14:30:59 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
 typedef struct termios		t_termios;
 typedef struct s_data		t_data;
 typedef struct s_hash		t_hash;
+typedef struct s_command	t_command;
 
 extern t_data				g_data;
 
@@ -60,10 +61,13 @@ struct s_data
 
 	char		*home_path;
 
-	int			(*command_fp)(void);
-
 	char		*input;
-	char		**split_input;
+	// char		**split_input;
+
+	char		**arr_redirect;
+
+	t_command	**command;
+	t_list		*command2;
 
 	char		*output;
 	
@@ -76,6 +80,19 @@ struct s_hash
 	char	*value;
 };
 
+struct s_command
+{
+	int			(*func)(t_command *);
+
+	char		**argv;
+	char		*redirect;
+	
+	// char		*input;
+	// char		**split_input;
+
+};
+
+
 // void	prompt(void);
 char	*prompt(void);
 
@@ -87,25 +104,22 @@ int		argv_counter(char *argv[]);
 
 // Environment Variable
 int		envvar_checker(void);
-t_list	**set_env(char *env[]);
-void	free_env(char *env[]);
+t_list	**set_lstenv(char *env[]);
 
 int		minishell_run();
 int		minishell(void);
 
-void	parsing(char *str);
+void	parsing(t_list *commands);
 
 // Quotes
 int		then_input(int index, char start_quotes);
 char	quotes_counter(char *str);
 
 // echo
-int		minishell_echo(void);
-int		minishell_echo_for_execve(void);
+int		minishell_echo(t_command *command);
 
 // cd
-int		minishell_cd(void);
-int		change_dir(void); // Not used now
+int		minishell_cd(t_command *command);
 
 // pwd
 int		minishell_pwd(void);
@@ -123,5 +137,10 @@ void	env_chararr_converter(void);
 
 // Utils
 void	split_free(char **split);
+void	command_free(void *command);
+
+void	ft_split_command(t_list **list, char *s, char **redirect);
+
+char	*remove_enclosed_quotes(char *argv);
 
 #endif

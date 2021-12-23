@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   remove_enclosed_quotes.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 13:42:06 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
+/*   Updated: 2021/12/23 15:03:21 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
-
-void	signal_handler(int signo)
+char	*remove_enclosed_quotes(char *argv)
 {
-	if (signo == SIGINT) // ctrl + C
+	char	*more_input;
+	char	*result;
+	
+	// Redirection
+	if (argv == NULL)
+		return (argv);
+	while (ft_strchr(argv, '\"') == ft_strrchr(argv, '\"') && \
+			ft_strchr(argv, '\'') == ft_strrchr(argv, '\''))
 	{
-		// Output "^C" or Nothing
-		ft_putendl_fd(NULL, 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
+		more_input = readline("> ");
+		
 	}
-	if (signo == SIGQUIT) // ctrl + "\"
-		ft_putstr_fd("\b \b\b \b", 0);
-	// if (signo == 15) // ctrl + D
-	// {
-	// 	printf("exit");
-	// 	exit(0);
-	// }
+	result = ft_strtrim(argv, "\"\'");
+	free(argv);
+	return (result);
 }

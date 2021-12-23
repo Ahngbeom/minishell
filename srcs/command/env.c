@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:21:32 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/22 13:56:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	env_chararr_converter(void)
 	g_data.org_env[i] = NULL;
 }
 
-t_list	**set_env(char *env[])
+t_list	**set_lstenv(char *env[])
 {
 	t_list	**lst;
 	t_hash	*hash;
