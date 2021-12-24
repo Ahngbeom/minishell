@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/23 21:46:46 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/24 12:22:12 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
 CMD_SRCS_PATH = ./srcs/command/
-CMD_SRCS_NAME = echo.c cd.c pwd.c export.c unset.c env.c
+CMD_SRCS_NAME = echo.c cd.c pwd.c export.c unset.c env.c exit_status.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 

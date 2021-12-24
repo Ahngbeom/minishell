@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 22:59:28 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 12:22:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ int		minishell_unset(t_command *command);
 
 // COMMAND env
 int		minishell_env(t_command *command);
+
+// COMMAND $?
+int		minishell_exit_status(t_command *command);
 
 // Environment Variable Utils
 char	*envv_getvalue(char *key);

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:55:24 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 12:26:55 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ struct s_data
 	char		**arr_redirect;
 
 	t_list		*command;
+	int			status;
 
 	int			*pipe;
 	char		*output;

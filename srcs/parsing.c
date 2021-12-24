@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 16:35:58 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 12:35:27 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static	void	command_finder(t_command *command)
 		command->func = minishell_env;
 	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("env") + 1))
 		command->func = incorrect_exit;
+	else if (!ft_strncmp(command->argv[0], "$?", ft_strlen("$?") + 1))
+		command->func = minishell_exit_status;
 	else
 		command->func = NULL;
 }
@@ -37,7 +39,6 @@ void	parsing(t_list *commands)
 	t_command	*command;
 	char		*cmd_path;
 	pid_t		execve_pid;
-	int			status;
 
 	command = commands->content;
 	command_finder(command);
@@ -58,7 +59,8 @@ void	parsing(t_list *commands)
 		}
 		else
 		{
-			waitpid(execve_pid, &status, 0);
+			waitpid(execve_pid, &g_data.status, 0);
+			printf("%d\n", g_data.status);
 			if (cmd_path != NULL)
 				free(cmd_path);
 		}
