@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 12:26:55 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 18:55:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ struct s_data
 	int			status;
 
 	int			*pipe;
-	char		*output;
 };
 
 struct s_hash
@@ -49,6 +48,7 @@ struct s_command
 	int			(*func)(t_command *);
 	char		**argv;
 	char		*redirect;
+	char		*output;
 };
 
 #endif

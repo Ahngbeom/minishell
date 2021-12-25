@@ -6,13 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:05:25 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/25 21:10:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	n_flag_checker(char *argv)
+static	int	n_flag_checker(char *argv)
 {
 	int		j;
 	
@@ -34,6 +34,7 @@ static	int	envmark_checker(char *env)
 	if (*env == '$')
 	{
 		// Try echo $HOME@@@@ on bash and minishell
+		// Try echo $HOME\ $HOME\\ on bash and minishell
 		ft_putstr_fd(envv_getvalue(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
 		return (1);
 	}

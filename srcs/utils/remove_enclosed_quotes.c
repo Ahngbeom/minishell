@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 15:32:46 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 23:14:15 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 static	int	quotes_finder(char *argv, char quetes)
 {
-	if (ft_strchr(argv, quetes) != NULL)
+	char	*find;
+
+	find = ft_strchr(argv, quetes);
+	if (find != NULL && *(find - sizeof(char)) != '\\')
 	{
-		if (ft_strchr(argv, quetes) == ft_strrchr(argv, quetes))
+		if (find == ft_strrchr(argv, quetes))
+		{
 			return (1);
+		}
 		else
 			return (0);
 	}

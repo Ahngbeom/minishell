@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 12:35:27 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/25 16:24:16 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static	void	command_finder(t_command *command)
 {
 	if (!ft_strncmp(command->argv[0], "echo", ft_strlen("echo") + 1))
-		command->func = minishell_echo;
+		// command->func = minishell_echo;
+		command->func = minishell_echo_for_execve;
 	else if (!ft_strncmp(command->argv[0], "cd", ft_strlen("cd") + 1))
 		command->func = minishell_cd;
 	else if (!ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd") + 1))
@@ -29,43 +30,16 @@ static	void	command_finder(t_command *command)
 	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("env") + 1))
 		command->func = incorrect_exit;
 	else if (!ft_strncmp(command->argv[0], "$?", ft_strlen("$?") + 1))
-		command->func = minishell_exit_status;
+		// command->func = minishell_exit_status;
+		command->func = NULL;
 	else
 		command->func = NULL;
 }
 
-void	parsing(t_list *commands)
+void	parsing(t_command *command)
 {
-	t_command	*command;
-	char		*cmd_path;
-	pid_t		execve_pid;
-
-	command = commands->content;
 	command_finder(command);
-	if (command->func == NULL)
-	{
-		cmd_path = NULL;
-		execve_pid = fork();
-		if (execve_pid < 0)
-			exit(EXIT_FAILURE);
-		else if (execve_pid == 0)
-		{
-			cmd_path = ft_strjoin(BIN_PATH, command->argv[0]);
-			if (execve(cmd_path, command->argv, NULL) == -1) // execve 에서 envp는 NULL?
-			{
-				printf("bash: %s: command not found\n", command->argv[0]);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			waitpid(execve_pid, &g_data.status, 0);
-			printf("%d\n", g_data.status);
-			if (cmd_path != NULL)
-				free(cmd_path);
-		}
-	}
-	else
+	if (command->func != NULL)
 		command->func(command);
 }
 	

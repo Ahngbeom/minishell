@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 12:22:04 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 21:54:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int		argv_counter(char *argv[]);
 int		minishell(void);
 
 // Parsing for Input
-void	parsing(t_list *commands);
+void	parsing(t_command *command);
 
-// Quotes
-int		then_input(int index, char start_quotes);
-char	quotes_counter(char *str);
+// Run execve(path, argv, envv);
+int		to_execve(t_command *command);
 
 // COMMAND echo
 int		minishell_echo(t_command *command);
+int		minishell_echo_for_execve(t_command *command);
 
 // COMMAND cd
 int		minishell_cd(t_command *command);

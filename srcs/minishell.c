@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 12:35:08 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/24 21:53:52 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	minishell(void)
 	ptr = g_data.command;
 	while (ptr != NULL)
 	{
-		parsing(ptr);
+		parsing(((t_command *)ptr->content));
+		to_execve(((t_command *)ptr->content));
 		ptr = ptr->next;
 	}
 	ft_lstclear(&g_data.command, command_free);
