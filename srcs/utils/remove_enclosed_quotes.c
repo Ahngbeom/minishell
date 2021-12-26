@@ -6,47 +6,54 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/26 23:44:42 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 01:58:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	quotes_finder(char **arg, char quetes)
+static	int	arg_compose(char **arg, char *open_quotes, char *close_quotes)
 {
 	char	*origin;
+	char	*temp1;
+	char	*temp2;
+	
+	origin = ft_substr(*arg, 0, ft_strlen(*arg) - ft_strlen(open_quotes));
+	temp1 = origin;
+	temp2 = ft_substr(open_quotes, 1, close_quotes - open_quotes - 1);
+	origin = ft_strjoin(origin, temp2);
+	free(temp1);
+	free(temp2);
+	if (*(close_quotes + 1) != '\0')
+	{
+		*arg = ft_strjoin(origin, close_quotes + 1);
+		free(origin);
+	}
+	else
+	{
+		free(*arg);
+		*arg = origin;
+	}
+	return (0);
+}
+
+static	int	quotes_finder(char **arg, char quetes)
+{
 	char	*find;
 	char	*r_find;
-	char	*temp;
-	char	*temp2;
 
 	find = ft_strchr(*arg, quetes);
 	if (find != NULL && *(find - sizeof(char)) != '\\')
 	{
 		r_find = ft_strrchr(*arg, quetes);
 		if (find == r_find)
-		{
 			return (1);
-		}
 		else
 		{
-			origin = ft_substr(*arg, 0, ft_strlen(*arg) - ft_strlen(find) );
-			temp = origin;
-			temp2 = ft_substr(find, 1, r_find - find - 1);
-			origin = ft_strjoin(origin, temp2);
-			free(temp);
-			free(temp2);
-			if (*(r_find + 1) != '\0')
-			{
-				*arg = ft_strjoin(origin, r_find + 1);
-				free(origin);
-			}
-			else
-			{
-				free(*arg);
-				*arg = origin;
-			}
-			return (0);
+			// Try 
+			// $ echo asdasdad"
+			//   > asdasdasda""
+			return (arg_compose(arg, find, r_find));
 		}
 	}
 	else
