@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 21:45:03 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 23:34:14 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 12:15:05 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	ft_split_command(t_list **list, char *input, char **redirect)
 			*list = ft_lstnew(cmd);
 		else
 			ft_lstadd_back(list, ft_lstnew(cmd));
+
+		// 해당 명령어가 빌트인 명령어인지, 외부 실행 파일에 의한 명령어인지 구분하기위한 변수 초기화
+		cmd->bulit_in_flag = 0;
 		
 		// 리다이렉션 배열을 탐색하며 해당되는 리다이렉션이 있는지 검사
 		temp = redirection_finder(ptr, redirect, &find_redirection);

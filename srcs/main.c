@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 18:55:38 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 12:12:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	g_data.envv = set_lstenv(env);
 	if (chdir(getenv("HOME")) == -1)
 		exit(errno);
-	g_data.command = NULL;
+	g_data.commands = NULL;
 	g_data.arr_redirect = ft_calloc(sizeof(char *), 7);
 	g_data.arr_redirect[0] = ft_strdup(";");
 	g_data.arr_redirect[1] = ft_strdup(">>");
