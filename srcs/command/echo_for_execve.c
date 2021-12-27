@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 14:48:26 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 17:42:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ static	char	*envv_converter(char *env)
 		// Try echo $HOME\\\\ on bash and minishell
 		// Try echo $HOME\\\ on bash and minishell
 		if (!envv_name_format_checker(env + sizeof(char)))
-			result = ft_strdup(envv_getvalue((env + sizeof(char))));
+		{
+			if (envv_getvalue((env + sizeof(char))))
+				result = ft_strdup(envv_getvalue((env + sizeof(char))));
+			else
+				result = ft_strdup("");
+		}
 		else
 		{
 			temp = ft_substr(env, 1, envv_name_format_checker(env + sizeof(char)) - env - 1);
@@ -87,6 +92,7 @@ int	minishell_echo_for_execve(t_command *command)
 		if (i > 0)
 		{
 			// command->argv[i] = remove_backslash(command->argv[i]);
+			printf("%s\n", command->argv[i]);
 			command->argv[i] = escape_sequence(command->argv[i]);
 			command->argv[i] = envv_converter(command->argv[i]);
 		}
