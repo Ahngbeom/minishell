@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 15:47:10 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/24 12:21:07 by bahn              #+#    #+#             */
+/*   Updated: 2021/12/24 12:39:59 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
-
-void	signal_handler(int signo)
+// $?
+int	minishell_exit_status(t_command *command)
 {
-	if (signo == SIGINT) // ctrl + C
-	{
-		// Output "^C" or Nothing
-		ft_putendl_fd(NULL, 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	if (signo == SIGQUIT) // ctrl + "\"
-		ft_putstr_fd("\b \b\b \b", 0);
+	(void)command;
+	// ft_putnbr_fd(errno, 1);
+	ft_putnbr_fd(g_data.status, 1);
+	ft_putchar_fd(LF, 1);
+	return (SELF_PROC);
 }

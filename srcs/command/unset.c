@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/17 21:50:53 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 12:31:56 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,21 @@ static	void	delete_envv(t_list *env)
 	g_data.envv = new_envv;
 }
 
-int	minishell_unset(void)
+int	minishell_unset(t_command *command)
 {
 	t_list	*del_env;
 	int		i;
 
-	if (argv_counter(g_data.argv) <= 1)
+	command->bulit_in_flag = 1;
+	if (argv_counter(command->argv) == 1)
 		return (SELF_PROC);
 	i = 0;
-	while (g_data.argv[++i] != NULL)
+	while (command->argv[++i] != NULL)
 	{
-		g_data.argv[i] = remove_envmark(g_data.argv[i]);
-		del_env = key_finder(g_data.argv[i]);
+		if (envv_name_format_checker(command->argv[i]))
+			printf("bash: unset: `%s': not a valid identifier\n", command->argv[i]);
+		command->argv[i] = remove_envmark(command->argv[i]);
+		del_env = key_finder(command->argv[i]);
 		if (del_env != NULL)
 			delete_envv(del_env);
 	}

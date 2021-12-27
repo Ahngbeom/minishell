@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler.c                                          :+:      :+:    :+:   */
+/*   incorrect_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 15:47:10 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
+/*   Updated: 2021/12/27 12:12:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data	g_data;
-
-void	signal_handler(int signo)
+int	incorrect_exit(t_command *command)
 {
-	if (signo == SIGINT) // ctrl + C
-	{
-		// Output "^C" or Nothing
-		ft_putendl_fd(NULL, 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	if (signo == SIGQUIT) // ctrl + "\"
-		ft_putstr_fd("\b \b\b \b", 0);
+	ft_putendl_fd(command->argv[0], 1);
+	if (argv_counter(command->argv) > 1)
+		printf("minishell: exit: %s: numeric argument required\n", command->argv[1]);
+	ft_lstclear(&g_data.commands, command_free);
+	minishell_finalize();
+	exit(EXIT_FAILURE);
+	return (SELF_PROC);
 }

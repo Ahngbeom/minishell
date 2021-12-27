@@ -6,13 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:21:45 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/25 21:10:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	n_flag_checker(char *argv)
+static	int	n_flag_checker(char *argv)
 {
 	int		j;
 	
@@ -29,80 +29,65 @@ int	n_flag_checker(char *argv)
 	return (0);
 }
 
-static	char	*remove_enclosed_quotes(char *argv)
-{
-	char	*result;
-	
-	// Redirection
-	result = ft_strtrim(argv, "\"\'");
-	free(argv);
-	return (result);
-}
-
-static	int	envmark_checker(char *env, int dest_idx)
+static	int	envmark_checker(char *env)
 {
 	if (*env == '$')
 	{
 		// Try echo $HOME@@@@ on bash and minishell
-		g_data.argv[dest_idx] = ft_substr(env, 1, ft_strlen(env) - 1);
-		free(env);
-		ft_putstr_fd(env_getvalue(g_data.argv[dest_idx]), 1);
+		// Try echo $HOME\ $HOME\\ on bash and minishell
+		ft_putstr_fd(envv_getvalue(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
 		return (1);
 	}
 	return (0);
 }
 
-static	int		backslash_checker(int argv_idx, int *ch_idx)
+static	int		backslash_checker(char *arg, int *ch_idx)
 {
-	if (g_data.argv[argv_idx][*ch_idx] == '\\')
+	if (arg[*ch_idx] == '\\')
 	{
-		if (g_data.argv[argv_idx][*ch_idx + 1] == '\\' || \
-				g_data.argv[argv_idx][*ch_idx + 1] == '\'' || \
-					g_data.argv[argv_idx][*ch_idx + 1] == '\"')
+		if (arg[*ch_idx + 1] == '\\' || \
+				arg[*ch_idx + 1] == '\'' || \
+					arg[*ch_idx + 1] == '\"')
 		{
 			*ch_idx += 1;
 			return (1);
 		}
 		return (0);
 	}
-	else if (g_data.argv[argv_idx][*ch_idx] == '\\' || \
-				g_data.argv[argv_idx][*ch_idx] == '\'' || \
-					g_data.argv[argv_idx][*ch_idx] == '\"')
+	else if (arg[*ch_idx] == '\\' || \
+				arg[*ch_idx] == '\'' || \
+					arg[*ch_idx] == '\"')
 		return (0);
 	else
 		return (1);
 }
 
-int	minishell_echo(void)
+int	minishell_echo(t_command *command)
 {
 	int		i;
 	int		j;
-	
+
 	i = 0;
-	while (g_data.argv[++i] != NULL)
+	while (command->argv[++i] != NULL)
 	{
-		// printf("(%s)", g_data.argv[i]);
-		// printf("[%d]", find_n(g_data.argv[i]));
-		if (i == 1 && n_flag_checker(g_data.argv[i]))
+		if (i == 1 && n_flag_checker(command->argv[i]))
 			continue ;
 		else
-			g_data.argv[i] = remove_enclosed_quotes(g_data.argv[i]);
+			command->argv[i] = remove_enclosed_quotes(command->argv[i]);
 		j = -1;
-		while (g_data.argv[i][++j] != '\0' && g_data.argv[i][j] != ';')
+		while (command->argv[i][++j] != '\0')
 		{
-			if (envmark_checker(g_data.argv[i], i))
+			if (envmark_checker(command->argv[i]))
 				break ;
-			//else if (!ft_isalnum(g_data.argv[i][j]))
-			//	continue ;
-			else if (backslash_checker(i, &j))
-				ft_putchar_fd(g_data.argv[i][j], 1);
+			else if (backslash_checker(command->argv[i], &j)) // Try echo "asd'asd"'
+				ft_putchar_fd(command->argv[i][j], 1);
 			else
 				continue;
 		}
-		if (g_data.argv[i + 1] != NULL)
+		if (command->argv[i + 1] != NULL)
 			ft_putchar_fd(' ', 1);
 	}
-	if (g_data.argv[1] == NULL || !(n_flag_checker(g_data.argv[1])))
+	if (command->argv[1] == NULL || !(n_flag_checker(command->argv[1])))
 		ft_putchar_fd('\n', 1);
 	return (SELF_PROC);
 }

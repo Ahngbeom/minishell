@@ -6,55 +6,37 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/21 15:54:50 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 17:59:38 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_free(char **split)
-{
-	int	i;
-
-	if (split == NULL)
-		return ;
-	i = -1;
-	while (split[++i] != NULL)
-		free(split[i]);
-	free(split);
-}
-
 int	minishell(void)
 {
-	// int	rtn;
-	int	i;
-
+	char		*input;
+	t_list		*ptr;
+	
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, signal_handler);
-	g_data.input = readline(prompt());
-	if (g_data.input == NULL)
+	input = readline(prompt());
+	if (input == NULL || !ft_strncmp(input, "exit", ft_strlen(input) + 1))
 	{
 		ft_putendl_fd("exit", 1);
 		return (1);
 	}
-	g_data.split_input = ft_split(g_data.input, ';');
-	i = -1;
-	while (g_data.split_input[++i] != NULL)
+	input = escape_sequence(input);
+	add_history(input);
+	ft_split_command(&g_data.commands, ft_strtrim(input, " "), g_data.arr_redirect);
+	free(input);
+	ptr = g_data.commands;
+	while (ptr != NULL)
 	{
-		if (!ft_strncmp(g_data.split_input[i], "\n", ft_strlen("\n") + 1))
-			return (0);
-		else if (!ft_strncmp(g_data.split_input[i], "exit", ft_strlen("exit") + 1))
-		{
-			if (g_data.split_input[i][4] == ' ' || !(g_data.split_input[i][4]))
-				ft_putendl_fd("exit", 1);
-			if (g_data.input[5]) // && counter(split_input) == 1
-				printf("minishell: exit: %s: numeric argument required\n", g_data.split_input[i] + 5);
-			return (1);
-		}
-		parsing(g_data.split_input[i]);
-		// free(g_data.split_input[i]);
-		// split_free(g_data.argv);
+		parsing(((t_command *)ptr->content));
+		if (!((t_command *)ptr->content)->bulit_in_flag)
+			to_execve(((t_command *)ptr->content));
+		ptr = ptr->next;
 	}
-	add_history(g_data.input);
+	ft_lstclear(&g_data.commands, command_free);
 	return (0);
 }

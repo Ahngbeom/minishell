@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:58:58 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/16 16:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/21 16:35:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*prompt(void)
 {
 	char	*temp;
 
-	g_data.prompt = ft_strjoin("\e[1;32mminishell\e[0m:", g_data.current_path);
+	g_data.prompt = ft_strjoin("\e[1;32mminishell\e[0m:", getcwd(NULL, 0));
 	temp = ft_strdup(g_data.prompt);
 	free(g_data.prompt);
 	g_data.prompt = ft_strjoin(temp, "$ ");
