@@ -6,11 +6,29 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 01:58:00 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 11:24:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	int	more_input(char **arg)
+{
+	char	*more_input;
+	char	*result;
+	char	*temp;
+
+	temp = *arg;
+	result = ft_strjoin(*arg, "\n");
+	free(temp);
+	more_input = readline("> ");
+	temp = result;
+	result = ft_strjoin(result, more_input);
+	free(temp);
+	free(more_input);
+	*arg = result;
+	return (1);
+}
 
 static	int	arg_compose(char **arg, char *open_quotes, char *close_quotes)
 {
@@ -34,7 +52,7 @@ static	int	arg_compose(char **arg, char *open_quotes, char *close_quotes)
 		free(*arg);
 		*arg = origin;
 	}
-	return (0);
+	return (1);
 }
 
 static	int	quotes_finder(char **arg, char quetes)
@@ -47,14 +65,9 @@ static	int	quotes_finder(char **arg, char quetes)
 	{
 		r_find = ft_strrchr(*arg, quetes);
 		if (find == r_find)
-			return (1);
+			return (more_input(arg));
 		else
-		{
-			// Try 
-			// $ echo asdasdad"
-			//   > asdasdasda""
 			return (arg_compose(arg, find, r_find));
-		}
 	}
 	else
 		return (0);
@@ -62,13 +75,10 @@ static	int	quotes_finder(char **arg, char quetes)
 
 char	*remove_enclosed_quotes(char *arg)
 {
-	char	*more_input;
 	char	*result;
-	char	*temp;
 	
 	if (arg == NULL)
 		return (arg);
-	
 	result = arg;
 	while ((*arg == '\"' && arg[ft_strlen(arg) - 1] == '\"') \
 		||(*arg == '\'' && arg[ft_strlen(arg) - 1] == '\''))
@@ -77,18 +87,6 @@ char	*remove_enclosed_quotes(char *arg)
 		free(arg);
 	}
 	while (quotes_finder(&result, '\"') || quotes_finder(&result, '\''))
-	{
-		temp = result;
-		result = ft_strjoin(result, "\n");
-		free(temp);
-		
-		more_input = readline("> ");
-		
-		temp = result;
-		result = ft_strjoin(result, more_input);
-		free(temp);
-		
-		free(more_input);
-	}
+		continue ;
 	return (result);
 }
