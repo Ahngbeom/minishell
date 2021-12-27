@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 15:43:04 by bahn              #+#    #+#             */
-/*   Updated: 2021/01/01 17:17:08 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/21 15:47:03 by bahn              #+#    #+#             */
+/*   Updated: 2021/08/22 16:24:59 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
+char	*ft_strdup(char *src)
 {
-	unsigned char	*ptr1;
-	unsigned char	*ptr2;
-	size_t			i;
+	int		i;
+	int		src_len;
+	char	*cpy;
 
-	ptr1 = (unsigned char *)s1;
-	ptr2 = (unsigned char *)s2;
 	i = 0;
-	while (i < n && ptr1[i] != '\0')
+	src_len = ft_strlen(src);
+	cpy = malloc(sizeof(char) * src_len + 1);
+	if (!cpy)
+		return (NULL);
+	while (i < src_len)
 	{
-		if (ptr1[i] == ptr2[i])
-			i++;
-		else
-			return (ptr1[i] - ptr2[i]);
+		cpy[i] = src[i];
+		i++;
 	}
-	if (ptr1[i] == '\0' && i != n)
-		return (ptr1[i] - ptr2[i]);
-	return (0);
+	cpy[i] = '\0';
+	return (cpy);
 }

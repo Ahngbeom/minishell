@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 13:50:13 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:03:01 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/27 19:50:44 by bahn              #+#    #+#             */
+/*   Updated: 2021/12/17 13:52:27 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	*ft_bzero(void *s, size_t n)
 {
-	size_t	i;
-	char	*ptr;
+	unsigned char	*ptr;
 
-	i = 0;
-	if ((size_t)ft_strlen((char *)s) < start)
-		return ("\0");
-	else
-	{
-		ptr = malloc(len + 1);
-		if (ptr == NULL)
-			return (NULL);
-		while (i < len && s[start] != '\0')
-			ptr[i++] = s[start++];
-		ptr[i] = '\0';
-	}
-	return (ptr);
+	ptr = (unsigned char *)s;
+	while (n--)
+		*ptr++ = (unsigned char)0;
+	return (s);
 }

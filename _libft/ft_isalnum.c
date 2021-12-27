@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 13:50:13 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:03:01 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/23 16:35:27 by bahn              #+#    #+#             */
+/*   Updated: 2020/12/23 16:35:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+int	ft_isalnum(int c)
 {
-	size_t	i;
-	char	*ptr;
-
-	i = 0;
-	if ((size_t)ft_strlen((char *)s) < start)
-		return ("\0");
-	else
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 	{
-		ptr = malloc(len + 1);
-		if (ptr == NULL)
-			return (NULL);
-		while (i < len && s[start] != '\0')
-			ptr[i++] = s[start++];
-		ptr[i] = '\0';
+		return (c);
 	}
-	return (ptr);
+	else if (c >= '0' && c <= '9')
+	{
+		return (c);
+	}
+	else
+		return (0);
 }

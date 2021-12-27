@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 13:50:13 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:03:01 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/15 19:58:16 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	i = 0;
 	if ((size_t)ft_strlen((char *)s) < start)
-		return ("\0");
+		return (NULL);
 	else
 	{
 		ptr = malloc(len + 1);

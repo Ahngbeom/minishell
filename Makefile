@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/27 14:46:24 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/28 00:24:42 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,9 @@ all : $(NAME)
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(NAME) : $(OBJS) $(CMD_OBJS) $(UTILS_OBJS)
+		git submodule update --init --recursive
 		$(MAKE) all bonus -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@ 
+		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@
 
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)

@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 15:43:04 by bahn              #+#    #+#             */
-/*   Updated: 2021/01/01 17:17:08 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/21 15:42:03 by bahn              #+#    #+#             */
+/*   Updated: 2021/01/02 22:35:02 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
+size_t	ft_strlcat(char *dest, char *src, size_t size)
 {
-	unsigned char	*ptr1;
-	unsigned char	*ptr2;
-	size_t			i;
+	size_t	i;
+	size_t	j;
+	size_t	dest_len;
 
-	ptr1 = (unsigned char *)s1;
-	ptr2 = (unsigned char *)s2;
 	i = 0;
-	while (i < n && ptr1[i] != '\0')
+	j = 0;
+	dest_len = (size_t)ft_strlen(dest);
+	if (dest_len > size)
+		return (ft_strlen(src) + size);
+	while (dest[i] != '\0')
+		i++;
+	while (j + dest_len + 1 < size && src[j] != '\0')
 	{
-		if (ptr1[i] == ptr2[i])
-			i++;
-		else
-			return (ptr1[i] - ptr2[i]);
+		dest[i] = src[j++];
+		i++;
 	}
-	if (ptr1[i] == '\0' && i != n)
-		return (ptr1[i] - ptr2[i]);
-	return (0);
+	dest[i] = '\0';
+	return (dest_len + ft_strlen(src));
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 16:01:24 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:01:42 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 22:11:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ static char	*last_point(char const *first, char const *set)
 
 	last = (char *)(first + ft_strlen((char *)first) - 1);
 	while (ft_strchr((char *)set, *last) && last > first)
+	{
 		last--;
+		// if (*last == '\\')
+		// 	return (++last);
+	}
 	return (last);
 }
 
@@ -45,7 +49,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	s1_first = start_point(s1, set);
 	s1_last = last_point(s1, set);
 	if (s1_first > s1_last)
-		return ("\0");
+		return (NULL);
 	else
 	{
 		result = (char *)malloc(s1_last - s1_first + 2);

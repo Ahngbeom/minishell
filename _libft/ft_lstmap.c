@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 13:50:13 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:03:01 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/31 15:21:59 by bahn              #+#    #+#             */
+/*   Updated: 2021/08/22 14:45:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	size_t	i;
-	char	*ptr;
+	t_list	**lists;
 
+	lists = (t_list **)malloc(sizeof(t_list *) * (ft_lstsize(lst) + 1));
 	i = 0;
-	if ((size_t)ft_strlen((char *)s) < start)
-		return ("\0");
-	else
+	while (lst)
 	{
-		ptr = malloc(len + 1);
-		if (ptr == NULL)
+		lists[i] = ft_lstnew(f(lst->content));
+		if (lists[i] == NULL)
+		{
+			ft_lstclear(lists, del);
 			return (NULL);
-		while (i < len && s[start] != '\0')
-			ptr[i++] = s[start++];
-		ptr[i] = '\0';
+		}
+		lst = lst->next;
+		if (i > 0)
+			lists[i - 1]->next = lists[i];
+		i++;
 	}
-	return (ptr);
+	lists[i] = NULL;
+	return (*lists);
 }
