@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:54:18 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 19:06:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define EXEC_PROC 0
 # define SELF_PROC 1
 
-# define BIN_PATH "/bin/"
+# define BIN_PATH "/usr/bin/"
 
 # include <unistd.h>			// fork()
 # include <signal.h>			// sigaction

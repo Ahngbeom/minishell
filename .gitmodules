@@ -1,0 +1,6 @@
+[submodule "libft"]
+	path = libft2
+	url = https://github.com/Ahngbeom/0C-Libft.git
+
+# git@github.com:Ahngbeom/0C-Libft.git
+# gh repo clone Ahngbeom/0C-Libft
