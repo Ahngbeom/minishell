@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 17:42:39 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 17:54:44 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ int	minishell_echo_for_execve(t_command *command)
 		if (i > 0)
 		{
 			// command->argv[i] = remove_backslash(command->argv[i]);
-			printf("%s\n", command->argv[i]);
 			command->argv[i] = escape_sequence(command->argv[i]);
 			command->argv[i] = envv_converter(command->argv[i]);
 		}
