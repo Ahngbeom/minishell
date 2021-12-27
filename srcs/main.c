@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:12:19 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 13:54:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	if (argc != 1)
 		exit(EXIT_FAILURE);
 	(void)argv;
+	g_data.org_envv = env;
 	g_data.envv = set_lstenv(env);
 	if (chdir(getenv("HOME")) == -1)
 		exit(errno);

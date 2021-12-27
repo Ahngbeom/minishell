@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:21:21 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 12:31:56 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	minishell_unset(t_command *command)
 	t_list	*del_env;
 	int		i;
 
+	command->bulit_in_flag = 1;
 	if (argv_counter(command->argv) == 1)
 		return (SELF_PROC);
 	i = 0;

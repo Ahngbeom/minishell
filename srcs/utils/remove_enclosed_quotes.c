@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 11:24:25 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 14:14:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,12 @@ char	*remove_enclosed_quotes(char *arg)
 	while ((*arg == '\"' && arg[ft_strlen(arg) - 1] == '\"') \
 		||(*arg == '\'' && arg[ft_strlen(arg) - 1] == '\''))
 	{
+		printf("%s\n", result);
 		result = ft_substr(arg, 1, ft_strlen(arg) - 2);
 		free(arg);
+		printf("%s\n", result);
 	}
+	// quotes_finder(&result, '\\') - Escape Sequence
 	while (quotes_finder(&result, '\"') || quotes_finder(&result, '\''))
 		continue ;
 	return (result);

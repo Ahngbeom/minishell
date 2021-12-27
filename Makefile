@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/24 21:49:12 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/27 14:46:24 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ UTILS_SRCS_NAME = split_free.c \
 					command_free.c \
 					ft_split_command.c \
 					remove_enclosed_quotes.c \
+					escape_sequence.c \
 					incorrect_exit.c
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)

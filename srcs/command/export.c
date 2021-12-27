@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:57:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:22:34 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 12:30:46 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	minishell_export(t_command *command)
 	char	**temp;
 	int		i;
 
+	command->bulit_in_flag = 1;
 	if (argv_counter(command->argv) == 1)
 		return (noarguments_export());
 	i = 0;

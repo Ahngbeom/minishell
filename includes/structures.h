@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:16:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 13:54:27 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_data						g_data;
 struct s_data
 {
 	char		*prompt;
+	char		**org_envv;
 	t_list		**envv;
 
 	char		**arr_redirect;

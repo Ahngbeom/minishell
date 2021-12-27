@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:17:36 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 13:52:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ static	void	command_finder(t_command *command)
 
 void	parsing(t_command *command)
 {
+	char	*temp;
+
+	temp = command->argv[0];
+	command->argv[0] = ft_strtrim(command->argv[0], "\"\'");
+	free(temp);
 	command_finder(command);
 	if (command->func != NULL)
 		command->func(command);

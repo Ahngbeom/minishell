@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/23 21:20:29 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 14:07:15 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,20 @@ char	*envv_getvalue(char *key)
 	return (NULL);
 }
 
-int		envv_name_format_checker(char *key)
+char	*envv_name_format_checker(char *key)
 {
 	int	i;
 
-	i = 0;
-	while (ft_isalpha(key[i]) != 0 || key[i] == '_')
-		i++;
+	i = -1;
+	while (key[++i] != '\0')
+	{
+		if (ft_isalpha(key[i]) == 0 && key[i] != '_')
+			break ;
+	}
 	if (key[i] != '\0')
-		return (1);
+		return (&key[i]);
 	else
-		return (0);
+		return (NULL);
 }
 
 t_list	**set_lstenv(char *env[])

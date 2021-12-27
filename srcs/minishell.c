@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:12:47 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 13:47:12 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	minishell(void)
 	ptr = g_data.commands;
 	while (ptr != NULL)
 	{
+		// parsing(((t_command *)ptr->content));
 		parsing(((t_command *)ptr->content));
 		if (!((t_command *)ptr->content)->bulit_in_flag)
 			to_execve(((t_command *)ptr->content));

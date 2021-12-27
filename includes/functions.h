@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 21:54:25 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/27 14:46:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		minishell_exit_status(t_command *command);
 char	*envv_getvalue(char *key);
 int		envvar_checker(void);
 t_list	**set_lstenv(char *env[]);
-int		envv_name_format_checker(char *key);
+char	*envv_name_format_checker(char *key);
 
 // Free Memory
 void	minishell_finalize(void);
@@ -68,7 +68,10 @@ void	command_free(void *command);
 
 // Other Utils
 void	ft_split_command(t_list **list, char *s, char **redirect);
+
 char	*remove_enclosed_quotes(char *argv);
+char	*escape_sequence(char *arg);
+
 int		incorrect_exit(t_command *command);
 
 #endif
