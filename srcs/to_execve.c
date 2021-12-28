@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 14:15:14 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/28 12:12:07 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	to_execve(t_command *command)
 		exit(EXIT_FAILURE);
 	else if (execve_pid == 0)
 	{
-		cmd_path = ft_strjoin(BIN_PATH, command->argv[0]);
+		// cmd_path = ft_strjoin(BIN_PATH, command->argv[0]);
+		cmd_path = execfile_finder(command->argv[0]);
 		if (execve(cmd_path, command->argv, NULL) == -1) // execve 에서 envp는 NULL?
 		{
 			printf("minishell: %s: command not found\n", command->argv[0]);

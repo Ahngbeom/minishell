@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 14:46:09 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/28 12:10:42 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	split_free(char **split);
 void	command_free(void *command);
 
 // Other Utils
+char	*execfile_finder(char *command);
+
 void	ft_split_command(t_list **list, char *s, char **redirect);
 
 char	*remove_enclosed_quotes(char *argv);

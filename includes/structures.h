@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 13:54:27 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/28 11:04:55 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ struct s_data
 	char		*prompt;
 	char		**org_envv;
 	t_list		**envv;
-
+	char		**envv_path;
+	
 	char		**arr_redirect;
 
 	t_list		*commands;

@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/28 00:24:42 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/28 12:10:28 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
 UTILS_SRCS_PATH = ./srcs/utils/
-UTILS_SRCS_NAME = split_free.c \
+UTILS_SRCS_NAME = execfile_finder.c \
+					split_free.c \
 					command_free.c \
 					ft_split_command.c \
 					remove_enclosed_quotes.c \
