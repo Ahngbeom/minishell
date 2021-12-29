@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2021/12/28 12:10:28 by bahn             ###   ########.fr        #
+#    Updated: 2021/12/29 11:05:13 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ CMD_SRCS_NAME = echo.c echo_for_execve.c \
 				pwd.c \
 				export.c \
 				unset.c \
-				env.c \
+				envv.c \
 				exit_status.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/28 12:16:41 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 12:19:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static	void	set_redirection(void)
 	g_data.arr_redirect[5] = ft_strdup("|");
 }
 
-static	void	set_envvpath_list(void)
+static	void	set_envvpath(void)
 {
 	int		i;
 	char	*temp;
@@ -48,12 +48,24 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	(void)argv;
 	g_data.org_envv = env;
 	g_data.envv = set_lstenv(env);
-	set_envvpath_list();
-	if (chdir(getenv("HOME")) == -1)
-		exit(errno);
+	set_envvpath();
+	// if (chdir(getenv("HOME")) == -1)
+		// exit(errno);
+	// free(envv_get("PWD")->value);
+	// envv_get("PWD")->value = getcwd(NULL, 0);
 	g_data.commands = NULL;
 	set_redirection();
+	g_data.status = 0;
 	g_data.pipe = malloc(sizeof(int) * 2);
+
+	//	ioctl 함수를 통해 EscapeSequence 해결?
+	// if (tcgetattr(STDIN_FILENO, &g_data.termios))
+		// exit(EXIT_FAILURE);
+	// g_data.termios.c_lflag = ICANON | ~ECHO;
+	// g_data.termios.c_cc[VMIN] = 1;
+	// g_data.termios.c_cc[VTIME] = 0;
+	// if (tcsetattr(STDIN_FILENO, TCSANOW, &g_data.termios))
+		// exit(EXIT_FAILURE);
 }
 
 void	minishell_finalize(void)
@@ -69,7 +81,7 @@ int	main(int argc, char *argv[], char *env[])
 	minishell_init(argc, argv, env);
 	while (1)
 	{
-		if (minishell() != 0)
+		if (minishell() < 0)
 			break ;
 	}
 	minishell_finalize();

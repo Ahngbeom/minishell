@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   envv.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 14:07:15 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 11:07:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ int		minishell_env(t_command *command)
 		ptr = ptr->next;
 	}
 	return (SELF_PROC);
+}
+
+t_hash	*envv_get(char *key)
+{
+	t_list	*ptr;
+
+	ptr = *g_data.envv;
+	while (ptr != NULL)
+	{
+		if (!ft_strncmp(((t_hash *)ptr->content)->key, key, ft_strlen(key) + 1))
+			return ((t_hash *)ptr->content);
+		ptr = ptr->next;
+	}
+	return (NULL);
 }
 
 char	*envv_getvalue(char *key)

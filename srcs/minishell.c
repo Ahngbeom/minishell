@@ -6,26 +6,42 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/28 11:17:33 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 12:26:31 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell(void)
+static	int	specific_processing(char *input)
 {
-	char		*input;
-	t_list		*ptr;
-	
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
-	input = readline(prompt());
 	if (input == NULL || !ft_strncmp(input, "exit", ft_strlen(input) + 1))
 	{
 		ft_putendl_fd("exit", 1);
+		if (input != NULL)
+			free(input);
+		return (-1);
+	}
+	else if (ft_strlen(input) == 0)
+	{
+		free(input);
 		return (1);
 	}
+	else
+		return (0);
+}
 
+int	minishell(void)
+{
+	char		*input;
+	int			status;
+	t_list		*ptr;
+
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, signal_handler);
+	input = readline(prompt());
+	status = specific_processing(input);
+	if (status)
+		return (status);
 	input = escape_sequence(input);
 	add_history(input);
 	ft_split_command(&g_data.commands, ft_strtrim(input, " "), g_data.arr_redirect);
