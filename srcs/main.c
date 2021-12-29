@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 12:19:10 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 16:21:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ static	void	set_envvpath(void)
 
 static	void	minishell_init(int argc, char *argv[], char *env[])
 {
-	if (argc != 1)
-		exit(EXIT_FAILURE);
+	int			i;
+	char		*temp;
+	char		*input;
+
 	(void)argv;
 	g_data.org_envv = env;
 	g_data.envv = set_lstenv(env);
@@ -66,6 +68,38 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	// g_data.termios.c_cc[VTIME] = 0;
 	// if (tcsetattr(STDIN_FILENO, TCSANOW, &g_data.termios))
 		// exit(EXIT_FAILURE);
+	
+	if (argc > 1 && !ft_strncmp(argv[1], "-c", ft_strlen("-c") + 1))
+	{
+		if (argc > 2)
+		{
+			input = NULL;
+			i = 1;
+			while (++i < argc)
+			{
+				if (i + 1 >= argc)
+				{
+					if (input == NULL)
+						input = ft_strdup(argv[i]);
+					else
+					{
+						temp = ft_strjoin(input, " ");
+						input = ft_strjoin(temp, argv[i]);
+						free(temp);
+					}
+				}
+				else
+				{
+					temp = ft_strjoin(argv[i], " ");
+					input = ft_strjoin(temp, argv[++i]);
+					free(temp);
+				}
+			}
+			minishell(input);
+		}
+		minishell_finalize();
+		exit(g_data.status);
+	}
 }
 
 void	minishell_finalize(void)
@@ -81,10 +115,10 @@ int	main(int argc, char *argv[], char *env[])
 	minishell_init(argc, argv, env);
 	while (1)
 	{
-		if (minishell() < 0)
+		if (minishell(readline(prompt())) < 0)
 			break ;
 	}
 	minishell_finalize();
 	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
-	return (0);
+	return (g_data.status);
 }

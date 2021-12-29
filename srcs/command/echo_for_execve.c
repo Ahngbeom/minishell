@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 11:39:40 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 13:48:22 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static	char	*envv_converter(char *env)
 
 	if (*env == '$')
 	{
+		if (*(env + 1) == '?')
+			ft_putnbr_fd(g_data.status, 1);
 		// Try echo $HOME\\\\ on bash and minishell
 		// Try echo $HOME\\\ on bash and minishell
 		if (!envv_name_format_checker(env + sizeof(char)))

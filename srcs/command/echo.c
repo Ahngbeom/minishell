@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/25 21:10:23 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 19:34:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	minishell_echo(t_command *command)
 	int		i;
 	int		j;
 
+	command->bulit_in_flag = 1;
 	i = 0;
 	while (command->argv[++i] != NULL)
 	{
+		command->argv[i] = remove_enclosed_quotes(command->argv[i]);
 		if (i == 1 && n_flag_checker(command->argv[i]))
 			continue ;
-		else
-			command->argv[i] = remove_enclosed_quotes(command->argv[i]);
 		j = -1;
 		while (command->argv[i][++j] != '\0')
 		{

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 11:07:25 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 15:56:08 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	signal_handler(int signo);
 int		argv_counter(char *argv[]);
 
 // Start to Minishell
-int		minishell(void);
+int		minishell(char *input);
 
 // Parsing for Input
 void	parsing(t_command *command);

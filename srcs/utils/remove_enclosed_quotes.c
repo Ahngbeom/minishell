@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 18:00:06 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/29 19:17:11 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ static	int	quotes_finder(char **arg, char quetes)
 char	*remove_enclosed_quotes(char *arg)
 {
 	char	*result;
-	
+
 	if (arg == NULL)
 		return (arg);
 	result = arg;
 	while ((*arg == '\"' && arg[ft_strlen(arg) - 1] == '\"') \
-		||(*arg == '\'' && arg[ft_strlen(arg) - 1] == '\''))
+			|| (*arg == '\'' && arg[ft_strlen(arg) - 1] == '\''))
 	{
 		result = ft_substr(arg, 1, ft_strlen(arg) - 2);
 		free(arg);
