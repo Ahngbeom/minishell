@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 16:01:24 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:01:42 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/30 13:11:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (NULL);
 	s1_first = start_point(s1, set);
 	s1_last = last_point(s1, set);
-	if (s1_first > s1_last)
+	if (s1_first >= s1_last)
 		return ("\0");
 	else
 	{

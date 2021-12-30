@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 20:10:03 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/30 13:12:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,24 @@
 
 static	int	specific_processing(char *input)
 {
-	if (input == NULL || !ft_strncmp(input, "exit", ft_strlen(input) + 1))
+	char	*trim;
+
+	trim = ft_strtrim(input, " ");
+	if (trim == NULL || !ft_strncmp(trim, "exit", ft_strlen("exit") + 1))
 	{
 		ft_putendl_fd("exit", 1);
 		if (input != NULL)
 			free(input);
+		if (trim != NULL)
+			free(trim);
 		return (-1);
 	}
-	else if (ft_strlen(input) == 0)
+	else if (ft_strlen(trim) == 0)
 	{
-		free(input);
+		if (input != NULL)
+			free(input);
+		if (ft_strlen(trim) > 0)
+			free(trim);
 		return (1);
 	}
 	else
