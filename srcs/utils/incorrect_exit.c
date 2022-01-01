@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:12:19 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/30 15:32:41 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,4 @@ int	incorrect_exit(t_command *command)
 	ft_lstclear(&g_data.commands, command_free);
 	minishell_finalize();
 	exit(EXIT_FAILURE);
-	return (SELF_PROC);
 }

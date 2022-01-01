@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2021/08/22 16:06:24 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/01 01:21:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static	size_t	ft_countstrs(char *s, char c)
 	return (cnt);
 }
 
-static	char	*ft_findstr(char *s, char c)
+static	char	*arg_finder(char *s, char c)
 {
 	while (*s != '\0')
 	{
@@ -69,7 +69,7 @@ static	char	**ft_splitter(char **pptr, char *str_ptr, char c, \
 	i = 0;
 	while (i < str_cnt)
 	{
-		pptr[i] = (char *)malloc(ft_strclen(ft_findstr(str_ptr, c), c) + 1);
+		pptr[i] = (char *)malloc(ft_strclen(arg_finder(str_ptr, c), c) + 1);
 		if (pptr[i] == NULL)
 		{
 			while (pptr[i] != NULL)
@@ -77,10 +77,10 @@ static	char	**ft_splitter(char **pptr, char *str_ptr, char c, \
 			free(pptr);
 			return (pptr);
 		}
-		ft_strlcpy(pptr[i], ft_findstr(str_ptr, c), \
-				ft_strclen(ft_findstr(str_ptr, c), c) + 1);
-		str_ptr = ft_findstr(ft_findstr(str_ptr, c) + \
-				ft_strclen(ft_findstr(str_ptr, c), c), c);
+		ft_strlcpy(pptr[i], arg_finder(str_ptr, c), \
+				ft_strclen(arg_finder(str_ptr, c), c) + 1);
+		str_ptr = arg_finder(arg_finder(str_ptr, c) + \
+				ft_strclen(arg_finder(str_ptr, c), c), c);
 		i++;
 	}
 	pptr[i] = NULL;

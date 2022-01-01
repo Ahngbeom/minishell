@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/30 13:12:57 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/01 15:47:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,13 @@ int	minishell(char *input)
 	int			status;
 	t_list		*ptr;
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, signal_handler);
 	status = specific_processing(input);
 	if (status)
 		return (status);
 	input = escape_sequence(input);
 	add_history(input);
-	ft_split_command(&g_data.commands, ft_strtrim(input, " "), g_data.arr_redirect);
+	input = remove_enclosed_quotes(input);
+	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
 	ptr = g_data.commands;
 	while (ptr != NULL)

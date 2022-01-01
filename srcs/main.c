@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 16:21:45 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/01 17:39:13 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static	void	set_redirection(void)
 	g_data.arr_redirect[3] = ft_strdup(">");
 	g_data.arr_redirect[4] = ft_strdup("<");
 	g_data.arr_redirect[5] = ft_strdup("|");
+	g_data.arr_redirect[6] = NULL;
 }
 
 static	void	set_envvpath(void)
@@ -115,10 +116,14 @@ int	main(int argc, char *argv[], char *env[])
 	minishell_init(argc, argv, env);
 	while (1)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		if (minishell(readline(prompt())) < 0)
 			break ;
 	}
 	minishell_finalize();
+	
 	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
+	
 	return (g_data.status);
 }

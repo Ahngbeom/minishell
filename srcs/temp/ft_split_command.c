@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 21:45:03 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/30 12:40:05 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/30 18:08:01 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,21 @@ void	ft_split_command(t_list **list, char *input, char **redirect)
 	char		*ptr;
 	t_command	*cmd;
 	char		*temp;
-	char		*find_redirection;
 
 	ptr = input;
 	while (ptr != NULL && *ptr != '\0')
 	{
-		find_redirection = NULL;
 		cmd = ft_calloc(sizeof(t_command), 1);
 		if (list == NULL)
 			*list = ft_lstnew(cmd);
 		else
 			ft_lstadd_back(list, ft_lstnew(cmd));
 		cmd->bulit_in_flag = 0;
-		temp = redirection_finder(ptr, redirect, &find_redirection);
-		cmd->redirect = find_redirection;
+		temp = redirection_finder(ptr, redirect, &cmd->redirect);
 		if (temp != NULL)
 		{
 			cmd->argv = ft_split(ft_substr(ptr, 0, ft_strlen(ptr) - ft_strlen(temp)), ' ');
-			ptr = ft_strtrim(temp + ft_strlen(find_redirection) + 1, " ");
+			ptr = ft_strtrim(temp + ft_strlen(cmd->redirect) + 1, " ");
 		}
 		else
 		{

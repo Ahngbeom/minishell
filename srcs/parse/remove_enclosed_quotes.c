@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 19:17:11 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/01 15:57:53 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,30 @@ static	int	more_input(char **arg)
 	return (1);
 }
 
-static	int	arg_compose(char **arg, char *open_quotes, char *close_quotes)
-{
-	char	*origin;
-	char	*temp1;
-	char	*temp2;
+// static	int	arg_compose(char **arg, char *open_quotes, char *close_quotes)
+// {
+// 	char	*origin;
+// 	char	*temp1;
+// 	char	*temp2;
 	
-	origin = ft_substr(*arg, 0, ft_strlen(*arg) - ft_strlen(open_quotes));
-	temp1 = origin;
-	temp2 = ft_substr(open_quotes, 1, close_quotes - open_quotes - 1);
-	origin = ft_strjoin(origin, temp2);
-	free(temp1);
-	free(temp2);
-	if (*(close_quotes + 1) != '\0')
-	{
-		*arg = ft_strjoin(origin, close_quotes + 1);
-		free(origin);
-	}
-	else
-	{
-		free(*arg);
-		*arg = origin;
-	}
-	return (1);
-}
+// 	origin = ft_substr(*arg, 0, ft_strlen(*arg) - ft_strlen(open_quotes));
+// 	temp1 = origin;
+// 	temp2 = ft_substr(open_quotes, 1, close_quotes - open_quotes - 1);
+// 	origin = ft_strjoin(origin, temp2);
+// 	free(temp1);
+// 	free(temp2);
+// 	if (*(close_quotes + 1) != '\0')
+// 	{
+// 		*arg = ft_strjoin(origin, close_quotes + 1);
+// 		free(origin);
+// 	}
+// 	else
+// 	{
+// 		free(*arg);
+// 		*arg = origin;
+// 	}
+// 	return (1);
+// }
 
 static	int	quotes_finder(char **arg, char quetes)
 {
@@ -67,7 +67,8 @@ static	int	quotes_finder(char **arg, char quetes)
 		if (find == r_find)
 			return (more_input(arg));
 		else
-			return (arg_compose(arg, find, r_find));
+			// return (arg_compose(arg, find, r_find));
+			return (0);
 	}
 	else
 		return (0);
@@ -80,12 +81,12 @@ char	*remove_enclosed_quotes(char *arg)
 	if (arg == NULL)
 		return (arg);
 	result = arg;
-	while ((*arg == '\"' && arg[ft_strlen(arg) - 1] == '\"') \
-			|| (*arg == '\'' && arg[ft_strlen(arg) - 1] == '\''))
-	{
-		result = ft_substr(arg, 1, ft_strlen(arg) - 2);
-		free(arg);
-	}
+	// while ((*arg == '\"' && arg[ft_strlen(arg) - 1] == '\"') 
+	// 		|| (*arg == '\'' && arg[ft_strlen(arg) - 1] == '\''))
+	// {
+	// 	result = ft_substr(arg, 1, ft_strlen(arg) - 2);
+	// 	free(arg);
+	// }
 	// quotes_finder(&result, '\\') - Escape Sequence
 	while (quotes_finder(&result, '\"') || quotes_finder(&result, '\''))
 		continue ;

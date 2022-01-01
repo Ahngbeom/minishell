@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/30 12:55:22 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/30 15:29:53 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,8 @@ static	void	command_finder(t_command *command)
 		command->func = minishell_unset;
 	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
 		command->func = minishell_env;
-	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("env") + 1))
+	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("exit") + 1))
 		command->func = incorrect_exit;
-	else if (!ft_strncmp(command->argv[0], "$?", ft_strlen("$?") + 1))
-		// command->func = minishell_exit_status;
-		command->func = NULL;
 	else
 		command->func = NULL;
 }

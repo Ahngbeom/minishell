@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 14:32:31 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 17:54:19 by bahn             ###   ########.fr       */
+/*   Updated: 2021/12/30 15:26:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,5 @@ char	*escape_sequence(char *arg)
 		return (result);
 	}
 	else
-	{
 		return (arg);
-	}
 }
