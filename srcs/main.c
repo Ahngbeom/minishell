@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/01 17:39:13 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/01 23:31:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,21 @@ void	minishell_finalize(void)
 
 int	main(int argc, char *argv[], char *env[])
 {
-	minishell_init(argc, argv, env);
-	while (1)
-	{
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
-		if (minishell(readline(prompt())) < 0)
-			break ;
-	}
-	minishell_finalize();
+	char	*temp;
+	char	*str;
+
+	str = ft_strdup("echo asdasd; ls");
+	printf("%s\n", redirection_finder(&str, g_data.arr_redirect, &temp));
+	// printf("temp : %s\n", temp);
+	// minishell_init(argc, argv, env);
+	// while (1)
+	// {
+	// 	signal(SIGINT, signal_handler);
+	// 	signal(SIGQUIT, signal_handler);
+	// 	if (minishell(readline(prompt())) < 0)
+	// 		break ;
+	// }
+	// minishell_finalize();
 	
 	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	

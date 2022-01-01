@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/01 22:33:47 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/02 00:50:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 void	input_split(t_list **list, char *input)
 {
 	t_command	*command;
+	char		**split_cmd;
 
+	
 	command = ft_calloc(sizeof(t_command), 1);
 	if (*list == NULL)
 		*list = ft_lstnew(command);
