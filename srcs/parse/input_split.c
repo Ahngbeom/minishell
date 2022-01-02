@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/02 17:20:35 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/02 17:37:44 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	input_split(t_list **list, char *input)
 			redirection_finder(ptr, g_data.arr_redirect, &command->redirect);
 			arg_finder(command, cut_cmd);
 			free(cut_cmd);
-			ptr += redir_idx + 1;
+			ptr += redir_idx + ft_strlen(command->redirect);
 			redir_idx = redirection_finder(ptr, g_data.arr_redirect, &command->redirect);
 			cut_cmd = ft_substr(ptr, 0, redir_idx);
 		}
