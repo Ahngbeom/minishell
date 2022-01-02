@@ -6,14 +6,14 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/01 23:29:02 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/02 16:50:03 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = #-Wall -Werror -Wextra #-g
+CFLAGS = -Wall -Werror -Wextra #-g
 INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
 RM = rm -fv

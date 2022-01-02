@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/01 16:12:36 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/02 14:55:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	command_free(void *command);
 
 // Other Utils
 char	*execfile_finder(char *command);
-char	*redirection_finder(char **dest, char **src, char **find_redirection);
+size_t	redirection_finder(char *input, char *redirection[], char **save);
 
 void	ft_split_command(t_list **list, char *s, char **redirect);
 void	input_split(t_list **list, char *input);

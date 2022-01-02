@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/02 00:50:39 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/02 17:20:35 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 		}
 		else if (*input != ' ')
 		{
-			// if (*(input + 1) == '\"' || *(input + 1) == '\'')
-			// 	continue ;
 			cnt++;
 			if (cmd != NULL)
 			{
@@ -89,15 +87,40 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 void	input_split(t_list **list, char *input)
 {
 	t_command	*command;
-	char		**split_cmd;
+	char		*cut_cmd;
+	size_t		redir_idx;
+	char		*ptr;
 
-	
-	command = ft_calloc(sizeof(t_command), 1);
-	if (*list == NULL)
-		*list = ft_lstnew(command);
-	else
-		ft_lstadd_back(list, ft_lstnew(command));
-	command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, input) + 1);
-	arg_finder(command, input);
-	free(input);
+	ptr = input;
+	redir_idx = redirection_finder(input, g_data.arr_redirect, NULL);
+	if (redir_idx > 0)
+	{
+		cut_cmd = ft_substr(ptr, 0, redir_idx);
+		while (ft_strlen(cut_cmd) > 0)
+		{
+			command = ft_calloc(sizeof(t_command), 1);
+			if (*list == NULL)
+				*list = ft_lstnew(command);
+			else
+				ft_lstadd_back(list, ft_lstnew(command));
+			command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, cut_cmd) + 1);
+			redirection_finder(ptr, g_data.arr_redirect, &command->redirect);
+			arg_finder(command, cut_cmd);
+			free(cut_cmd);
+			ptr += redir_idx + 1;
+			redir_idx = redirection_finder(ptr, g_data.arr_redirect, &command->redirect);
+			cut_cmd = ft_substr(ptr, 0, redir_idx);
+		}
+		free(cut_cmd);
+	}
+	if (ptr == input || *ptr != '\0')
+	{
+		command = ft_calloc(sizeof(t_command), 1);
+		if (*list == NULL)
+			*list = ft_lstnew(command);
+		else
+			ft_lstadd_back(list, ft_lstnew(command));
+		command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, ptr) + 1);
+		arg_finder(command, ptr);
+	}
 }
