@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 13:16:45 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/04 08:33:35 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int	minishell(char *input)
 		{
 			parsing(((t_command *)ptr->content));
 			if (!((t_command *)ptr->content)->bulit_in_flag)
-				to_execve_2(((t_command *)ptr->content));
+				to_execve(((t_command *)ptr->content));
 		}
 		ptr = ptr->next;
 	}
