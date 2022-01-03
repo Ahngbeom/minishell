@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 12:28:07 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/03 12:43:05 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ void	ft_pipe(t_list	**list)
 	}
 	printf("ok[%d]\n", size);
 	i = -1;
-	while (++i < size && *list != NULL)
+	while (++i < size && (*list)->content != NULL)
 	{
 		content = (*list)->content;
 		pipe(fd[i]);
 		pid = fork();
-		printf("fork\n");
+		printf("fork - fd:%d\n", pid);
 		if (pid == 0)
 		{
 			printf("im son");
@@ -104,7 +104,6 @@ void	ft_pipe(t_list	**list)
 				dup2(fd[i][1], 1);
 			}
 			to_execve((*list)->content);
-			exit(0);
 		}
 		else
 		{
@@ -113,8 +112,8 @@ void	ft_pipe(t_list	**list)
 			close(fd[i][1]);
 			wait(&status);
 		}
-		if ((*list)->next != NULL)
-			*list = (*list)->next;
+		printf("why\n");
+		*list = (*list)->next;
 	}
 }
 
@@ -146,7 +145,7 @@ int	minishell(char *input)
 		{
 			parsing(((t_command *)ptr->content));
 			if (!((t_command *)ptr->content)->bulit_in_flag)
-				to_execve(((t_command *)ptr->content));
+				to_execve_2(((t_command *)ptr->content));
 		}
 		ptr = ptr->next;
 	}
