@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/02 17:17:54 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/03 11:34:41 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,36 @@ static	int	specific_processing(char *input)
 		return (0);
 }
 
+void	set_flag(t_list *i_list)
+{
+	t_list	*list;
+	t_command	*content;
+	t_command	*next_con;
+
+	list = i_list;
+	while (list->next)
+	{
+		content = (t_command *)list->content;
+		next_con = (t_command *)list->next->content;
+		if (ft_strncmp(content->redirect, ";", 2) == 0)
+		{
+			content->next_flag = 1;
+			next_con->pre_flag = 1;
+		}
+		if (ft_strncmp(content->redirect, "|", 2) == 0)
+		{
+			content->next_flag = 2;
+			next_con->pre_flag = 2;
+		}
+		if (ft_strncmp(content->redirect, ">", 2) == 0)
+		{
+			content->next_flag = 3;
+			next_con->pre_flag = 3;
+		}
+		list = list->next;
+	}
+}
+
 int	minishell(char *input)
 {
 	int			status;
@@ -51,6 +81,9 @@ int	minishell(char *input)
 	input = remove_enclosed_quotes(input);
 	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
+	set_flag(g_data.commands); //
+	printf("next:%d\n", ((t_command *)(g_data.commands->content))->next_flag);
+	printf("pre:%d\n", ((t_command *)(g_data.commands->next->content))->pre_flag);
 	ptr = g_data.commands;
 	while (ptr != NULL)
 	{
