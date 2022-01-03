@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/31 01:58:11 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/03 11:50:39 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ struct s_command
 
 	// 리다이렉션, 파이프를 처리하기위해 출력 결과를 저장하기 위한 변수
 	char		*output;
+
+	int			next_flag;
+	int			pre_flag;
 };
 
 #endif

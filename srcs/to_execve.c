@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   to_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 20:11:22 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/03 12:39:26 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,17 @@ int	to_execve(t_command *command)
 			free(cmd_path);
 	}
 	return (0);
+}
+
+int	to_execve_2(t_command *command)
+{
+	char	*cmd_path;
+
+	cmd_path = NULL;
+	cmd_path = execfile_finder(command->argv[0]);
+	if (cmd_path == NULL)
+		exit(127);
+	if (execve(cmd_path, command->argv, NULL) == -1)
+		exit(errno);
+	exit(EXIT_SUCCESS);
 }
