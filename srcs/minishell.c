@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 13:03:27 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/03 13:16:45 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	ft_pipe(t_list	**list)
 			if (content->pre_flag == 2)
 				close(fd[i - 1][0]);
 			if (content->next_flag == 2)
-				close(fd[i][1]);
+			close(fd[i][1]);
 			g_data.status = WEXITSTATUS(g_data.status);
 			if (g_data.status == 127)
 				printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
