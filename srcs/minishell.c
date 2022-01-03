@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 11:34:41 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/03 12:28:07 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,56 @@ void	set_flag(t_list *i_list)
 	}
 }
 
+void	ft_pipe(t_list	**list)
+{
+	int		**fd;
+	int		i;
+	int		size;
+	t_command	*content;
+	pid_t		pid;
+	int			status;
+
+	size = ft_lstsize(g_data.commands);
+	fd = malloc(sizeof(int *) * size);
+	i = -1;
+	while (++i < size)
+	{
+		fd[i] = malloc(sizeof(int) * 2);
+	}
+	printf("ok[%d]\n", size);
+	i = -1;
+	while (++i < size && *list != NULL)
+	{
+		content = (*list)->content;
+		pipe(fd[i]);
+		pid = fork();
+		printf("fork\n");
+		if (pid == 0)
+		{
+			printf("im son");
+			if (content->pre_flag == 2)
+			{
+				dup2(fd[i - 1][0], 0);
+			}
+			if (content->next_flag == 2)
+			{
+				dup2(fd[i][1], 1);
+			}
+			to_execve((*list)->content);
+			exit(0);
+		}
+		else
+		{
+			printf("im parent");
+			close(fd[i - 1][0]);
+			close(fd[i][1]);
+			wait(&status);
+		}
+		if ((*list)->next != NULL)
+			*list = (*list)->next;
+	}
+}
+
 int	minishell(char *input)
 {
 	int			status;
@@ -82,14 +132,22 @@ int	minishell(char *input)
 	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
 	set_flag(g_data.commands); //
-	printf("next:%d\n", ((t_command *)(g_data.commands->content))->next_flag);
-	printf("pre:%d\n", ((t_command *)(g_data.commands->next->content))->pre_flag);
+	printf("pre:%d, next:%d\n", ((t_command *)(g_data.commands->content))->pre_flag, ((t_command *)(g_data.commands->content))->next_flag);
+	// printf("pre:%d\n", ((t_command *)(g_data.commands->next->content))->pre_flag);
 	ptr = g_data.commands;
 	while (ptr != NULL)
 	{
-		parsing(((t_command *)ptr->content));
-		if (!((t_command *)ptr->content)->bulit_in_flag)
-			to_execve(((t_command *)ptr->content));
+		if (((t_command *)ptr->content)->redirect != NULL) // redirect가 있다면
+		{
+			printf("go_to_pipe\n");
+			ft_pipe(&(ptr));
+		}
+		else
+		{
+			parsing(((t_command *)ptr->content));
+			if (!((t_command *)ptr->content)->bulit_in_flag)
+				to_execve(((t_command *)ptr->content));
+		}
 		ptr = ptr->next;
 	}
 	ft_lstclear(&g_data.commands, command_free);
