@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 08:33:35 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/04 08:35:32 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,31 +84,27 @@ void	ft_pipe(t_list	**list)
 	{
 		fd[i] = malloc(sizeof(int) * 2);
 	}
-	printf("ok[%d]\n", size);
 	i = -1;
 	while (++i < size && (*list)->content != NULL)
 	{
 		content = (*list)->content;
 		pipe(fd[i]);
 		pid = fork();
-		printf("fork - fd:%d\n", pid);
-		if (pid == 0)
+		if (pid == 0) // son
 		{
-			printf("im son");
-			if (content->pre_flag == 2)
+			if (content->pre_flag == 2) // | argv
 			{
 				dup2(fd[i - 1][0], 0);
 			}
-			if (content->next_flag == 2)
+			if (content->next_flag == 2) // argv |
 			{
 				dup2(fd[i][1], 1);
 			}
 			to_execve_2((*list)->content);
 		}
-		else
+		else // parent
 		{
 			wait(&status);
-			printf("im parent");
 			if (content->pre_flag == 2)
 				close(fd[i - 1][0]);
 			if (content->next_flag == 2)
@@ -117,7 +113,6 @@ void	ft_pipe(t_list	**list)
 			if (g_data.status == 127)
 				printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
 		}
-		printf("why\n");
 		if ((*list)->next)
 			*list = (*list)->next;
 	}
@@ -137,14 +132,11 @@ int	minishell(char *input)
 	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
 	set_flag(g_data.commands); //
-	printf("pre:%d, next:%d\n", ((t_command *)(g_data.commands->content))->pre_flag, ((t_command *)(g_data.commands->content))->next_flag);
-	// printf("pre:%d\n", ((t_command *)(g_data.commands->next->content))->pre_flag);
 	ptr = g_data.commands;
 	while (ptr != NULL)
 	{
 		if (((t_command *)ptr->content)->redirect != NULL) // redirect가 있다면
 		{
-			printf("go_to_pipe\n");
 			ft_pipe(&(ptr));
 		}
 		else
