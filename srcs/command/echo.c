@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 19:34:25 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/04 14:16:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static	int	envmark_checker(char *env)
 	{
 		// Try echo $HOME@@@@ on bash and minishell
 		// Try echo $HOME\ $HOME\\ on bash and minishell
-		ft_putstr_fd(envv_getvalue(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
+		ft_putstr_fd(get_envv_value(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
 		return (1);
 	}
 	return (0);

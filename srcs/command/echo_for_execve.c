@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/30 16:51:08 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/04 14:16:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ static	char	*envv_converter(char *env)
 			return (ft_itoa(g_data.status));
 		if (!envv_name_format_checker(env + sizeof(char)))
 		{
-			if (envv_getvalue((env + sizeof(char))))
-				result = ft_strdup(envv_getvalue((env + sizeof(char))));
+			if (get_envv_value((env + sizeof(char))))
+				result = ft_strdup(get_envv_value((env + sizeof(char))));
 			else
 				result = ft_strdup("");
 		}
 		else
 		{
 			temp = ft_substr(env, 1, envv_name_format_checker(env + sizeof(char)) - env - 1);
-			result = ft_strjoin(envv_getvalue(temp), envv_name_format_checker(env + sizeof(char)));
+			result = ft_strjoin(get_envv_value(temp), envv_name_format_checker(env + sizeof(char)));
 			free(temp);
 		}
 		free(env);

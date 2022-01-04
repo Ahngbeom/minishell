@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/30 15:29:53 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/04 15:20:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static	void	command_finder(t_command *command)
 {
 	if (!ft_strncmp(command->argv[0], "echo", ft_strlen("echo") + 1))
-		// command->func = minishell_echo;
-		command->func = minishell_echo_for_execve;
+		command->func = minishell_echo;
+		// command->func = minishell_echo_for_execve;
 	else if (!ft_strncmp(command->argv[0], "cd", ft_strlen("cd") + 1))
 		command->func = minishell_cd;
 	else if (!ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd") + 1))

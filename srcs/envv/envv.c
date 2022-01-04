@@ -5,30 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/29 11:07:03 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/04 14:11:14 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/04 14:16:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		minishell_env(t_command *command)
+void	set_envvpath(void)
 {
-	t_list	*ptr;
+	int		i;
+	char	*temp;
 
-	(void)command;
-	ptr = *g_data.envv;
-	while (ptr != NULL)
+	g_data.envv_path = ft_split(getenv("PATH"), ':');
+	i = -1;
+	while (g_data.envv_path[++i] != NULL)
 	{
-		ft_putstr_fd(((t_hash *)ptr->content)->key, 1);
-		ft_putchar_fd('=', 1);
-		ft_putendl_fd(((t_hash *)ptr->content)->value, 1);
-		ptr = ptr->next;
+		if (g_data.envv_path[i][ft_strlen(g_data.envv_path[i]) - 1] != '/')
+		{
+			temp = g_data.envv_path[i];
+			g_data.envv_path[i] = ft_strjoin(g_data.envv_path[i], "/");
+			free(temp);
+		}
 	}
-	return (SELF_PROC);
 }
 
-t_hash	*envv_get(char *key)
+t_hash	*get_envv(char *key)
 {
 	t_list	*ptr;
 
@@ -42,7 +44,7 @@ t_hash	*envv_get(char *key)
 	return (NULL);
 }
 
-char	*envv_getvalue(char *key)
+char	*get_envv_value(char *key)
 {
 	t_list	*ptr;
 
@@ -72,7 +74,7 @@ char	*envv_name_format_checker(char *key)
 		return (NULL);
 }
 
-t_list	**set_lstenv(char *env[])
+t_list	**set_lstenvv(char *env[])
 {
 	t_list	**lst;
 	t_hash	*hash;
@@ -97,22 +99,3 @@ t_list	**set_lstenv(char *env[])
 	}
 	return (lst);
 }
-
-// Not used now
-// void	env_chararr_converter(void)
-// {
-// 	t_list	*ptr;
-// 	int		i;
-// 	char	*temp;
-
-// 	ptr = *g_data.envv;
-// 	i = -1;
-// 	g_data.org_env = ft_calloc(sizeof(char *), ft_lstsize(*g_data.envv) + 1);
-// 	while (ptr != NULL)
-// 	{
-// 		temp = ft_strjoin(((t_hash *)ptr->content)->key, "=");
-// 		g_data.org_env[++i] = ft_strjoin(temp, ((t_hash *)ptr->content)->value);
-// 		free(temp);
-// 	}
-// 	g_data.org_env[i] = NULL;
-// }
