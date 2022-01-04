@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 16:24:46 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/04 17:00:58 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	minishell(char *input)
 	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
 	set_flag(g_data.commands);
-	printf("list size : %d\n", ft_lstsize(g_data.commands));
 	list = g_data.commands;
 	while (list != NULL)
 	{
