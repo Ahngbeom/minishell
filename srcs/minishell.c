@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 08:35:32 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/04 12:10:26 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,32 +89,53 @@ void	ft_pipe(t_list	**list)
 	{
 		content = (*list)->content;
 		pipe(fd[i]);
-		pid = fork();
-		if (pid == 0) // son
+		if (content->next_flag == 3) // argv >
 		{
-			if (content->pre_flag == 2) // | argv
+			pid = fork();
+			if (pid == 0)
 			{
-				dup2(fd[i - 1][0], 0);
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT, 0644);
+				dup2(fd[i][1], STDOUT_FILENO);
+				to_execve_2((*list)->content);
+				close(fd[i][1]);
 			}
-			if (content->next_flag == 2) // argv |
+			else
 			{
-				dup2(fd[i][1], 1);
+				wait(&status);
+				g_data.status = WEXITSTATUS(g_data.status);
+				if (g_data.status == 127)
+					printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
 			}
-			to_execve_2((*list)->content);
 		}
-		else // parent
+		else if (content->next_flag == 2 || content->pre_flag == 2)
 		{
-			wait(&status);
-			if (content->pre_flag == 2)
-				close(fd[i - 1][0]);
-			if (content->next_flag == 2)
-			close(fd[i][1]);
-			g_data.status = WEXITSTATUS(g_data.status);
-			if (g_data.status == 127)
-				printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
+			pid = fork();
+			if (pid == 0) // son
+			{
+				if (content->pre_flag == 2) // | argv
+				{
+					dup2(fd[i - 1][0], STDIN_FILENO);
+				}
+				if (content->next_flag == 2) // argv |
+				{
+					dup2(fd[i][1], STDOUT_FILENO);
+				}
+				to_execve_2((*list)->content);
+			}
+			else // parent
+			{
+				wait(&status);
+				if (content->pre_flag == 2)
+					close(fd[i - 1][0]);
+				if (content->next_flag == 2)
+					close(fd[i][1]);
+				g_data.status = WEXITSTATUS(g_data.status);
+				if (g_data.status == 127)
+					printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
+			}
+			if ((*list)->next)
+				*list = (*list)->next;
 		}
-		if ((*list)->next)
-			*list = (*list)->next;
 	}
 }
 
