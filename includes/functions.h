@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 12:04:56 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/05 09:52:38 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,14 @@ int		minishell_env(t_command *command);
 int		minishell_exit_status(t_command *command);
 
 // Environment Variable Utils
-t_hash	*envv_get(char *key);
-char	*envv_getvalue(char *key);
-int		envvar_checker(void);
-t_list	**set_lstenv(char *env[]);
+void	set_envvpath(void);
+t_hash	*get_envv(char *key);
+char	*get_envv_value(char *key);
+t_list	**set_lstenvv(char *env[]);
 char	*envv_name_format_checker(char *key);
+
+// Redirection Utils
+void	set_redirection(void);
 
 // Free Memory
 void	minishell_finalize(void);
