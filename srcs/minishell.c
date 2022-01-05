@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 09:55:17 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/05 10:09:08 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	minishell(char *input)
 	while (list != NULL)
 	{
 		cmd = list->content;
-		if (cmd->redirect != NULL)
+		if (cmd->redirect != NULL) // not NULL, not ;
 		{
 			ft_pipe(&(list));
 		}
