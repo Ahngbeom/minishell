@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/04 16:23:52 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/05 12:30:21 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBFT_PATH = ./libft
 LIBFT_LINK = -Llibft -lft
 
 SRCS_PATH = ./srcs/
-SRCS_NAME = main.c minishell.c
+SRCS_NAME = main.c minishell.c more_input.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 

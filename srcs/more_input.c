@@ -6,42 +6,52 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:33:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 22:24:17 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 12:51:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*more_input(char *input)
+void	more_input(char **input)
 {
 	char	*ptr;
 	char	*more;
 	char	*tmp;
 
-	ptr = input;
+	ptr = *input;
 	if (ft_strchr(ptr, '\'') != NULL && (ft_strchr(ptr, '\'') == ft_strrchr(ptr, '\'')))
 	{
-		while (ft_strchr(ptr, '\'') >= ft_strrchr(ptr, '\''))
+		while (ft_strchr(ptr, '\'') == ft_strrchr(ptr, '\''))
 		{
 			more = readline("> ");
 			tmp = ptr;
+			ptr = ft_strjoin(ptr, "\n");
+			free(tmp);
+			tmp = ptr;
 			ptr = ft_strjoin(ptr, more);
 			free(tmp);
+			printf("new input : %s\n", ptr);
 			free(more);
 		}
 	}
-	else if (ft_strchr(ptr, '\"') != NULL && (ft_strchr(ptr, '\"') < ft_strrchr(ptr, '\"')))
+	else if (ft_strchr(ptr, '\"') != NULL && (ft_strchr(ptr, '\"') == ft_strrchr(ptr, '\"')))
 	{
-		while (ft_strchr(ptr, '\"') >= ft_strrchr(ptr, '\"'))
+		while (ft_strchr(ptr, '\"') == ft_strrchr(ptr, '\"'))
 		{
 			more = readline("> ");
 			tmp = ptr;
+			ptr = ft_strjoin(ptr, "\n");
+			free(tmp);
+			tmp = ptr;
 			ptr = ft_strjoin(ptr, more);
 			free(tmp);
+			printf("new input : %s\n", ptr);
 			free(more);
 		}
 	}
-	if (input != NULL)
-		free(input);
-	return (ptr);
+	if (ptr != *input && *input != NULL)
+	{
+		free(*input);
+		*input = ptr;
+	}
 }

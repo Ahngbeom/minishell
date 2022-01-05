@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 10:35:02 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/05 12:36:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,13 @@ int	minishell(char *input)
 	t_list		*list;
 	t_command	*cmd;
 
-	input = escape_sequence(input);
+	// input = escape_sequence(input);
+	// add_history(input);
+	// input = remove_enclosed_quotes(input);
+
+	more_input(&input);
 	add_history(input);
-	input = remove_enclosed_quotes(input);
+	printf("input : %s\n", input);
 	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
 	set_flag(g_data.commands);
