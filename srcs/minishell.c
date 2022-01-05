@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 10:35:02 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/05 12:58:25 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ void	set_flag(t_list *i_list)
 		{
 			content->next_flag = 4;
 			next_con->pre_flag = 4;
+		}
+		if (ft_strncmp(content->redirect, "<", 2) == 0)
+		{
+			content->next_flag = 5;
+			next_con->pre_flag = 5;
+		}
+		if (ft_strncmp(content->redirect, "<<", 2) == 0)
+		{
+			content->next_flag = 6;
+			next_con->pre_flag = 6;
 		}
 		list = list->next;
 	}
@@ -81,23 +91,32 @@ void	ft_pipe(t_list	**list)
 			}
 			if (content->next_flag == 3) // argv >
 			{
-				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT, 0644); // S_IROTH : 개인에게 읽기권한
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한 , 0644: 소유자-WR,RD 그룹,개인-RD
 				dup2(fd[i][1], STDOUT_FILENO);
-				// close(fd[i][1]);
+				if (content->pre_flag == 5) //
+				{
+					dup2(fd[i - 1][0], STDOUT_FILENO);
+					// close(fd[i - 1][0]);
+				}
 			}
 			if (content->next_flag == 4) // argv >>
 			{
 				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 				dup2(fd[i][1], STDOUT_FILENO);
 			}
+			if (content->next_flag == 5) // argv <
+			{
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_RDONLY, 0644);
+				dup2(fd[i][1], STDIN_FILENO);
+			}
 			to_execve_2((*list)->content);
 		}
 		else // parent
 		{
 			wait(&status);
-			if (content->pre_flag == 2)
+			if (content->pre_flag)
 				close(fd[i - 1][0]);
-			if (content->next_flag == 2)
+			if (content->next_flag)
 				close(fd[i][1]);
 			g_data.status = WEXITSTATUS(g_data.status);
 			if (g_data.status == 127)
