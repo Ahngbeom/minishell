@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 12:36:34 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 18:52:48 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 char	*prompt(void);
 
 // Key Interrupt Handler
+void	set_termios(void);
 void	signal_handler(int signo);
 
 // Arguments Vector Utils

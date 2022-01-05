@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 14:16:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 21:12:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static	int	envmark_checker(char *env)
 	return (0);
 }
 
-static	int		backslash_checker(char *arg, int *ch_idx)
+static	int	backslash_checker(char *arg, int *ch_idx)
 {
 	if (arg[*ch_idx] == '\\')
 	{
@@ -71,7 +71,7 @@ int	minishell_echo(t_command *command)
 	i = 0;
 	while (command->argv[++i] != NULL)
 	{
-		command->argv[i] = remove_enclosed_quotes(command->argv[i]);
+		printf("argv[%d] : %s\n", i, command->argv[i]);
 		if (i == 1 && n_flag_checker(command->argv[i]))
 			continue ;
 		j = -1;

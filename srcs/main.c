@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 14:42:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 18:54:22 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	set_redirection();
 	g_data.status = 0;
 	g_data.pipe = malloc(sizeof(int) * 2);
+	set_termios();
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	minishell_finalize(void)
@@ -67,8 +70,7 @@ int	main(int argc, char *argv[], char *env[])
 	minishell_init(argc, argv, env);
 	while (1)
 	{
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
+		
 		input = readline(prompt());
 		check = preprocess(input);
 		if (check == 0)
