@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 14:18:32 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 09:52:38 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	parsing(t_command *command);
 // Run execve(path, argv, envv);
 int		to_execve(t_command *command);
 int		to_execve_2(t_command *command);
+int		to_execve_3(t_command *command);
 
 // COMMAND echo
 int		minishell_echo(t_command *command);

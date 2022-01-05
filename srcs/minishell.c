@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 17:00:58 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 10:35:02 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	set_flag(t_list *i_list)
 			content->next_flag = 3;
 			next_con->pre_flag = 3;
 		}
+		if (ft_strncmp(content->redirect, ">>", 3) == 0)
+		{
+			content->next_flag = 4;
+			next_con->pre_flag = 4;
+		}
 		list = list->next;
 	}
 }
@@ -64,15 +69,26 @@ void	ft_pipe(t_list	**list)
 		content = (*list)->content;
 		pipe(fd[i]);
 		pid = fork();
-		if (pid == 0)
+		if (pid == 0) // son
 		{
-			if (content->pre_flag == 2)
+			if (content->pre_flag == 2) // | argv
 			{
-				dup2(fd[i - 1][0], 0);
+				dup2(fd[i - 1][0], STDIN_FILENO);
 			}
-			if (content->next_flag == 2)
+			if (content->next_flag == 2) // argv |
 			{
-				dup2(fd[i][1], 1);
+				dup2(fd[i][1], STDOUT_FILENO);
+			}
+			if (content->next_flag == 3) // argv >
+			{
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT, 0644); // S_IROTH : 개인에게 읽기권한
+				dup2(fd[i][1], STDOUT_FILENO);
+				// close(fd[i][1]);
+			}
+			if (content->next_flag == 4) // argv >>
+			{
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+				dup2(fd[i][1], STDOUT_FILENO);
 			}
 			to_execve_2((*list)->content);
 		}
@@ -107,7 +123,7 @@ int	minishell(char *input)
 	while (list != NULL)
 	{
 		cmd = list->content;
-		if (cmd->redirect != NULL)
+		if (cmd->redirect != NULL) // not NULL, not ;
 		{
 			ft_pipe(&(list));
 		}

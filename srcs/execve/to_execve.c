@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 12:39:26 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/04 12:05:51 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,17 @@ int	to_execve_2(t_command *command)
 	if (execve(cmd_path, command->argv, NULL) == -1)
 		exit(errno);
 	exit(EXIT_SUCCESS);
+}
+
+int	to_execve_3(t_command *command)
+{
+	char	*cmd_path;
+
+	cmd_path = NULL;
+	cmd_path = execfile_finder(command->argv[0]);
+	if (cmd_path == NULL)
+		printf("minishell: %s: command not found\n", (command)->argv[0]);
+	if (execve(cmd_path, command->argv, NULL) == -1)
+		return (errno); //
+	return (EXIT_SUCCESS);
 }
