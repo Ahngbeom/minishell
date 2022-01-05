@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 09:52:38 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/05 12:36:34 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	split_free(char **split);
 void	command_free(void *command);
 
 // Other Utils
+void	more_input(char **input);
+
 char	*execfile_finder(char *command);
 size_t	redirection_finder(char *input, char *redirection[], char **save);
 
