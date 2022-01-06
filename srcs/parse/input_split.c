@@ -6,22 +6,22 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 15:46:00 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/06 21:08:54 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	char	*move_pointer(char *ptr, char quotes)
+static	void	move_pointer(char **ptr, char quotes)
 {
 	if (quotes != '\"' && quotes != '\'')
 		quotes = ' ';
-	while (*(++ptr) != quotes)
+	while (*(++(*ptr)) != quotes)
 	{
-		if (*ptr == '\0')
+		if (**ptr == '\0')
 			break ;
 	}
-	return (++ptr);
+	++(*ptr);
 }
 
 static	char	*arg_compose(char *arg, char **input)
@@ -35,7 +35,7 @@ static	char	*arg_compose(char *arg, char **input)
 			temp = ft_substr(*input, 1, ft_strchr(*input + 1, **input) - *input - 1);
 		else
 			temp = ft_substr(*input, 0, ft_strchr(*input + 1, ' ') - *input);
-		*input = move_pointer(*input, **input);
+		move_pointer(input, **input);
 		temp2 = arg;
 		arg = ft_strjoin(arg, temp);
 		free(temp2);
@@ -58,7 +58,7 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 			cnt++;
 			if (cmd != NULL)
 				cmd->argv[++i] = ft_substr(input + 1, 0, ft_strchr(input + 1, *input) - (input + 1));
-			input = move_pointer(input, *input);
+			move_pointer(&input, *input);
 			if (cmd != NULL)
 				cmd->argv[i] = arg_compose(cmd->argv[i], &input);
 		}
@@ -71,6 +71,7 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 					cmd->argv[++i] = ft_substr(input, 0, ft_strchr(input, ' ') - input);
 				else
 					cmd->argv[++i] = ft_substr(input, 0, ft_strlen(input));
+				backslash_converter(&cmd->argv[i]);
 			}
 			while (*(++input) != ' ')
 			{

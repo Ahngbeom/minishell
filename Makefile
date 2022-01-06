@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/05 12:30:21 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/06 14:37:55 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ PARSE_SRCS_PATH = ./srcs/parse/
 PARSE_SRCS_NAME = parsing.c \
 					input_split.c \
 					remove_enclosed_quotes.c \
-					escape_sequence.c
+					escape_sequence.c \
+					backslash.c
 PARSE_SRCS = $(addprefix $(PARSE_SRCS_PATH), $(PARSE_SRCS_NAME))
 PARSE_OBJS = $(PARSE_SRCS:.c=.o)
 

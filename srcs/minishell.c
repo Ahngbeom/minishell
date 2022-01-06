@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 20:49:48 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/06 17:23:20 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ int	minishell(char *input)
 	// input = remove_enclosed_quotes(input);
 
 	more_input(&input);
-	// incorrected history if input is not enclosed quotes  
+	// incorrected history if input is not enclosed quotes and backslash
 	add_history(input);
-
+	// Remove Enclosed quotes
 	input_split(&g_data.commands, ft_strtrim(input, " "));
 	free(input);
 	set_flag(g_data.commands);

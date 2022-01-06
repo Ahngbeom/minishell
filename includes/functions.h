@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 18:52:48 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/06 16:35:38 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ size_t	redirection_finder(char *input, char *redirection[], char **save);
 
 void	ft_split_command(t_list **list, char *s, char **redirect);
 void	input_split(t_list **list, char *input);
+
+void	backslash_converter(char **arg);
 
 char	*remove_enclosed_quotes(char *arg);
 char	*escape_sequence(char *arg);
