@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 10:35:02 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/06 10:50:40 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_pipe(t_list	**list)
 			}
 			if (content->next_flag == 3) // argv >
 			{
-				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT, 0644); // S_IROTH : 개인에게 읽기권한
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한
 				dup2(fd[i][1], STDOUT_FILENO);
 				// close(fd[i][1]);
 			}
