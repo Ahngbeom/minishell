@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 16:06:05 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/07 21:23:17 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/08 01:31:12 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ int	redirection_finder(char **input, char *redirection[], t_command *cmd)
 {
 	char	*find_ptr;
 	char	*forefront;
+	char	**new_argv;
 	char	*tmp;
+	char	**ttmp;
 	int		i;
+	int		j;
 
 	forefront = NULL;
 	find_ptr = NULL;
@@ -32,28 +35,35 @@ int	redirection_finder(char **input, char *redirection[], t_command *cmd)
 				cmd->redirect = redirection[i];
 		}
 	}
-	if (find_ptr == NULL)
+	if (forefront == NULL)
 		return (0);
 	else
 	{
 		// *input = forefront + 1;
-		if (cmd != NULL)
+		if (ft_strlen(*input) == ft_strlen(cmd->redirect))
 		{
-			if (ft_strlen(*input) == ft_strlen(cmd->redirect))
+			ttmp = cmd->argv;
+			new_argv = ft_calloc(sizeof(char *), argv_counter(cmd->argv));
+			i = -1;
+			j = i;
+			while (cmd->argv[++i] != NULL)
 			{
-				
+				if (!ft_strncmp(cmd->argv[i], cmd->redirect, ft_strlen(cmd->argv[i]) + 1))
+					i += 1;
+				new_argv[++j] = ft_strdup(cmd->argv[i]);
 			}
-			else
-			{
-				tmp = *input;
-				if (forefront != *input)
-					*input = ft_substr(*input, 0, forefront - *input);
-				else
-					*input = ft_substr(*input, ft_strlen(cmd->redirect), ft_strlen(*input));
-				free(tmp);
-			}
+			cmd->argv = new_argv;
+			split_free(ttmp);
 		}
-		printf("move pointer by redirection : %s\n", *input);
+		else
+		{
+			tmp = *input;
+			if (forefront != *input)
+				*input = ft_substr(*input, 0, forefront - *input);
+			else
+				*input = ft_substr(*input, ft_strlen(cmd->redirect), ft_strlen(*input));
+			free(tmp);
+		}
 		return (1);
 	}
 }
@@ -71,7 +81,7 @@ void	refact_by_redirection(t_list **list)
 		i = -1;
 		while (cmd_ptr->argv[++i] != NULL)
 		{
-			if (redirection_finder(&cmd->argv[i], g_data.arr_redirect, cmd_ptr))
+			if (redirection_finder(&cmd_ptr->argv[i], g_data.arr_redirect, cmd_ptr))
 			{
 				break ;
 			}
