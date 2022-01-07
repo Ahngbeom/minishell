@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/06 21:08:54 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/07 21:01:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 			if (cmd != NULL)
 				cmd->argv[i] = arg_compose(cmd->argv[i], &input);
 		}
+		// else if (redirection_finder(&input, g_data.arr_redirect, cmd))
+		// 	cnt++;
 		else if (*input != ' ')
 		{
 			cnt++;
@@ -85,43 +87,58 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 	return (cnt);
 }
 
-void	input_split(t_list **list, char *input)
+// void	input_split(t_list **list, char *input)
+// {
+// 	t_command	*command;
+// 	char		*cut_cmd;
+// 	size_t		redir_idx;
+// 	char		*ptr;
+
+// 	ptr = input;
+// 	redir_idx = redirection_finder(input, g_data.arr_redirect, NULL);
+// 	if (redir_idx > 0)
+// 	{
+// 		cut_cmd = ft_substr(ptr, 0, redir_idx);
+// 		while (ft_strlen(cut_cmd) > 0)
+// 		{
+// 			command = ft_calloc(sizeof(t_command), 1);
+// 			if (*list == NULL)
+// 				*list = ft_lstnew(command);
+// 			else
+// 				ft_lstadd_back(list, ft_lstnew(command));
+// 			command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, cut_cmd) + 1);
+// 			redirection_finder(ptr, g_data.arr_redirect, &command->redirect);
+// 			arg_finder(command, cut_cmd);
+// 			free(cut_cmd);
+// 			ptr += redir_idx + ft_strlen(command->redirect);
+// 			redir_idx = redirection_finder(ptr, g_data.arr_redirect, NULL);
+// 			cut_cmd = ft_substr(ptr, 0, redir_idx);
+// 		}
+// 		free(cut_cmd);
+// 	}
+// 	if (ptr == input || *ptr != '\0')
+// 	{
+// 		command = ft_calloc(sizeof(t_command), 1);
+// 		if (*list == NULL)
+// 			*list = ft_lstnew(command);
+// 		else
+// 			ft_lstadd_back(list, ft_lstnew(command));
+// 		command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, ptr) + 1);
+// 		arg_finder(command, ptr);
+// 	}
+// }
+
+void	input_split2(t_list **list, char *input)
 {
 	t_command	*command;
-	char		*cut_cmd;
-	size_t		redir_idx;
 	char		*ptr;
 
 	ptr = input;
-	redir_idx = redirection_finder(input, g_data.arr_redirect, NULL);
-	if (redir_idx > 0)
-	{
-		cut_cmd = ft_substr(ptr, 0, redir_idx);
-		while (ft_strlen(cut_cmd) > 0)
-		{
-			command = ft_calloc(sizeof(t_command), 1);
-			if (*list == NULL)
-				*list = ft_lstnew(command);
-			else
-				ft_lstadd_back(list, ft_lstnew(command));
-			command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, cut_cmd) + 1);
-			redirection_finder(ptr, g_data.arr_redirect, &command->redirect);
-			arg_finder(command, cut_cmd);
-			free(cut_cmd);
-			ptr += redir_idx + ft_strlen(command->redirect);
-			redir_idx = redirection_finder(ptr, g_data.arr_redirect, NULL);
-			cut_cmd = ft_substr(ptr, 0, redir_idx);
-		}
-		free(cut_cmd);
-	}
-	if (ptr == input || *ptr != '\0')
-	{
-		command = ft_calloc(sizeof(t_command), 1);
-		if (*list == NULL)
-			*list = ft_lstnew(command);
-		else
-			ft_lstadd_back(list, ft_lstnew(command));
-		command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, ptr) + 1);
-		arg_finder(command, ptr);
-	}
+	command = ft_calloc(sizeof(t_command), 1);
+	if (*list == NULL)
+		*list = ft_lstnew(command);
+	else
+		ft_lstadd_back(list, ft_lstnew(command));
+	command->argv = ft_calloc(sizeof(char *), arg_finder(NULL, ptr) + 1);
+	arg_finder(command, ptr);
 }

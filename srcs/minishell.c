@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/06 17:23:20 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/07 16:16:42 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,23 +112,27 @@ int	minishell(char *input)
 {
 	t_list		*list;
 	t_command	*cmd;
-
-	// input = escape_sequence(input);
-	// add_history(input);
-	// input = remove_enclosed_quotes(input);
+	int			i;
 
 	more_input(&input);
 	// incorrected history if input is not enclosed quotes and backslash
 	add_history(input);
 	// Remove Enclosed quotes
-	input_split(&g_data.commands, ft_strtrim(input, " "));
+	// input_split(&g_data.commands, ft_strtrim(input, " "));
+	input_split2(&g_data.commands, ft_strtrim(input, " "));
+	// redirection_finder2(&g_data.commands);
 	free(input);
 	set_flag(g_data.commands);
 	list = g_data.commands;
 	while (list != NULL)
 	{
 		cmd = list->content;
-		if (cmd->redirect != NULL) // not NULL, not ;
+		printf("command : %s\n", cmd->argv[0]);
+		i = 0;
+		while (cmd->argv[++i] != NULL)
+			printf("argv[%d] : %s\n", i, cmd->argv[i]);
+		printf("redirect : %s\n", cmd->redirect);
+		if (cmd->redirect != NULL)
 		{
 			ft_pipe(&(list));
 		}

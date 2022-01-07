@@ -6,27 +6,18 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/06 21:55:41 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/07 14:52:34 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	n_flag_checker(char *argv)
+static	int	n_flag_checker(char *arg)
 {
-	int		j;
-	
-	if (argv[0] == '-')
-	{
-		j = 1;
-		while (argv[j] == 'n' && argv[j] != '\0')
-			j++;
-		if (argv[j] == '\0')
-			return (1);
-		else
-			return (0);
-	}
-	return (0);
+	if (!ft_strncmp(arg, "-n", ft_strlen(arg) + 1))
+		return (1);
+	else
+		return (0);
 }
 
 static	int	envmark_checker(char *env)

@@ -6,9 +6,19 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/06 14:37:55 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/07 14:30:51 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+OS	= $(shell uname -s)
+
+ifeq ($(OS), Linux)
+export LDFLAGS := -L/opt/homebrew/opt/readline/lib
+export CPPFLAGS := -I/opt/homebrew/opt/readline/include
+else
+export LDFLAGS := -L/opt/homebrew/opt/readline/lib
+export CPPFLAGS := -I/opt/homebrew/opt/readline/include
+endif
 
 NAME = minishell
 

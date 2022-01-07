@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:33:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/06 21:09:23 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/07 15:00:47 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static char	*quotes_process(char *input, char quotes)
 		tmp = result;
 		result = ft_strjoin(result, more);
 		free(tmp);
-		printf("new input : %s\n", result);
 		free(more);
 	}
 	return (result);
