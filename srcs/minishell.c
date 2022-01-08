@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/07 22:59:41 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/08 23:51:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,26 +112,19 @@ int	minishell(char *input)
 {
 	t_list		*list;
 	t_command	*cmd;
-	int			i;
 
 	more_input(&input);
 	// incorrected history if input is not enclosed quotes and backslash
 	add_history(input);
 	// Remove Enclosed quotes
-	// input_split(&g_data.commands, ft_strtrim(input, " "));
-	input_split2(&g_data.commands, ft_strtrim(input, " "));
-	refact_by_redirection(&g_data.commands);
+	// input_split2(&g_data.commands, ft_strtrim(input, " "));
+	redirection_split(&g_data.commands, input);
 	free(input);
 	set_flag(g_data.commands);
 	list = g_data.commands;
 	while (list != NULL)
 	{
 		cmd = list->content;
-		printf("command : %s\n", cmd->argv[0]);
-		i = 0;
-		while (cmd->argv[++i] != NULL)
-			printf("argv[%d] : %s\n", i, cmd->argv[i]);
-		printf("redirect : %s\n", cmd->redirect);
 		if (cmd->redirect != NULL)
 		{
 			ft_pipe(&(list));

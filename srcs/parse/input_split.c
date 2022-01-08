@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/07 21:01:28 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/08 22:02:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static	char	*arg_compose(char *arg, char **input)
 	return (arg);
 }
 
-static	size_t	arg_finder(t_command *cmd, char *input)
+size_t	arg_finder(t_command *cmd, char *input)
 {
 	size_t	cnt;
 	int		i;
@@ -62,8 +62,6 @@ static	size_t	arg_finder(t_command *cmd, char *input)
 			if (cmd != NULL)
 				cmd->argv[i] = arg_compose(cmd->argv[i], &input);
 		}
-		// else if (redirection_finder(&input, g_data.arr_redirect, cmd))
-		// 	cnt++;
 		else if (*input != ' ')
 		{
 			cnt++;

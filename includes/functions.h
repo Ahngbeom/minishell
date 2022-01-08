@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/07 22:56:44 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/08 23:49:31 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ void	more_input(char **input);
 
 char	*execfile_finder(char *command);
 int		redirection_finder(char **input, char *redirection[], t_command *cmd);
+int		redirection_finder2(char *redirection[], char *input, char **save);
 void	refact_by_redirection(t_list **list);
+
+void	redirection_split(t_list **list, char *input);
+size_t	arg_finder(t_command *cmd, char *input);
 
 void	ft_split_command(t_list **list, char *s, char **redirect);
 void	input_split(t_list **list, char *input);

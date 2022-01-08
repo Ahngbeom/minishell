@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 16:06:05 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/08 01:31:12 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/08 23:53:16 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	redirection_finder(char **input, char *redirection[], t_command *cmd)
 			while (cmd->argv[++i] != NULL)
 			{
 				if (!ft_strncmp(cmd->argv[i], cmd->redirect, ft_strlen(cmd->argv[i]) + 1))
-					i += 1;
+					continue ;
 				new_argv[++j] = ft_strdup(cmd->argv[i]);
 			}
 			cmd->argv = new_argv;
