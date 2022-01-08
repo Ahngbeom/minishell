@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/08 14:37:25 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/09 01:17:39 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBFT_PATH = ./libft
 LIBFT_LINK = -Llibft -lft
 
 SRCS_PATH = ./srcs/
-SRCS_NAME = main.c minishell.c more_input.c
+SRCS_NAME = main.c minishell.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
@@ -56,6 +56,8 @@ CMD_OBJS = $(CMD_SRCS:.c=.o)
 
 PARSE_SRCS_PATH = ./srcs/parse/
 PARSE_SRCS_NAME = parsing.c \
+					more_input.c \
+					arg_finder.c \
 					input_split.c \
 					remove_enclosed_quotes.c \
 					escape_sequence.c \
@@ -69,7 +71,7 @@ ENVV_SRCS = $(addprefix $(ENVV_SRCS_PATH), $(ENVV_SRCS_NAME))
 ENVV_OBJS = $(ENVV_SRCS:.c=.o)
 
 RIDIR_SRCS_PATH = ./srcs/redirection/
-RIDIR_SRCS_NAME = set_redirection.c redirection_finder.c redirection_split.c
+RIDIR_SRCS_NAME = set_redirection.c redirection_finder.c
 RIDIR_SRCS = $(addprefix $(RIDIR_SRCS_PATH), $(RIDIR_SRCS_NAME))
 RIDIR_OBJS = $(RIDIR_SRCS:.c=.o)
 
