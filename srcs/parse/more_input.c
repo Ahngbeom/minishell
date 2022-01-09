@@ -6,34 +6,28 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:33:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 14:43:36 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/09 20:40:44 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*quotes_process(char *input, char quotes)
+static void	quotes_process(char **input, char quotes)
 {
 	char	*more;
-	char	*result;
 	char	*tmp;
 
-	result = input;
-	while (ft_strchr(result, quotes) == ft_strrchr(result, quotes))
+	while (ft_strchr(*input, quotes) == ft_strrchr(*input, quotes))
 	{
-		// rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
 		more = readline("> ");
-		tmp = result;
-		result = ft_strjoin(result, "\n");
+		tmp = *input;
+		*input = ft_strjoin(*input, "\n");
 		free(tmp);
-		tmp = result;
-		result = ft_strjoin(result, more);
+		tmp = *input;
+		*input = ft_strjoin(*input, more);
 		free(tmp);
 		free(more);
 	}
-	return (result);
 }
 
 static int	quotes_checker(char *input, char quotes)
@@ -66,9 +60,9 @@ void	more_input(char **input)
 	char	*tmp;
 
 	if (quotes_checker(*input, '\''))
-		*input = quotes_process(*input, '\'');
+		quotes_process(input, '\'');
 	else if (quotes_checker(*input, '\"'))
-		*input = quotes_process(*input, '\"');
+		quotes_process(input, '\"');
 	else if (backslash_checker(input))
 	{
 		while (1)

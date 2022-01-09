@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/09 01:17:39 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/09 16:27:32 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,11 @@ SIG_SRCS_PATH = ./srcs/signal/
 SIG_SRCS_NAME = handler.c 
 SIG_SRCS = $(addprefix $(SIG_SRCS_PATH), $(SIG_SRCS_NAME))
 SIG_OBJS = $(SIG_SRCS:.c=.o)
+
+GNL_SRCS_PATH = ./srcs/gnl/
+GNL_SRCS_NAME = get_next_line.c
+GNL_SRCS = $(addprefix $(GNL_SRCS_PATH), $(GNL_SRCS_NAME))
+GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 CMD_SRCS_PATH = ./srcs/command/
 CMD_SRCS_NAME = echo.c echo_for_execve.c \
@@ -92,6 +97,7 @@ UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
 			$(PROMPT_OBJS) \
+			$(GNL_OBJS) \
 			$(CMD_OBJS) \
 			$(PARSE_OBJS) \
 			$(ENVV_OBJS) \

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 01:15:58 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/09 16:24:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	command_free(void *command);
 
 // Other Utils
 void	more_input(char **input);
+int		get_next_line(int fd, char **line);
 
 char	*execfile_finder(char *command);
 int		redirection_finder(char *redirection[], char *input, char **save);
