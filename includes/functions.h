@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 09:52:38 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/09 16:24:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 char	*prompt(void);
 
 // Key Interrupt Handler
+void	set_termios(void);
 void	signal_handler(int signo);
 
 // Arguments Vector Utils
@@ -73,11 +74,16 @@ void	split_free(char **split);
 void	command_free(void *command);
 
 // Other Utils
-char	*execfile_finder(char *command);
-size_t	redirection_finder(char *input, char *redirection[], char **save);
+void	more_input(char **input);
+int		get_next_line(int fd, char **line);
 
-void	ft_split_command(t_list **list, char *s, char **redirect);
+char	*execfile_finder(char *command);
+int		redirection_finder(char *redirection[], char *input, char **save);
 void	input_split(t_list **list, char *input);
+
+size_t	arg_finder(t_command *cmd, char *input);
+
+void	backslash_converter(char **arg);
 
 char	*remove_enclosed_quotes(char *arg);
 char	*escape_sequence(char *arg);

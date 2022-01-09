@@ -6,9 +6,16 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/04 16:23:52 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/09 16:27:32 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+OS	= $(shell uname -s)
+
+ifeq ($(OS), Darwin)
+export LDFLAGS := -L/opt/homebrew/opt/readline/lib
+export CPPFLAGS := -I/opt/homebrew/opt/readline/include
+endif
 
 NAME = minishell
 
@@ -36,6 +43,11 @@ SIG_SRCS_NAME = handler.c
 SIG_SRCS = $(addprefix $(SIG_SRCS_PATH), $(SIG_SRCS_NAME))
 SIG_OBJS = $(SIG_SRCS:.c=.o)
 
+GNL_SRCS_PATH = ./srcs/gnl/
+GNL_SRCS_NAME = get_next_line.c
+GNL_SRCS = $(addprefix $(GNL_SRCS_PATH), $(GNL_SRCS_NAME))
+GNL_OBJS = $(GNL_SRCS:.c=.o)
+
 CMD_SRCS_PATH = ./srcs/command/
 CMD_SRCS_NAME = echo.c echo_for_execve.c \
 				cd.c \
@@ -49,9 +61,12 @@ CMD_OBJS = $(CMD_SRCS:.c=.o)
 
 PARSE_SRCS_PATH = ./srcs/parse/
 PARSE_SRCS_NAME = parsing.c \
+					more_input.c \
+					arg_finder.c \
 					input_split.c \
 					remove_enclosed_quotes.c \
-					escape_sequence.c
+					escape_sequence.c \
+					backslash.c
 PARSE_SRCS = $(addprefix $(PARSE_SRCS_PATH), $(PARSE_SRCS_NAME))
 PARSE_OBJS = $(PARSE_SRCS:.c=.o)
 
@@ -82,6 +97,7 @@ UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
 			$(PROMPT_OBJS) \
+			$(GNL_OBJS) \
 			$(CMD_OBJS) \
 			$(PARSE_OBJS) \
 			$(ENVV_OBJS) \

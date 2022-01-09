@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 11:50:39 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/05 18:51:13 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_data						g_data;
 
 struct s_data
 {
-	struct termios	termios;
 	char			*prompt;
 	char			**org_envv;
 	t_list			**envv;

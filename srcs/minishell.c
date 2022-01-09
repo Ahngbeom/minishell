@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/06 10:50:40 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/09 12:18:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,17 +113,18 @@ int	minishell(char *input)
 	t_list		*list;
 	t_command	*cmd;
 
-	input = escape_sequence(input);
+	more_input(&input);
+	// incorrected history if input is not enclosed quotes and backslash
 	add_history(input);
-	input = remove_enclosed_quotes(input);
-	input_split(&g_data.commands, ft_strtrim(input, " "));
+	// Remove Enclosed quotes
+	input_split(&g_data.commands, input);
 	free(input);
 	set_flag(g_data.commands);
 	list = g_data.commands;
 	while (list != NULL)
 	{
 		cmd = list->content;
-		if (cmd->redirect != NULL) // not NULL, not ;
+		if (cmd->redirect != NULL)
 		{
 			ft_pipe(&(list));
 		}
