@@ -81,7 +81,7 @@ void	ft_pipe(t_list	**list)
 			}
 			if (content->next_flag == 3) // argv >
 			{
-				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT, 0644); // S_IROTH : 개인에게 읽기권한
+				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_WRONLY | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한
 				dup2(fd[i][1], STDOUT_FILENO);
 				// close(fd[i][1]);
 			}
