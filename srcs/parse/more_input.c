@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:33:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/07 15:00:47 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/09 14:43:36 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ static char	*quotes_process(char *input, char quotes)
 	result = input;
 	while (ft_strchr(result, quotes) == ft_strrchr(result, quotes))
 	{
+		// rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
 		more = readline("> ");
 		tmp = result;
 		result = ft_strjoin(result, "\n");
