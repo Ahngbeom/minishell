@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 14:16:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:59:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,33 +51,33 @@ static	int	n_flag_checker(char *argv)
 // 	return (result);
 // }
 
-static	char	*envv_converter(char *env)
-{
-	char	*result;
-	char	*temp;
+// static	char	*envv_converter(char *env)
+// {
+// 	char	*result;
+// 	char	*temp;
 
-	if (*env == '$')
-	{
-		if (*(env + 1) == '?')
-			return (ft_itoa(g_data.status));
-		if (!envv_name_format_checker(env + sizeof(char)))
-		{
-			if (get_envv_value((env + sizeof(char))))
-				result = ft_strdup(get_envv_value((env + sizeof(char))));
-			else
-				result = ft_strdup("");
-		}
-		else
-		{
-			temp = ft_substr(env, 1, envv_name_format_checker(env + sizeof(char)) - env - 1);
-			result = ft_strjoin(get_envv_value(temp), envv_name_format_checker(env + sizeof(char)));
-			free(temp);
-		}
-		free(env);
-		return (result);
-	}
-	return (env);
-}
+// 	if (*env == '$')
+// 	{
+// 		if (*(env + 1) == '?')
+// 			return (g_data.exit_stat);
+// 		if (!envv_name_format_checker(env + sizeof(char)))
+// 		{
+// 			if (get_envv_value((env + sizeof(char))))
+// 				result = ft_strdup(get_envv_value((env + sizeof(char))));
+// 			else
+// 				result = ft_strdup("");
+// 		}
+// 		else
+// 		{
+// 			temp = ft_substr(env, 1, envv_name_format_checker(env + sizeof(char)) - env - 1);
+// 			result = ft_strjoin(get_envv_value(temp), envv_name_format_checker(env + sizeof(char)));
+// 			free(temp);
+// 		}
+// 		free(env);
+// 		return (result);
+// 	}
+// 	return (env);
+// }
 
 int	minishell_echo_for_execve(t_command *command)
 {
@@ -93,7 +93,7 @@ int	minishell_echo_for_execve(t_command *command)
 		{
 			// command->argv[i] = remove_backslash(command->argv[i]);
 			command->argv[i] = escape_sequence(command->argv[i]);
-			command->argv[i] = envv_converter(command->argv[i]);
+			// command->argv[i] = envv_converter(command->argv[i]);
 		}
 	}
 	return (SELF_PROC);

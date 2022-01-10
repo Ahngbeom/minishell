@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 12:18:25 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 01:47:47 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	set_envvpath();
 	g_data.commands = NULL;
 	set_redirection();
-	g_data.status = 0;
+	g_data.exit_stat = ft_itoa(0);
 	g_data.pipe = malloc(sizeof(int) * 2);
 	set_termios();
 	signal(SIGINT, signal_handler);
@@ -81,5 +81,5 @@ int	main(int argc, char *argv[], char *env[])
 	
 	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	
-	return (g_data.status);
+	return (ft_atoi(g_data.exit_stat));
 }

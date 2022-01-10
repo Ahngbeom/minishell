@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/05 18:51:13 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 20:03:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ struct s_data
 	char			**arr_redirect;
 
 	t_list			*commands;
-	int				status;
+	char			*exit_stat;
 
 	int				*pipe;
 };
@@ -53,7 +53,6 @@ struct s_command
 
 	int			(*func)(t_command *);
 	char		**argv;
-	t_list		*lst_argv;
 	char		*redirect;
 
 	// 리다이렉션, 파이프를 처리하기위해 출력 결과를 저장하기 위한 변수

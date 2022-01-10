@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 16:24:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 22:03:11 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_hash	*get_envv(char *key);
 char	*get_envv_value(char *key);
 t_list	**set_lstenvv(char *env[]);
 char	*envv_name_format_checker(char *key);
+char	*envv_converter(char *arg);
 
 // Redirection Utils
 void	set_redirection(void);
@@ -89,5 +90,7 @@ char	*remove_enclosed_quotes(char *arg);
 char	*escape_sequence(char *arg);
 
 int		incorrect_exit(t_command *command);
+
+char	*ft_strjoin_with_free(char *str1, char *str2);
 
 #endif
