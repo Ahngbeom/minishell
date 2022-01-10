@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/10 01:47:47 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 01:29:20 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	(void)argv;
 	g_data.org_envv = env;
 	g_data.envv = set_lstenvv(env);
-	set_envvpath();
+	set_envvpath(g_data.envv_path);
 	g_data.commands = NULL;
 	set_redirection();
 	g_data.exit_stat = ft_itoa(0);
@@ -32,6 +32,7 @@ void	minishell_finalize(void)
 {
 	ft_lstclear(g_data.envv, free);
 	split_free(g_data.arr_redirect);
+	split_free(g_data.envv_path);
 	free(g_data.pipe);
 	free(g_data.prompt);
 }

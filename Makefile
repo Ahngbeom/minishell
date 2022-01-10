@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/10 22:02:28 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/11 01:55:39 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ RIDIR_SRCS = $(addprefix $(RIDIR_SRCS_PATH), $(RIDIR_SRCS_NAME))
 RIDIR_OBJS = $(RIDIR_SRCS:.c=.o)
 
 EXEC_SRCS_PATH = ./srcs/execve/
-EXEC_SRCS_NAME = to_execve.c
+EXEC_SRCS_NAME = to_execve.c envp_to_arr_converter.c
 EXEC_SRCS = $(addprefix $(EXEC_SRCS_PATH), $(EXEC_SRCS_NAME))
 EXEC_OBJS = $(EXEC_SRCS:.c=.o)
 

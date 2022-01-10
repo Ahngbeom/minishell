@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:31:56 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 02:03:24 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	minishell_unset(t_command *command)
 	while (command->argv[++i] != NULL)
 	{
 		if (envv_name_format_checker(command->argv[i]))
-			printf("bash: unset: `%s': not a valid identifier\n", command->argv[i]);
+			continue ;
 		command->argv[i] = remove_envmark(command->argv[i]);
 		del_env = key_finder(command->argv[i]);
 		if (del_env != NULL)

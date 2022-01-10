@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 23:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/10 22:10:57 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 02:15:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ static	void	remaining_strjoin(char *str, char **result)
 
 	if (*str != '\0')
 	{
-		temp = *result;
-		*result = ft_strjoin(*result, str);
-		free(temp);
+		if (*result != NULL)
+		{
+			temp = *result;
+			*result = ft_strjoin(*result, str);
+			free(temp);
+		}
+		else
+			*result = ft_strdup(str);
 	}
 }
 
@@ -39,7 +44,10 @@ static	char	*converter_by_key(char *ptr)
 	while (ft_isalpha(ptr[i]) || ptr[i] == '_')
 		i++;
 	ext_key = ft_substr(ptr, 1, i - 1);
-	result = ft_strdup(get_envv_value(ext_key));
+	if (get_envv_value(ext_key) != NULL)
+		result = ft_strdup(get_envv_value(ext_key));
+	else
+		result = ft_strdup("");
 	remaining_strjoin(ptr + i, &result);
 	return (result);
 }
