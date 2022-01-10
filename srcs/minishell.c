@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 12:18:45 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 14:12:21 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	ft_pipe(t_list	**list)
 				close(fd[i - 1][0]);
 			if (content->next_flag == 2)
 				close(fd[i][1]);
-			g_data.status = WEXITSTATUS(g_data.status);
-			if (g_data.status == 127)
+			g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
+			if (WEXITSTATUS(status) == 127)
 				printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
 		}
 		if ((*list)->next)

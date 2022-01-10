@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/09 16:27:32 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/10 22:02:28 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,8 +54,7 @@ CMD_SRCS_NAME = echo.c echo_for_execve.c \
 				pwd.c \
 				export.c \
 				unset.c \
-				env.c \
-				exit_status.c
+				env.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
@@ -66,7 +65,8 @@ PARSE_SRCS_NAME = parsing.c \
 					input_split.c \
 					remove_enclosed_quotes.c \
 					escape_sequence.c \
-					backslash.c
+					backslash.c \
+					envv_converter.c
 PARSE_SRCS = $(addprefix $(PARSE_SRCS_PATH), $(PARSE_SRCS_NAME))
 PARSE_OBJS = $(PARSE_SRCS:.c=.o)
 
@@ -90,7 +90,8 @@ UTILS_SRCS_NAME = execfile_finder.c \
 					argv_counter.c \
 					split_free.c \
 					command_free.c \
-					incorrect_exit.c
+					incorrect_exit.c \
+					ft_strjoin_with_free.c
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 

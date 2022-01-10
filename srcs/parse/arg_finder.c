@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 01:13:30 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 01:14:23 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 15:31:06 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ size_t	arg_finder(t_command *cmd, char *input)
 		{
 			cnt++;
 			if (cmd != NULL)
+			{
 				cmd->argv[++i] = ft_substr(input + 1, 0, ft_strchr(input + 1, *input) - (input + 1));
+				if (*input == '\"')
+					cmd->argv[i] = envv_converter(cmd->argv[i]);
+			}
 			move_pointer(&input, *input);
 			if (cmd != NULL)
 				cmd->argv[i] = arg_compose(cmd->argv[i], &input);
@@ -71,6 +75,7 @@ size_t	arg_finder(t_command *cmd, char *input)
 					cmd->argv[++i] = ft_substr(input, 0, ft_strchr(input, ' ') - input);
 				else
 					cmd->argv[++i] = ft_substr(input, 0, ft_strlen(input));
+				cmd->argv[i] = envv_converter(cmd->argv[i]);
 				backslash_converter(&cmd->argv[i]);
 			}
 			while (*(++input) != ' ')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   to_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 12:05:51 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/10 01:44:49 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	to_execve(t_command *command)
 {
 	char	*cmd_path;
 	pid_t	execve_pid;
+	int		status;
 
 	cmd_path = NULL;
 	execve_pid = fork();
@@ -32,10 +33,10 @@ int	to_execve(t_command *command)
 	}
 	else
 	{
-		waitpid(execve_pid, &g_data.status, 0);
-		g_data.status = WEXITSTATUS(g_data.status);
-		if (g_data.status == 127)
+		waitpid(execve_pid, &status, 0);
+		if (WEXITSTATUS(status) == 127)
 			printf("minishell: %s: command not found\n", command->argv[0]);
+		g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
 		if (cmd_path != NULL)
 			free(cmd_path);
 	}

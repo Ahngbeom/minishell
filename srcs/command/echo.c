@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/07 14:52:34 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/10 20:02:11 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,22 @@ static	int	n_flag_checker(char *arg)
 		return (0);
 }
 
-static	int	envmark_checker(char *env)
-{
-	if (*env == '$')
-	{
-		if (*(env + 1) == '?')
-			ft_putnbr_fd(g_data.status, 1);
-		else
-		{
-			// Try echo $HOME@@@@ on bash and minishell
-			// Try echo $HOME\ $HOME\\ on bash and minishell
-			ft_putstr_fd(get_envv_value(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
-		}
-		return (1);
-	}
-	return (0);
-}
+// static	int	envmark_checker(char *env)
+// {
+// 	if (*env == '$')
+// 	{
+// 		if (*(env + 1) == '?')
+// 			ft_putstr_fd(g_data.exit_stat, 1);
+// 		else
+// 		{
+// 			// Try echo $HOME@@@@ on bash and minishell
+// 			// Try echo $HOME\ $HOME\\ on bash and minishell
+// 			ft_putstr_fd(get_envv_value(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
+// 		}
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 // static	int	backslash_checker(char *arg, int *ch_idx)
 // {
@@ -61,7 +61,6 @@ static	int	envmark_checker(char *env)
 int	minishell_echo(t_command *command)
 {
 	int		i;
-	int		j;
 
 	command->bulit_in_flag = 1;
 	i = 0;
@@ -69,16 +68,8 @@ int	minishell_echo(t_command *command)
 	{
 		if (i == 1 && n_flag_checker(command->argv[i]))
 			continue ;
-		j = -1;
-		while (command->argv[i][++j] != '\0')
-		{
-			if (envmark_checker(command->argv[i]))
-				break ;
-			// else if (backslash_checker(command->argv[i], &j)) // Try echo "asd'asd"'
-				ft_putchar_fd(command->argv[i][j], 1);
-			// else
-				// continue;
-		}
+		// Try echo "asd'asd"'
+		ft_putstr_fd(command->argv[i], 1);
 		if (command->argv[i + 1] != NULL)
 			ft_putchar_fd(' ', 1);
 	}
