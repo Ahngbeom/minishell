@@ -6,25 +6,25 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 14:11:14 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 14:16:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 02:07:40 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_envvpath(void)
+void	set_envvpath(char **envv_path)
 {
 	int		i;
 	char	*temp;
 
-	g_data.envv_path = ft_split(getenv("PATH"), ':');
+	envv_path = ft_split(getenv("PATH"), ':');
 	i = -1;
-	while (g_data.envv_path[++i] != NULL)
+	while (envv_path[++i] != NULL)
 	{
-		if (g_data.envv_path[i][ft_strlen(g_data.envv_path[i]) - 1] != '/')
+		if (envv_path[i][ft_strlen(envv_path[i]) - 1] != '/')
 		{
-			temp = g_data.envv_path[i];
-			g_data.envv_path[i] = ft_strjoin(g_data.envv_path[i], "/");
+			temp = envv_path[i];
+			envv_path[i] = ft_strjoin(envv_path[i], "/");
 			free(temp);
 		}
 	}
@@ -58,20 +58,23 @@ char	*get_envv_value(char *key)
 	return (NULL);
 }
 
-char	*envv_name_format_checker(char *key)
+int	envv_name_format_checker(char *key)
 {
 	int	i;
 
 	i = -1;
 	while (key[++i] != '\0')
 	{
-		if (ft_isalpha(key[i]) == 0 && key[i] != '_')
+		if (!ft_isalpha(key[i]) && key[i] != '_')
 			break ;
 	}
 	if (key[i] != '\0')
-		return (&key[i]);
+	{
+		printf("bash: unset: `%s': not a valid identifier\n", key);
+		return (1);
+	}
 	else
-		return (NULL);
+		return (0);
 }
 
 t_list	**set_lstenvv(char *env[])

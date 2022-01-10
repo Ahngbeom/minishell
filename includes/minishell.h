@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 16:24:45 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 01:24:16 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 # define EXEC_PROC 0
 # define SELF_PROC 1
+
+# define KEY 0
+# define VALUE 1
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 99

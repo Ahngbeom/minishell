@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/10 22:03:11 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 02:00:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		minishell(char *input);
 void	parsing(t_command *command);
 
 // Run execve(path, argv, envv);
+char	**envp_to_arr_converter(t_list *list);
 int		to_execve(t_command *command);
 int		to_execve_2(t_command *command);
 int		to_execve_3(t_command *command);
@@ -59,11 +60,11 @@ int		minishell_env(t_command *command);
 int		minishell_exit_status(t_command *command);
 
 // Environment Variable Utils
-void	set_envvpath(void);
+void	set_envvpath(char **envv_path);
 t_hash	*get_envv(char *key);
 char	*get_envv_value(char *key);
 t_list	**set_lstenvv(char *env[]);
-char	*envv_name_format_checker(char *key);
+int		envv_name_format_checker(char *key);
 char	*envv_converter(char *arg);
 
 // Redirection Utils
