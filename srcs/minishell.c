@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/10 14:12:21 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 13:09:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,9 @@ int	minishell(char *input)
 			if (!cmd->bulit_in_flag)
 				to_execve(cmd);
 		}
+		if (g_data.envv_path != NULL)
+			split_free(g_data.envv_path);
+		g_data.envv_path = set_envvpath();
 		list = list->next;
 	}
 	ft_lstclear(&g_data.commands, command_free);
