@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 12:36:33 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 20:51:52 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	signal_handler(int signo);
 int		argv_counter(char *argv[]);
 
 // Start to Minishell
-int		minishell(char *input);
+int		minishell(char **input);
 
 // Parsing for Input
 void	parsing(t_command *command);
@@ -76,7 +76,7 @@ void	split_free(char **split);
 void	command_free(void *command);
 
 // Other Utils
-void	more_input(char **input);
+char	*more_input(char *input);
 int		get_next_line(int fd, char **line);
 
 char	*execfile_finder(char *command);

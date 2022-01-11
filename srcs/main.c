@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 12:36:40 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 18:27:20 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,23 @@ int	main(int argc, char *argv[], char *env[])
 	char	*input;
 	int		check;
 
+	input = NULL;
 	minishell_init(argc, argv, env);
 	while (1)
 	{
 		input = readline(prompt());
 		check = preprocess(input);
 		if (check == 0)
-			minishell(input);
+		{
+			printf("%s\n", input);
+			input = more_input(input);
+			// incorrected history if input is not enclosed quotes and backslash
+			printf("%s\n", input);
+			add_history(input);
+			minishell(&input);
+			free(input);
+			input = NULL;
+		}
 		else if (check < 0)
 			break ;
 	}

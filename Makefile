@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/11 01:55:39 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/11 20:54:00 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ GNL_SRCS = $(addprefix $(GNL_SRCS_PATH), $(GNL_SRCS_NAME))
 GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 CMD_SRCS_PATH = ./srcs/command/
-CMD_SRCS_NAME = echo.c echo_for_execve.c \
+CMD_SRCS_NAME = echo.c \
 				cd.c \
 				pwd.c \
 				export.c \
@@ -63,7 +63,6 @@ PARSE_SRCS_NAME = parsing.c \
 					more_input.c \
 					arg_finder.c \
 					input_split.c \
-					remove_enclosed_quotes.c \
 					escape_sequence.c \
 					backslash.c \
 					envv_converter.c
