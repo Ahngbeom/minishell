@@ -6,15 +6,16 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 14:11:14 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 02:07:40 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 12:37:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_envvpath(char **envv_path)
+char	**set_envvpath(void)
 {
 	int		i;
+	char	**envv_path;
 	char	*temp;
 
 	envv_path = ft_split(getenv("PATH"), ':');
@@ -28,6 +29,7 @@ void	set_envvpath(char **envv_path)
 			free(temp);
 		}
 	}
+	return (envv_path);
 }
 
 t_hash	*get_envv(char *key)

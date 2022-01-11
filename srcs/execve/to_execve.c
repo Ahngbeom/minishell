@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 01:57:14 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 12:38:55 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ int	to_execve(t_command *command)
 	pid_t	execve_pid;
 	int		status;
 	char	**envp;
-
+	
 	cmd_path = NULL;
+	envp = NULL;
 	execve_pid = fork();
 	if (execve_pid < 0)
 		exit(EXIT_FAILURE);
@@ -44,6 +45,8 @@ int	to_execve(t_command *command)
 		g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
 		if (cmd_path != NULL)
 			free(cmd_path);
+		if (envp != NULL)
+			split_free(envp);
 	}
 	return (0);
 }

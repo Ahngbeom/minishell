@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 02:00:09 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 12:36:33 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		minishell_env(t_command *command);
 int		minishell_exit_status(t_command *command);
 
 // Environment Variable Utils
-void	set_envvpath(char **envv_path);
+char	**set_envvpath(void);
 t_hash	*get_envv(char *key);
 char	*get_envv_value(char *key);
 t_list	**set_lstenvv(char *env[]);
