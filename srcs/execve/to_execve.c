@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 13:20:16 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 13:47:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	to_execve(t_command *command)
 	else if (execve_pid == 0)
 	{
 		cmd_path = execfile_finder(command->argv[0]);
-		printf("cmd path : %s\n", cmd_path);
 		if (cmd_path == NULL)
 		{
 			exit(127);
