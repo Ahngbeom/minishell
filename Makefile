@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/11 20:54:00 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/12 15:58:03 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,11 +74,6 @@ ENVV_SRCS_NAME = envv.c
 ENVV_SRCS = $(addprefix $(ENVV_SRCS_PATH), $(ENVV_SRCS_NAME))
 ENVV_OBJS = $(ENVV_SRCS:.c=.o)
 
-RIDIR_SRCS_PATH = ./srcs/redirection/
-RIDIR_SRCS_NAME = set_redirection.c redirection_finder.c
-RIDIR_SRCS = $(addprefix $(RIDIR_SRCS_PATH), $(RIDIR_SRCS_NAME))
-RIDIR_OBJS = $(RIDIR_SRCS:.c=.o)
-
 EXEC_SRCS_PATH = ./srcs/execve/
 EXEC_SRCS_NAME = to_execve.c envp_to_arr_converter.c
 EXEC_SRCS = $(addprefix $(EXEC_SRCS_PATH), $(EXEC_SRCS_NAME))
@@ -90,9 +85,16 @@ UTILS_SRCS_NAME = execfile_finder.c \
 					split_free.c \
 					command_free.c \
 					incorrect_exit.c \
-					ft_strjoin_with_free.c
+					ft_strjoin_with_free.c \
+					set_redirection.c \
+					redirection_finder.c
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)
+
+BAHN_SRCS_PATH = ./srcs/bahn_redir/
+BAHN_SRCS_NAME = redirection.c
+BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
+BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
@@ -101,9 +103,9 @@ ALL_OBJS = $(OBJS) \
 			$(CMD_OBJS) \
 			$(PARSE_OBJS) \
 			$(ENVV_OBJS) \
-			$(RIDIR_OBJS) \
 			$(EXEC_OBJS) \
-			$(UTILS_OBJS)
+			$(UTILS_OBJS) \
+			$(BAHN_OBJS)
 
 all : $(NAME)
 

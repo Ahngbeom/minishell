@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 17:05:23 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/12 16:05:47 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,6 @@ int	minishell(char **input)
 	t_list		*list;
 	t_command	*cmd;
 
-	// more_input(input);
-	
-	// Remove Enclosed quotes
 	input_split(&g_data.commands, *input);
 	set_flag(g_data.commands);
 	list = g_data.commands;

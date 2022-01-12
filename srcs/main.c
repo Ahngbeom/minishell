@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 18:27:20 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/12 15:55:01 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ int	main(int argc, char *argv[], char *env[])
 		check = preprocess(input);
 		if (check == 0)
 		{
-			printf("%s\n", input);
 			input = more_input(input);
-			// incorrected history if input is not enclosed quotes and backslash
-			printf("%s\n", input);
 			add_history(input);
 			minishell(&input);
 			free(input);
@@ -89,8 +86,6 @@ int	main(int argc, char *argv[], char *env[])
 			break ;
 	}
 	minishell_finalize();
-	
-	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
-	
 	return (ft_atoi(g_data.exit_stat));
 }
+// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
