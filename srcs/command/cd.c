@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/27 12:11:23 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 20:53:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	minishell_cd(t_command *command)
 		printf("minishell: cd: too many arguments\n");
 	else
 	{
-		command->argv[1] = remove_enclosed_quotes(command->argv[1]);
 		if (command->argv[1] == NULL || !ft_strncmp(command->argv[1], "~", ft_strlen(command->argv[1]) + 1))
 		{
 			if (chdir(getenv("HOME")) == -1)

@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/11 01:55:39 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/12 15:58:03 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ GNL_SRCS = $(addprefix $(GNL_SRCS_PATH), $(GNL_SRCS_NAME))
 GNL_OBJS = $(GNL_SRCS:.c=.o)
 
 CMD_SRCS_PATH = ./srcs/command/
-CMD_SRCS_NAME = echo.c echo_for_execve.c \
+CMD_SRCS_NAME = echo.c \
 				cd.c \
 				pwd.c \
 				export.c \
@@ -63,7 +63,6 @@ PARSE_SRCS_NAME = parsing.c \
 					more_input.c \
 					arg_finder.c \
 					input_split.c \
-					remove_enclosed_quotes.c \
 					escape_sequence.c \
 					backslash.c \
 					envv_converter.c
@@ -74,11 +73,6 @@ ENVV_SRCS_PATH = ./srcs/envv/
 ENVV_SRCS_NAME = envv.c
 ENVV_SRCS = $(addprefix $(ENVV_SRCS_PATH), $(ENVV_SRCS_NAME))
 ENVV_OBJS = $(ENVV_SRCS:.c=.o)
-
-RIDIR_SRCS_PATH = ./srcs/redirection/
-RIDIR_SRCS_NAME = set_redirection.c redirection_finder.c
-RIDIR_SRCS = $(addprefix $(RIDIR_SRCS_PATH), $(RIDIR_SRCS_NAME))
-RIDIR_OBJS = $(RIDIR_SRCS:.c=.o)
 
 EXEC_SRCS_PATH = ./srcs/execve/
 EXEC_SRCS_NAME = to_execve.c envp_to_arr_converter.c
@@ -91,9 +85,16 @@ UTILS_SRCS_NAME = execfile_finder.c \
 					split_free.c \
 					command_free.c \
 					incorrect_exit.c \
-					ft_strjoin_with_free.c
+					ft_strjoin_with_free.c \
+					set_redirection.c \
+					redirection_finder.c
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)
+
+BAHN_SRCS_PATH = ./srcs/bahn_redir/
+BAHN_SRCS_NAME = redirection.c
+BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
+BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
@@ -102,9 +103,9 @@ ALL_OBJS = $(OBJS) \
 			$(CMD_OBJS) \
 			$(PARSE_OBJS) \
 			$(ENVV_OBJS) \
-			$(RIDIR_OBJS) \
 			$(EXEC_OBJS) \
-			$(UTILS_OBJS)
+			$(UTILS_OBJS) \
+			$(BAHN_OBJS)
 
 all : $(NAME)
 

@@ -6,26 +6,46 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 17:33:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 20:40:44 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/11 22:22:18 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	quotes_process(char **input, char quotes)
+static void	quotes_process(char quotes, char **result)
 {
 	char	*more;
 	char	*tmp;
 
-	while (ft_strchr(*input, quotes) == ft_strrchr(*input, quotes))
+	while (ft_strchr(*result, quotes) == ft_strrchr(*result, quotes))
 	{
 		more = readline("> ");
-		tmp = *input;
-		*input = ft_strjoin(*input, "\n");
+		tmp = *result;
+		*result = ft_strjoin(*result, "\n");
 		free(tmp);
-		tmp = *input;
-		*input = ft_strjoin(*input, more);
+		tmp = *result;
+		*result = ft_strjoin(*result, more);
 		free(tmp);
+		free(more);
+	}
+}
+
+static void	backslash_process(char **result)
+{
+	char	*more;
+	char	*tmp;
+
+	while (1)
+	{
+		more = readline("> ");
+		if (ft_strncmp(more, "\\", ft_strlen(more) + 1))
+		{
+			tmp = ft_substr(*result, 0, ft_strchr(*result, '\\') - *result);
+			free(*result);
+			*result = ft_strjoin(tmp, more);
+			free(tmp);
+			break ;
+		}
 		free(more);
 	}
 }
@@ -43,40 +63,32 @@ static int	quotes_checker(char *input, char quotes)
 		return (0);
 }
 
-static int	backslash_checker(char **input)
+static int	backslash_checker(char *input)
 {
 	char	*find;
 
-	find = ft_strchr(*input, '\\');
+	find = ft_strchr(input, '\\');
 	if (find != NULL && *(find + 1) == '\0')
 		return (1);
 	else
 		return (0);
 }
 
-void	more_input(char **input)
+char	*more_input(char *input)
 {
-	char	*more;
-	char	*tmp;
+	char	*result;
 
-	if (quotes_checker(*input, '\''))
-		quotes_process(input, '\'');
-	else if (quotes_checker(*input, '\"'))
-		quotes_process(input, '\"');
-	else if (backslash_checker(input))
+	result = input;
+	while (1)
 	{
-		while (1)
-		{
-			more = readline("> ");
-			if (ft_strncmp(more, "\\", ft_strlen(more) + 1))
-			{
-				tmp = ft_substr(*input, 0, ft_strchr(*input, '\\') - *input);
-				free(*input);
-				*input = ft_strjoin(tmp, more);
-				free(tmp);
-				break ;
-			}
-			free(more);
-		}
+		if (quotes_checker(result, '\''))
+			quotes_process('\'', &result);
+		else if (quotes_checker(input, '\"'))
+			quotes_process('\"', &result);
+		else if (backslash_checker(input))
+			backslash_process(&result);
+		else
+			break ;
 	}
+	return (result);
 }
