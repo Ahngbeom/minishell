@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 14:11:14 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/12 15:04:51 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/12 16:40:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	**set_envvpath(void)
 	char	**envv_path;
 	char	*temp;
 
+	if (g_data.envv_path != NULL)
+		split_free(g_data.envv_path);
 	if (get_envv_value("PATH") == NULL)
 		return (NULL);
 	envv_path = ft_split(get_envv_value("PATH"), ':');

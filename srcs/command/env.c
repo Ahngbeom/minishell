@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 19:08:21 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 01:26:01 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 13:38:46 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	minishell_env(t_command *command)
 {
 	t_list	*ptr;
 
-	command->bulit_in_flag = 1;
+	(void)command;
 	ptr = *g_data.envv;
 	while (ptr != NULL)
 	{
@@ -25,5 +25,5 @@ int	minishell_env(t_command *command)
 		ft_putendl_fd(((t_hash *)ptr->content)->value, 1);
 		ptr = ptr->next;
 	}
-	return (SELF_PROC);
+	return (EXIT_SUCCESS);
 }

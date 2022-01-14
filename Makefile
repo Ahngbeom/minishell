@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/12 15:58:03 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/12 17:10:10 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,8 +91,8 @@ UTILS_SRCS_NAME = execfile_finder.c \
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 
-BAHN_SRCS_PATH = ./srcs/bahn_redir/
-BAHN_SRCS_NAME = redirection.c
+BAHN_SRCS_PATH = ./srcs/bahn_pipe/
+BAHN_SRCS_NAME = pipe.c
 BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
 BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 

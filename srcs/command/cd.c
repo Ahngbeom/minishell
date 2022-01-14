@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 20:53:25 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 13:38:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	minishell_cd(t_command *command)
 {
 	char	*parse_path;
 
-	command->bulit_in_flag = 1;
 	if (argv_counter(command->argv) > 2)
 		printf("minishell: cd: too many arguments\n");
 	else
@@ -54,5 +53,5 @@ int	minishell_cd(t_command *command)
 			}
 		}
 	}
-	return (SELF_PROC);
+	return (EXIT_SUCCESS);
 }

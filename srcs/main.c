@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/12 15:55:01 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 13:40:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 
 void	minishell_finalize(void)
 {
+	unlink("output");
 	ft_lstclear(g_data.envv, free);
 	split_free(g_data.arr_redirect);
 	split_free(g_data.envv_path);

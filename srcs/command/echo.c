@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 02:16:39 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 13:37:52 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,16 @@ int	minishell_echo(t_command *command)
 {
 	int		i;
 
-	command->bulit_in_flag = 1;
 	i = 0;
 	while (command->argv[++i] != NULL)
 	{
 		if (i == 1 && n_flag_checker(command->argv[i]))
 			continue ;
-		// Try echo "asd'asd"'
 		ft_putstr_fd(command->argv[i], 1);
 		if (command->argv[i + 1] != NULL && ft_strlen(command->argv[i]) != 0)
 			ft_putchar_fd(' ', 1);
 	}
 	if (command->argv[1] == NULL || !(n_flag_checker(command->argv[1])))
 		ft_putchar_fd('\n', 1);
-	return (SELF_PROC);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 13:30:19 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 01:16:48 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 15:05:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	input_split(t_list **list, char *input)
 		else
 		{
 			command = ft_calloc(sizeof(t_command), 1);
-			redir_idx = redirection_finder(g_data.arr_redirect, input, &command->redirect);
+			redir_idx = redirection_finder(g_data.arr_redirect, input, &command->type);
 			if (redir_idx >= 0)
 			{
 				temp = ft_substr(input, 0, redir_idx);

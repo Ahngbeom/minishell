@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/30 15:32:41 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/13 14:13:56 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ int	incorrect_exit(t_command *command)
 		printf("minishell: exit: %s: numeric argument required\n", command->argv[1]);
 	ft_lstclear(&g_data.commands, command_free);
 	minishell_finalize();
-	exit(EXIT_FAILURE);
+	// exit(EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

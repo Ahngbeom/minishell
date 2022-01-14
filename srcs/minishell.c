@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/12 16:05:47 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 15:05:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ void	set_flag(t_list *i_list)
 	{
 		content = (t_command *)list->content;
 		next_con = (t_command *)list->next->content;
-		if (ft_strncmp(content->redirect, ";", 2) == 0)
+		if (ft_strncmp(content->type, ";", 2) == 0)
 		{
 			content->next_flag = 1;
 			next_con->pre_flag = 1;
 		}
-		if (ft_strncmp(content->redirect, "|", 2) == 0)
+		if (ft_strncmp(content->type, "|", 2) == 0)
 		{
 			content->next_flag = 2;
 			next_con->pre_flag = 2;
 		}
-		if (ft_strncmp(content->redirect, ">", 2) == 0)
+		if (ft_strncmp(content->type, ">", 2) == 0)
 		{
 			content->next_flag = 3;
 			next_con->pre_flag = 3;
 		}
-		if (ft_strncmp(content->redirect, ">>", 3) == 0)
+		if (ft_strncmp(content->type, ">>", 3) == 0)
 		{
 			content->next_flag = 4;
 			next_con->pre_flag = 4;
@@ -112,28 +112,27 @@ int	minishell(char **input)
 {
 	t_list		*list;
 	t_command	*cmd;
+	int			fd[2];
+	char		buf[BUFFER_SIZE];
+	int			org_stdin;
 
+	org_stdin = dup(STDIN_FILENO);
 	input_split(&g_data.commands, *input);
-	set_flag(g_data.commands);
 	list = g_data.commands;
 	while (list != NULL)
 	{
 		cmd = list->content;
-		if (cmd->redirect != NULL)
-		{
-			ft_pipe(&(list));
-		}
-		else
-		{
-			parsing(cmd);
-			if (!cmd->bulit_in_flag)
-				to_execve(cmd);
-		}
-		if (g_data.envv_path != NULL)
-			split_free(g_data.envv_path);
+		parsing(fd, cmd);
 		g_data.envv_path = set_envvpath();
 		list = list->next;
 	}
+	while (read(fd[READ], buf, BUFFER_SIZE) > 0)
+	{
+		ft_putstr_fd(buf, 1);
+		memset(buf, 0, BUFFER_SIZE);
+	}
+	close(fd[READ]);
+	dup2(org_stdin, STDIN_FILENO);
 	ft_lstclear(&g_data.commands, command_free);
 	return (0);
 }

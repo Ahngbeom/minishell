@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 13:51:59 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 13:53:29 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/13 16:10:52 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,6 @@ void	option_c(int argc, char *argv[])
 			minishell(input);
 		}
 		minishell_finalize();
-		exit(g_data.status);
+		exit(g_data.exit_stat);
 	}
 }

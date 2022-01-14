@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/12 16:02:09 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 15:05:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,9 @@ struct s_hash
 
 struct s_command
 {
-/*
-	Value is 1 If this Command is Built-in(bash) Command
-	Not is 0 (Zero)
-*/
-	int			bulit_in_flag;
-
-	int			(*func)(t_command *);
+	int			(*builtin_func)(t_command *);
 	char		**argv;
-	char		*redirect;
+	char		*type;
 
 	char		*output;
 

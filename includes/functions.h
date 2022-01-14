@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 20:51:52 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/13 22:07:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		argv_counter(char *argv[]);
 int		minishell(char **input);
 
 // Parsing for Input
-void	parsing(t_command *command);
+void	parsing(int fd[], t_command *command);
 
 // Run execve(path, argv, envv);
 char	**envp_to_arr_converter(t_list *list);
@@ -39,7 +39,6 @@ int		to_execve_3(t_command *command);
 
 // COMMAND echo
 int		minishell_echo(t_command *command);
-int		minishell_echo_for_execve(t_command *command);
 
 // COMMAND cd
 int		minishell_cd(t_command *command);
@@ -55,9 +54,6 @@ int		minishell_unset(t_command *command);
 
 // COMMAND env
 int		minishell_env(t_command *command);
-
-// COMMAND $?
-int		minishell_exit_status(t_command *command);
 
 // Environment Variable Utils
 char	**set_envvpath(void);

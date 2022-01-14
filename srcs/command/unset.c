@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 02:03:24 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 13:38:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,8 @@ int	minishell_unset(t_command *command)
 	t_list	*del_env;
 	int		i;
 
-	command->bulit_in_flag = 1;
 	if (argv_counter(command->argv) == 1)
-		return (SELF_PROC);
+		return (EXIT_SUCCESS);
 	i = 0;
 	while (command->argv[++i] != NULL)
 	{
@@ -85,5 +84,5 @@ int	minishell_unset(t_command *command)
 		if (del_env != NULL)
 			delete_envv(del_env);
 	}
-	return (SELF_PROC);
+	return (EXIT_SUCCESS);
 }

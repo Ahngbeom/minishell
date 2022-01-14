@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 13:47:50 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 13:16:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	to_execve(t_command *command)
 	pid_t	execve_pid;
 	int		status;
 	char	**envp;
-	
+
 	cmd_path = NULL;
 	envp = NULL;
 	execve_pid = fork();
@@ -28,12 +28,7 @@ int	to_execve(t_command *command)
 	{
 		cmd_path = execfile_finder(command->argv[0]);
 		if (cmd_path == NULL)
-		{
 			exit(127);
-		}
-		// Unset the $PATH and check if it is not working anymore
-		// Therefore envp of execve must not be null
-		// Need Convert list type -> array type
 		envp = envp_to_arr_converter(*g_data.envv);
 		if (execve(cmd_path, command->argv, envp) == -1)
 			exit(errno);
@@ -50,7 +45,7 @@ int	to_execve(t_command *command)
 		if (envp != NULL)
 			split_free(envp);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	to_execve_2(t_command *command)
