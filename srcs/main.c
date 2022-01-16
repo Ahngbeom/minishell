@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 14:42:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/16 20:25:19 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	g_data.commands = NULL;
 	set_redirection();
 	g_data.status = 0;
-	g_data.pipe = malloc(sizeof(int) * 2);
+	// g_data.pipe = malloc(sizeof(int) * 2);
 }
 
 void	minishell_finalize(void)
 {
 	ft_lstclear(g_data.envv, free);
 	split_free(g_data.arr_redirect);
-	free(g_data.pipe);
+	// free(g_data.pipe);
 	free(g_data.prompt);
 }
 

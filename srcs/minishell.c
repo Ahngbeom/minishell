@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/16 20:20:40 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/16 20:35:57 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ t_list	*ft_pipe(t_list *list)
 		pipe(fd[i]);
 	}
 	i = -1;
-	while (++i < size && ((t_command *)(list)->content)->next_flag) // && (*list)->content
+	while (++i < size && list) //&& ((t_command *)(list)->content)->next_flag) // && (*list)->content
 	{
 		pid = fork();
 		if (pid == 0)
@@ -280,8 +280,14 @@ int	minishell(char *input)
 		cmd = list->content;
 		if (cmd->next_flag) // |
 		{
+			printf("(1)\n");
+			// ft_pipe(list);
 			if ((list = ft_pipe(list)) == NULL)
+			{
+				printf("(2)\n");
 				break ;
+			}
+			break ;
 		}
 		else
 		{
