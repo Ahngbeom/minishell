@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 13:16:09 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/14 18:46:22 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int	to_execve_3(t_command *command)
 	if (cmd_path == NULL)
 		printf("minishell: %s: command not found\n", (command)->argv[0]);
 	if (execve(cmd_path, command->argv, NULL) == -1)
-		return (errno); //
+		return (errno);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 14:57:20 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/16 21:47:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,11 @@
 # define KEY 0
 # define VALUE 1
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
-# endif
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 10
-# endif
 
+
+
+# define SEMI_COLON ";"
 # define PIPE "|"
 # define TRNC_REDIR ">"
 # define APND_REDIR ">>"

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 13:40:57 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/17 01:05:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	set_redirection();
 	g_data.exit_stat = ft_itoa(0);
 	g_data.pipe = malloc(sizeof(int) * 2);
+	g_data.input = ft_strdup("input");
+	g_data.output = ft_strdup("output");
 	set_termios();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -30,12 +32,15 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 
 void	minishell_finalize(void)
 {
-	unlink("output");
+	free(g_data.prompt);
 	ft_lstclear(g_data.envv, free);
-	split_free(g_data.arr_redirect);
+	// split_free(g_data.arr_redirect);
 	split_free(g_data.envv_path);
 	free(g_data.pipe);
-	free(g_data.prompt);
+	unlink(g_data.input);
+	unlink(g_data.output);
+	free(g_data.input);
+	free(g_data.output);
 }
 
 static	int	preprocess(char *input)

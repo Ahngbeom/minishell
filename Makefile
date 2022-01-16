@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/12 17:10:10 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/17 00:44:26 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,6 +82,7 @@ EXEC_OBJS = $(EXEC_SRCS:.c=.o)
 UTILS_SRCS_PATH = ./srcs/utils/
 UTILS_SRCS_NAME = execfile_finder.c \
 					argv_counter.c \
+					add_arguments.c \
 					split_free.c \
 					command_free.c \
 					incorrect_exit.c \

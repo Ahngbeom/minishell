@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 15:05:28 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/17 01:11:46 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,27 +112,31 @@ int	minishell(char **input)
 {
 	t_list		*list;
 	t_command	*cmd;
-	int			fd[2];
-	char		buf[BUFFER_SIZE];
-	int			org_stdin;
+	int			fd;
+	char		buf[BUFSIZ];
 
-	org_stdin = dup(STDIN_FILENO);
 	input_split(&g_data.commands, *input);
 	list = g_data.commands;
 	while (list != NULL)
 	{
 		cmd = list->content;
-		parsing(fd, cmd);
+		parsing(cmd);
+		if (cmd->type == NULL || \
+			!ft_strncmp(cmd->type, SEMI_COLON, ft_strlen(cmd->type) + 1))
+		{
+			fd = open(g_data.output, O_RDONLY);
+			while (read(fd, buf, BUFSIZ) > 0)
+			{
+				ft_putstr_fd(buf, STDOUT_FILENO);
+				ft_bzero(buf, BUFSIZ);
+			}
+			// open(g_data.output, O_WRONLY | O_TRUNC);
+		}
+		else
+			prepare_for_pipe(list);
 		g_data.envv_path = set_envvpath();
 		list = list->next;
 	}
-	while (read(fd[READ], buf, BUFFER_SIZE) > 0)
-	{
-		ft_putstr_fd(buf, 1);
-		memset(buf, 0, BUFFER_SIZE);
-	}
-	close(fd[READ]);
-	dup2(org_stdin, STDIN_FILENO);
 	ft_lstclear(&g_data.commands, command_free);
 	return (0);
 }
