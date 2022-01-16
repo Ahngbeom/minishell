@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/12 13:09:42 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/16 20:20:40 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	set_flag(t_list *i_list)
 	}
 }
 
-t_list	**dup2_fd(t_list **list, int **fd, int i) // if > > > > ...
+t_list	*dup2_fd(t_list **list, int **fd, int i) // if > > > > ...
 {
 	// t_list		*ptr;
 	t_command	*cont;
@@ -70,118 +70,198 @@ t_list	**dup2_fd(t_list **list, int **fd, int i) // if > > > > ...
 		{
 			fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_RDWR | O_CREAT | O_TRUNC, 0644);
 			dup2(fd[i][1], STDOUT_FILENO);
-			close(fd[i][1]);
+			close(fd[i][1]); // both
+			printf("why..\n");
 		}
 		else
 			break ;
 		*list = (*list)->next;
 	}
-	return (list);
+	return (*list);
 }
 
-void	ft_pipe(t_list	**list)
-{
-	int		**fd;
-	int		i;
-	int		size;
-	t_command	*content;
-	t_command	*exe;
-	t_list		*ptr;
-	pid_t		pid;
-	int			status;
+// void	ft_pipe_d(t_list	**list)
+// {
+// 	int		**fd;
+// 	int		i;
+// 	int		size;
+// 	t_command	*content;
+// 	t_command	*exe;
+// 	t_list		*ptr;
+// 	pid_t		pid;
+// 	int			status;
 
-	size = ft_lstsize(g_data.commands);
-	fd = malloc(sizeof(int *) * size);
-	ptr = *list;
-	exe = (*list)->content;
+// 	size = ft_lstsize(g_data.commands);
+// 	fd = malloc(sizeof(int *) * size);
+// 	ptr = *list;
+// 	exe = (*list)->content;
+// 	i = -1;
+// 	while (++i < size)
+// 	{
+// 		fd[i] = malloc(sizeof(int) * 2);
+// 		pipe(fd[i]);
+// 	}
+// 	exe = (t_command *)(*list)->content;
+// 	i = -1;
+// 	while (++i < size && (*list)->content != NULL)
+// 	{
+// 		content = (*list)->content;
+// 		pid = fork();
+// 		if (pid == 0) // son
+// 		{
+// 			if (content->pre_flag == 2) // (in1) | (out0)argv
+// 			{
+// 				dup2(fd[i - 1][0], STDIN_FILENO);
+// 			}
+// 			if (content->next_flag == 2) // argv |
+// 			{
+// 				dup2(fd[i][1], STDOUT_FILENO);
+// 			}
+			
+// 			////////////////////////////////////////////////////////////
+			
+// 			if (content->pre_flag == 3 || content->pre_flag == 4) // (IN) > argv(OUT)
+// 			{
+// 				dup2(fd[i - 1][0], STDIN_FILENO);
+// 			}
+// 			if (content->next_flag == 3) // argv >
+// 			{
+// 				*list = dup2_fd(list, fd, i);
+// 				// fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_RDWR | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한 , 0644: 소유자-WR,RD 그룹,개인-RD
+// 				// dup2(fd[i][1], STDOUT_FILENO);
+// 			}
+// 			if (content->next_flag == 4) // argv >>
+// 			{
+// 				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_RDWR | O_CREAT | O_APPEND, 0644);
+// 				dup2(fd[i][1], STDOUT_FILENO);
+// 				close(fd[i][1]);
+// 			}
+// 			if (content->pre_flag == 5) // < argv
+// 			{
+// 				dup2(fd[i - 1][1], STDOUT_FILENO);
+// 			}
+// 			if (content->next_flag == 5) // argv <
+// 			{
+// 				fd[i][0] = open(((t_command *)(*list)->next->content)->argv[0], O_RDONLY, 0644);
+// 				dup2(fd[i][0], STDIN_FILENO);
+// 				close(fd[i][0]);
+// 				if (((t_command *)(*list)->next->content)->next_flag == 3)
+// 				{
+// 					printf("why..\n");
+// 					dup2(fd[i + 1][1], STDIN_FILENO);
+// 					close(fd[i + 1][1]);
+// 				}
+// 			}
+// 			if (content->next_flag == 6) //argv <<
+// 			{
+// 				fd[i][1] = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+// 				dup2(fd[i][1], STDOUT_FILENO);
+// 			}
+// 			if (content->pre_flag == 6) // << argv
+// 			{
+// 				dup2(fd[i - 1][0], STDIN_FILENO);
+// 				// to_execve_2((*list - sizeof(*list))->content);
+// 			}
+// 			to_execve_2((*list)->content); ///
+// 		}
+// 		else // parent
+// 		{
+// 			wait(&status);
+// 			if (content->pre_flag)
+// 				close(fd[i - 1][0]);
+// 			if (content->next_flag)
+// 				close(fd[i][1]);
+// 			if (content->next_flag == 6) // rm temp
+// 				unlink("temp");
+// 			g_data.status = WEXITSTATUS(g_data.status);
+// 			if (g_data.status == 127)
+// 				printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
+// 		}
+// 		if ((*list)->next)
+// 			*list = (*list)->next;
+// 		i++;
+// 	}
+// }
+
+t_list	*ft_pipe(t_list *list)
+{
+	int		size;
+	int		i;
+	int		**fd;
+	pid_t	pid;
+	int		status;
+	t_command	*exe;
+
+	size = ft_lstsize(list);
 	i = -1;
+	fd = malloc((sizeof(int *) * size + 1));
 	while (++i < size)
 	{
 		fd[i] = malloc(sizeof(int) * 2);
 		pipe(fd[i]);
 	}
-	exe = (t_command *)(*list)->content;
 	i = -1;
-	while (++i < size && (*list)->content != NULL)
+	while (++i < size && ((t_command *)(list)->content)->next_flag) // && (*list)->content
 	{
-		content = (*list)->content;
 		pid = fork();
-		if (pid == 0) // son
+		if (pid == 0)
 		{
-			if (content->pre_flag == 2) // | argv
+			if (((t_command *)(list)->content)->pre_flag) // (|) argv
 			{
 				dup2(fd[i - 1][0], STDIN_FILENO);
 			}
-			if (content->next_flag == 2) // argv |
+			if (((t_command *)(list)->content)->next_flag == 2) // argv(입구-출력) | (출구-입력)
 			{
 				dup2(fd[i][1], STDOUT_FILENO);
 			}
-			
-			////////////////////////////////////////////////////////////
-			
-			if (content->pre_flag == 3 || content->pre_flag == 4) // (IN) > argv(OUT)
+			if (((t_command *)(list)->content)->next_flag == 3) // >
 			{
-				dup2(fd[i - 1][0], STDIN_FILENO);
-			}
-			if (content->next_flag == 3) // argv >
-			{
-				list = dup2_fd(list, fd, i);
-				// fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_RDWR | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한 , 0644: 소유자-WR,RD 그룹,개인-RD
-				// dup2(fd[i][1], STDOUT_FILENO);
-			}
-			if (content->next_flag == 4) // argv >>
-			{
-				fd[i][1] = open(((t_command *)(*list)->next->content)->argv[0], O_RDWR | O_CREAT | O_APPEND, 0644);
-				dup2(fd[i][1], STDOUT_FILENO);
-				close(fd[i][1]);
-			}
-			if (content->pre_flag == 5) // < argv
-			{
-				dup2(fd[i - 1][1], STDOUT_FILENO);
-			}
-			if (content->next_flag == 5) // argv <
-			{
-				fd[i][0] = open(((t_command *)(*list)->next->content)->argv[0], O_RDONLY, 0644);
-				dup2(fd[i][0], STDIN_FILENO);
-				close(fd[i][0]);
-				if (((t_command *)(*list)->next->content)->next_flag == 3)
+				exe = list->content;
+				while (((t_command *)(list)->content)->next_flag == 3) // > 또는 >>
 				{
-					printf("why..\n");
-					dup2(fd[i + 1][1], STDIN_FILENO);
-					close(fd[i + 1][1]);
+					// printf("argv:%s, 주소:%p\n", exe->argv[0], exe);
+					fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDWR | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한 , 0644: 소유자-WR,RD 그룹,개인-RD
+					dup2(fd[i][1], STDOUT_FILENO);
+					close(fd[i][1]);
+					if (((t_command *)(list)->next->content)->next_flag != 3) // aa > bb > cc
+					{
+						break ;
+					}
+					list = (list)->next;
 				}
+				to_execve_2(exe);
 			}
-			if (content->next_flag == 6) //argv <<
-			{
-				fd[i][1] = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-				dup2(fd[i][1], STDOUT_FILENO);
-			}
-			if (content->pre_flag == 6) // << argv
-			{
-				dup2(fd[i - 1][0], STDIN_FILENO);
-				// to_execve_2((*list - sizeof(*list))->content);
-			}
-			to_execve_2(exe); ///
+			to_execve_2(list->content);
 		}
-		else // parent
+		else // pid == 1
 		{
 			wait(&status);
-			
-			if (content->pre_flag)
-				close(fd[i - 1][0]);
-			if (content->next_flag)
-				close(fd[i][1]);
-			if (content->next_flag == 6) // rm temp
-				unlink("temp");
 			g_data.status = WEXITSTATUS(g_data.status);
-			if (g_data.status == 127)
-				printf("minishell: %s: command not found\n", ((t_command *)(*list)->content)->argv[0]);
+			while (((t_command *)(list)->content)->next_flag == 3) // >
+			{
+				if (((t_command *)(list)->next->content)->next_flag != 3) // aa > bb > cc
+				{
+					break ;
+				}
+				list = (list)->next;
+			}
+			if (((t_command *)(list)->content)->pre_flag)
+				close(fd[i - 1][0]); // for pipe
+			if (((t_command *)(list)->content)->next_flag) ////////// close
+				close(fd[i][1]);
 		}
-		if ((*list)->next)
-			*list = (*list)->next;
-		i++;
+		if ((list)->next)
+		{
+			list = (list)->next;
+		}
 	}
+	return (list);
 }
+
+// void	ft_right(t_list **list)
+// {
+// 	;
+// }
 
 int	minishell(char *input)
 {
@@ -198,9 +278,10 @@ int	minishell(char *input)
 	while (list != NULL)
 	{
 		cmd = list->content;
-		if (cmd->redirect != NULL) // not NULL, not ;
+		if (cmd->next_flag) // |
 		{
-			ft_pipe(&(list));
+			if ((list = ft_pipe(list)) == NULL)
+				break ;
 		}
 		else
 		{

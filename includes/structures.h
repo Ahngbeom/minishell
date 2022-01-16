@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/03 11:50:39 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/16 20:21:55 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,6 @@ extern t_data				g_data;
 
 t_data						g_data;
 
-struct s_data
-{
-	struct termios	termios;
-	char			*prompt;
-	char			**org_envv;
-	t_list			**envv;
-	char			**envv_path;
-
-	char			**arr_redirect;
-
-	t_list			*commands;
-	int				status;
-
-	int				*pipe;
-};
-
-struct s_hash
-{
-	char	*key;
-	char	*value;
-};
-
 struct s_command
 {
 	// Value is 1 If this Command is Built-in(bash) Command
@@ -62,6 +40,26 @@ struct s_command
 
 	int			next_flag;
 	int			pre_flag;
+};
+
+struct s_data
+{
+	struct termios	termios;
+	char			*prompt;
+	char			**org_envv;
+	t_list			**envv;
+	char			**envv_path;
+
+	char			**arr_redirect;
+
+	t_list			*commands;
+	int				status;
+};
+
+struct s_hash
+{
+	char	*key;
+	char	*value;
 };
 
 #endif
