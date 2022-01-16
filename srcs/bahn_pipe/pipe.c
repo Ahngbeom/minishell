@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:57:58 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 01:18:12 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/17 01:36:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	prepare_for_pipe(t_list *list)
 	t_command	*curr_cmd;
 	t_command	*next_cmd;
 
-	input = open(g_data.input, O_CREAT | O_RDWR, S_IRWXU);
+	input = open(g_data.input, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	output = open(g_data.output, O_RDWR, S_IRWXU);
 	while (read(output, buf, BUFSIZ) > 0)
 	{
