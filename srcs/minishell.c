@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 14:00:32 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:16:05 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,22 @@ t_list	*ft_pipe(t_list *list)
 				}
 				to_execve_2(exe);
 			}
+			if (((t_command *)(list)->content)->next_flag == 5) // flag <
+			{
+				exe = list->content;
+				while (((t_command *)(list)->content)->next_flag == 5)
+				{
+					fd[i][0] = open(((t_command *)(list)->next->content)->argv[0], O_RDONLY, 0644);
+					dup2(fd[i][0], STDIN_FILENO);
+					close(fd[i][0]);
+					if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
+					{
+						break ;
+					}
+					list = (list)->next;
+				}
+				to_execve_2(exe);
+			}
 			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
 				exit(0);
 			to_execve_2(list->content); // 만약 다음 플레그가 > 라면 그냥 나가야함
@@ -260,6 +276,14 @@ t_list	*ft_pipe(t_list *list)
 				{
 					break ; /////////// ㅇㅕ기서 분기
 					// return (list);
+				}
+				list = (list)->next;
+			}
+			while (((t_command *)(list)->content)->next_flag == 5)
+			{
+				if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
+				{
+					break ;
 				}
 				list = (list)->next;
 			}
