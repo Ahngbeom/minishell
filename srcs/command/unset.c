@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 13:38:10 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/17 18:52:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static	char	*remove_envmark(char *env)
 	return (env);
 }
 
-static	t_list	*key_finder(char *key)
+t_list	*key_finder(char *key)
 {
 	t_list	*ptr;
 
-	ptr = *g_data.envv;
+	ptr = g_data.lst_env;
 	while (ptr != NULL)
 	{
 		if (!ft_strncmp(key, ((t_hash *)ptr->content)->key, ft_strlen(key) + 1))
@@ -39,37 +39,40 @@ static	t_list	*key_finder(char *key)
 	return (ptr);
 }
 
-static	void	delete_envv(t_list *env)
+static	void	delete_envv(char *key)
 {
-	t_list	**new_envv;
 	t_list	*ptr;
+	t_hash	*hash;
 	t_list	*temp;
 
-	new_envv = ft_calloc(sizeof(t_list *), ft_lstsize(*g_data.envv) - 1);
-	ptr = *g_data.envv;
+	hash = g_data.lst_env->content;
+	if (!ft_strncmp(hash->key, key, ft_strlen(hash->key) + 1))
+	{
+		temp = g_data.lst_env->next;
+		ft_lstdelone(g_data.lst_env, hash_free);
+		g_data.lst_env = temp;
+		return ;
+	}
+	ptr = g_data.lst_env;
 	while (ptr != NULL)
 	{
-		temp = ptr->next;
-		if (ptr == env)
-		{
-			free(((t_hash *)ptr->content)->key);
-			free(((t_hash *)ptr->content)->value);
-			free(((t_hash *)ptr->content));
-			free(ptr);
-		}
+		if (ptr->next != NULL)
+			hash = ptr->next->content;
 		else
+			break ;
+		if (!ft_strncmp(hash->key, key, ft_strlen(hash->key) + 1))
 		{
-			ptr->next = NULL;
-			ft_lstadd_back(new_envv, ptr);
+			temp = ptr->next->next;
+			ft_lstdelone(ptr->next, hash_free);
+			ptr = temp;
+			break ;
 		}
-		ptr = temp;
+		ptr = ptr->next;
 	}
-	g_data.envv = new_envv;
 }
 
 int	minishell_unset(t_command *command)
 {
-	t_list	*del_env;
 	int		i;
 
 	if (argv_counter(command->argv) == 1)
@@ -78,11 +81,13 @@ int	minishell_unset(t_command *command)
 	while (command->argv[++i] != NULL)
 	{
 		if (envv_name_format_checker(command->argv[i]))
+		{
+			printf("minishell: unset: `%s': not a valid identifier\n", \
+					command->argv[i]);
 			continue ;
+		}
 		command->argv[i] = remove_envmark(command->argv[i]);
-		del_env = key_finder(command->argv[i]);
-		if (del_env != NULL)
-			delete_envv(del_env);
+		delete_envv(command->argv[i]);
 	}
 	return (EXIT_SUCCESS);
 }

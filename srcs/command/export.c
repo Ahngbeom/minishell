@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:57:34 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 13:38:07 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 00:18:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_list	*export_dupl_checker(char *key)
 {
 	t_list	*ptr;
 
-	ptr = *g_data.envv;
+	ptr = g_data.lst_env;
 	while (ptr != NULL)
 	{
 		if (!ft_strncmp(((t_hash *)ptr->content)->key, key, ft_strlen(key) + 1))
@@ -45,13 +45,15 @@ static t_list	*export_dupl_checker(char *key)
 static int	noarguments_export(char	*argv[])
 {
 	t_list	*ptr;
+	t_hash	*hash;
 
 	if (argv_counter(argv) != 1)
 		return (0);
-	ptr = *g_data.envv;
+	ptr = g_data.lst_env;
 	while (ptr != NULL)
 	{
-		printf("declare -x %s=\"%s\"\n", ((t_hash *)ptr->content)->key, ((t_hash *)ptr->content)->value);
+		hash = ptr->content;
+		printf("declare -x %s=\"%s\"\n", hash->key, hash->value);
 		ptr = ptr->next;
 	}
 	return (1);
@@ -59,39 +61,41 @@ static int	noarguments_export(char	*argv[])
 
 int	minishell_export(t_command *command)
 {
+	t_pipe	pipe_data;
 	t_list	*ptr;
 	t_hash	*hash;
-	char	**temp;
+	char	**split;
 	int		i;
 
+	set_pipe(&pipe_data);
 	if (noarguments_export(command->argv))
-		return (EXIT_SUCCESS);
+		return (release_pipe(&pipe_data));
 	i = 0;
 	while (command->argv[++i] != NULL)
 	{
 		if (export_format_checker(command->argv[i]))
 			continue ;
-		temp = ft_split(command->argv[i], '=');
-		if (envv_name_format_checker(temp[0]))
+		split = ft_split(command->argv[i], '=');
+		if (envv_name_format_checker(split[0]))
 		{
-			printf("bash: export: `%s': not a valid identifier\n", command->argv[i]);
-			split_free(temp);
+			printf("minishell: export: `%s': not a valid identifier\n", \
+					command->argv[i]);
+			split_free(split);
 			continue ;
 		}
 		hash = ft_calloc(sizeof(t_hash), 1);
-		hash->key = temp[0];
-		hash->value = temp[1];
-		free(temp);
+		hash->key = split[0];
+		hash->value = split[1];
+		free(split);
 		ptr = export_dupl_checker(hash->key);
 		if (ptr)
 		{
-			free(hash->key);
 			free(((t_hash *)ptr->content)->value);
-			((t_hash *)ptr->content)->value = hash->value;
-			free(hash);
+			((t_hash *)ptr->content)->value = ft_strdup(hash->value);
+			hash_free(hash);
 		}
 		else
-			ft_lstadd_back(g_data.envv, ft_lstnew(hash));
+			ft_lstadd_back(&g_data.lst_env, ft_lstnew(hash));
 	}
-	return (EXIT_SUCCESS);
+	return (release_pipe(&pipe_data));
 }

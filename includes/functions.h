@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 00:42:16 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 00:16:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,19 @@ char	*prompt(void);
 void	set_termios(void);
 void	signal_handler(int signo);
 
-// Starting to Minishell
-int		minishell(char **input);
+// Parsing
+void	input_split(t_list **list, char *input);
+void	abbreviation_converter(t_list *list);
 
-// Parsing for Input
-void	parsing(t_command *command);
+// Starting to Minishell
+int		minishell(void);
+
+// Set & Release PIPE (for Built-In ?)
+void	set_pipe(t_pipe *data);
+int		release_pipe(t_pipe *data);
+
+// Create PIPE for execve
+int		execution(t_command *command, int input_fd);
 
 // Run execve(path, argv, envv);
 char	**envp_to_arr_converter(t_list *list);
@@ -56,12 +64,12 @@ int		minishell_env(t_command *command);
 char	**set_envvpath(void);
 t_hash	*get_envv(char *key);
 char	*get_envv_value(char *key);
-t_list	**set_lstenvv(char *env[]);
+t_list	*set_lstenvv(char *env[]);
 int		envv_name_format_checker(char *key);
-char	*envv_converter(char *arg);
+void	envmark_converter(char **arg);
 
-// Pipe
-void	prepare_for_pipe(t_list *list);
+// Redirection
+void	minishell_redirection(t_list **list, int *fd, char *redirect);
 
 // Arguments Vector Utils
 int		argv_counter(char *argv[]);
@@ -76,7 +84,6 @@ int		get_next_line(int fd, char **line);
 
 char	*execfile_finder(char *command);
 int		redirection_finder(char *redirection[], char *input, char **save);
-void	input_split(t_list **list, char *input);
 
 void	backslash_converter(char **arg);
 
@@ -89,6 +96,7 @@ char	*ft_strjoin_with_free(char *str1, char *str2);
 
 // Free Memory
 void	minishell_finalize(void);
+void	hash_free(void *ptr);
 void	split_free(char **split);
 void	command_free(void *command);
 #endif

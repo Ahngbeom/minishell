@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 13:37:52 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 00:20:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,29 @@ static	int	n_flag_checker(char *arg)
 		return (1);
 	else
 		return (0);
+}
+
+/*
+	Allowed Option : -n
+*/
+int	minishell_echo(t_command *command)
+{
+	t_pipe	pipe_data;
+	int		i;
+
+	set_pipe(&pipe_data);
+	i = 0;
+	while (command->argv[++i] != NULL)
+	{
+		if (i == 1 && n_flag_checker(command->argv[i]))
+			continue ;
+		ft_putstr_fd(command->argv[i], 1);
+		if (command->argv[i + 1] != NULL && ft_strlen(command->argv[i]) != 0)
+			ft_putchar_fd(' ', 1);
+	}
+	if (command->argv[1] == NULL || !(n_flag_checker(command->argv[1])))
+		ft_putchar_fd('\n', 1);
+	return (release_pipe(&pipe_data));
 }
 
 // static	int	envmark_checker(char *env)
@@ -57,21 +80,3 @@ static	int	n_flag_checker(char *arg)
 // 	else
 // 		return (1);
 // }
-
-int	minishell_echo(t_command *command)
-{
-	int		i;
-
-	i = 0;
-	while (command->argv[++i] != NULL)
-	{
-		if (i == 1 && n_flag_checker(command->argv[i]))
-			continue ;
-		ft_putstr_fd(command->argv[i], 1);
-		if (command->argv[i + 1] != NULL && ft_strlen(command->argv[i]) != 0)
-			ft_putchar_fd(' ', 1);
-	}
-	if (command->argv[1] == NULL || !(n_flag_checker(command->argv[1])))
-		ft_putchar_fd('\n', 1);
-	return (EXIT_SUCCESS);
-}

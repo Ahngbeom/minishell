@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 18:46:22 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/17 18:40:15 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	to_execve(t_command *command)
 		cmd_path = execfile_finder(command->argv[0]);
 		if (cmd_path == NULL)
 			exit(127);
-		envp = envp_to_arr_converter(*g_data.envv);
+		envp = envp_to_arr_converter(g_data.lst_env);
 		if (execve(cmd_path, command->argv, envp) == -1)
 			exit(errno);
 		exit(EXIT_SUCCESS);

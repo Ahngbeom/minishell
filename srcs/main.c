@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 01:05:04 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/17 23:50:39 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 {
 	(void)argc;
 	(void)argv;
-	g_data.org_envv = env;
-	g_data.envv = set_lstenvv(env);
+	g_data.lst_env = set_lstenvv(env);
 	g_data.envv_path = set_envvpath();
 	g_data.commands = NULL;
 	set_redirection();
@@ -33,8 +32,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 void	minishell_finalize(void)
 {
 	free(g_data.prompt);
-	ft_lstclear(g_data.envv, free);
-	// split_free(g_data.arr_redirect);
+	ft_lstclear(&g_data.lst_env, hash_free);
 	split_free(g_data.envv_path);
 	free(g_data.pipe);
 	unlink(g_data.input);
@@ -84,9 +82,11 @@ int	main(int argc, char *argv[], char *env[])
 		{
 			input = more_input(input);
 			add_history(input);
-			minishell(&input);
+			input_split(&g_data.commands, input);
 			free(input);
-			input = NULL;
+			abbreviation_converter(g_data.commands);
+			minishell();
+			// input = NULL;
 		}
 		else if (check < 0)
 			break ;

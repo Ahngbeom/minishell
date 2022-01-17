@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 01:04:12 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 00:06:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct termios		t_termios;
 typedef struct s_data		t_data;
 typedef struct s_hash		t_hash;
 typedef struct s_command	t_command;
+typedef struct s_pipe		t_pipe;
 
 extern t_data				g_data;
 
@@ -27,8 +28,7 @@ t_data						g_data;
 struct s_data
 {
 	char			*prompt;
-	char			**org_envv;
-	t_list			**envv;
+	t_list			*lst_env;
 	char			**envv_path;
 
 	char			**arr_redirect;
@@ -53,14 +53,17 @@ struct s_command
 	char		**argv;
 	char		*type;
 
-	// char		*output;
 	int			o_flag;
-	// char		*target;
 
 	int			next_flag;
 	int			pre_flag;
-	
-	// t_list		*list;
 };
+
+struct s_pipe
+{
+	int		org_stdio[2];
+	int		fd[2];
+};
+
 
 #endif
