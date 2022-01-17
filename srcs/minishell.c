@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 13:20:11 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:00:32 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,14 @@ t_list	*dup2_fd(t_list **list, int **fd, int i) // if > > > > ...
 // 	}
 // }
 
+void	if_pipe(t_list *list, int **fd, int i)
+{
+	if (((t_command *)(list)->content)->next_flag == 2) // argv(입구-출력) | (출구-입력) // 알림장: >만 나왔을때 섹폴뜸;
+	{
+		dup2(fd[i][1], STDOUT_FILENO);
+	}
+}
+
 t_list	*ft_pipe(t_list *list)
 {
 	int		size;
@@ -210,10 +218,11 @@ t_list	*ft_pipe(t_list *list)
 			{
 				dup2(fd[i - 1][0], STDIN_FILENO);
 			}
-			if (((t_command *)(list)->content)->next_flag == 2) // argv(입구-출력) | (출구-입력) // 알림장: >만 나왔을때 섹폴뜸;
-			{
-				dup2(fd[i][1], STDOUT_FILENO);
-			}
+			if_pipe(list, fd, i);
+			// if (((t_command *)(list)->content)->next_flag == 2) // argv(입구-출력) | (출구-입력) //
+			// {
+			// 	dup2(fd[i][1], STDOUT_FILENO);
+			// }
 			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // > or >>
 			{
 				exe = list->content;
@@ -231,11 +240,11 @@ t_list	*ft_pipe(t_list *list)
 					}
 					list = (list)->next;
 				}
-				// if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
-				// 	exit(0);
-				to_execve_2(exe); // 만약 다음 플레그가 > 라면 그냥 나가야함
+				to_execve_2(exe);
 			}
-			to_execve_2(list->content);
+			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
+				exit(0);
+			to_execve_2(list->content); // 만약 다음 플레그가 > 라면 그냥 나가야함
 		}
 		else // pid == 1
 		{
@@ -249,7 +258,8 @@ t_list	*ft_pipe(t_list *list)
 			{
 				if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
 				{
-					return (list);
+					break ; /////////// ㅇㅕ기서 분기
+					// return (list);
 				}
 				list = (list)->next;
 			}
@@ -258,14 +268,11 @@ t_list	*ft_pipe(t_list *list)
 		{
 			list = (list)->next;
 		}
+		else if (((t_command *)(list)->content)->next_flag == 0)
+			return (list);
 	}
 	return (list);
 }
-
-// void	ft_right(t_list **list)
-// {
-// 	;
-// }
 
 int	minishell(char *input)
 {
@@ -286,11 +293,7 @@ int	minishell(char *input)
 		{
 			printf("(1)\n");
 			// ft_pipe(list);
-			if ((list = ft_pipe(list)) == NULL)
-			{
-				printf("(2)\n");
-				break ;
-			}
+			list = ft_pipe(list);
 			break ;
 		}
 		else
