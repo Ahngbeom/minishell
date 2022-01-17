@@ -6,52 +6,54 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/14 13:38:00 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 02:07:33 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	char	*homepath_translator(char *path)
-{
-	char	*result;
-	char	*temp;
+// static	char	*homepath_translator(char *path)
+// {
+// 	char	*result;
+// 	char	*temp;
 
-	if (*path == '~')
-	{
-		temp = ft_substr(path, 1, ft_strlen(path) - 1);
-		result = ft_strjoin(getenv("HOME"), temp);
-		free(temp);
-		return (result);
-	}
-	else
-		return (path);
-}
+// 	if (*path == '~')
+// 	{
+// 		temp = ft_substr(path, 1, ft_strlen(path) - 1);
+// 		result = ft_strjoin(getenv("HOME"), temp);
+// 		free(temp);
+// 		return (result);
+// 	}
+// 	else
+// 		return (path);
+// }
 
 int	minishell_cd(t_command *command)
 {
-	char	*parse_path;
+	t_pipe	pipe_data;
 
+	set_pipe(&pipe_data);
 	if (argv_counter(command->argv) > 2)
 		printf("minishell: cd: too many arguments\n");
 	else
 	{
-		if (command->argv[1] == NULL || !ft_strncmp(command->argv[1], "~", ft_strlen(command->argv[1]) + 1))
+		update_envv("OLDPWD", getcwd(NULL, 0));
+		if (command->argv[1] == NULL)
 		{
 			if (chdir(getenv("HOME")) == -1)
-				printf("minishell: cd: %s: %s\n", getenv("HOME"), strerror(errno));
+				printf("minishell: cd: %s: %s\n", \
+					command->argv[1], strerror(errno));
+			else
+				update_envv("PWD", getcwd(NULL, 0));
 		}
-		else if (command->argv[1] != NULL)
+		else
 		{
-			parse_path = homepath_translator(command->argv[1]);
-			if (parse_path != NULL)
-			{
-				if (chdir(parse_path) == -1)
-					printf("minishell: cd: %s: %s\n", command->argv[1], strerror(errno));
-				if (parse_path != command->argv[1])
-					free(parse_path);
-			}
-		}
+			if (chdir(command->argv[1]) == -1)
+				printf("minishell: cd: %s: %s\n", \
+					command->argv[1], strerror(errno));
+			else
+				update_envv("PWD", getcwd(NULL, 0));
+		}	
 	}
-	return (EXIT_SUCCESS);
+	return (release_pipe(&pipe_data));
 }

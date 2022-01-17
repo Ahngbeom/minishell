@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   update_envv.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 15:25:37 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:43:16 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/18 02:02:00 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/18 02:05:22 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell_pwd(t_command *command)
+void	update_envv(char *key, char *new_value)
 {
-	t_pipe	pipe_data;
+	char	*temp;
 
-	set_pipe(&pipe_data);
-	if (argv_counter(command->argv) > 1)
-		printf("minishell: pwd: ignoring non-option arguments\n");
-	else if (command->argv[1] && *command->argv[1] == '-')
-		printf("minishell: pwd: %s: invalid option\n", command->argv[1]);
-	else
-		ft_putendl_fd(getcwd(NULL, 0), STDOUT_FILENO);
-	return (release_pipe(&pipe_data));
+	temp = get_envv(key)->value;
+	get_envv(key)->value = ft_strdup(new_value);
+	free(temp);
 }

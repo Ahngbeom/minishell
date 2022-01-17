@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/18 00:31:19 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/18 02:05:46 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,11 @@ SIG_SRCS_NAME = handler.c
 SIG_SRCS = $(addprefix $(SIG_SRCS_PATH), $(SIG_SRCS_NAME))
 SIG_OBJS = $(SIG_SRCS:.c=.o)
 
+HIST_SRCS_PATH = ./srcs/history/
+HIST_SRCS_NAME = history.c
+HIST_SRCS = $(addprefix $(HIST_SRCS_PATH), $(HIST_SRCS_NAME))
+HIST_OBJS = $(HIST_SRCS:.c=.o)
+
 GNL_SRCS_PATH = ./srcs/gnl/
 GNL_SRCS_NAME = get_next_line.c
 GNL_SRCS = $(addprefix $(GNL_SRCS_PATH), $(GNL_SRCS_NAME))
@@ -73,7 +78,8 @@ ENVV_SRCS_PATH = ./srcs/envv/
 ENVV_SRCS_NAME = set_envv.c \
 					get_envv.c \
 					envv_name_format_checker.c \
-					envv_converter.c
+					envv_converter.c \
+					update_envv.c
 ENVV_SRCS = $(addprefix $(ENVV_SRCS_PATH), $(ENVV_SRCS_NAME))
 ENVV_OBJS = $(ENVV_SRCS:.c=.o)
 
@@ -110,6 +116,7 @@ BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
 			$(PROMPT_OBJS) \
+			$(HIST_OBJS) \
 			$(GNL_OBJS) \
 			$(CMD_OBJS) \
 			$(PARSE_OBJS) \

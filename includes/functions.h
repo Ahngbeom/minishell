@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 00:16:17 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 02:05:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ char	*prompt(void);
 // Key Interrupt Handler
 void	set_termios(void);
 void	signal_handler(int signo);
+
+// History
+void	set_history(t_list *lst_env);
 
 // Parsing
 void	input_split(t_list **list, char *input);
@@ -67,6 +70,7 @@ char	*get_envv_value(char *key);
 t_list	*set_lstenvv(char *env[]);
 int		envv_name_format_checker(char *key);
 void	envmark_converter(char **arg);
+void	update_envv(char *key, char *new_value);
 
 // Redirection
 void	minishell_redirection(t_list **list, int *fd, char *redirect);

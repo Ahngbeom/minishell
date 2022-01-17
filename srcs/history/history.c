@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 15:25:37 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:43:16 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/18 01:37:28 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/18 01:42:27 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell_pwd(t_command *command)
+void	set_history(t_list *lst_env)
 {
-	t_pipe	pipe_data;
+	t_hash	*hash;
 
-	set_pipe(&pipe_data);
-	if (argv_counter(command->argv) > 1)
-		printf("minishell: pwd: ignoring non-option arguments\n");
-	else if (command->argv[1] && *command->argv[1] == '-')
-		printf("minishell: pwd: %s: invalid option\n", command->argv[1]);
-	else
-		ft_putendl_fd(getcwd(NULL, 0), STDOUT_FILENO);
-	return (release_pipe(&pipe_data));
+	hash = ft_calloc(sizeof(t_hash), 1);
+	hash->key = ft_strdup("HISTFILE");
+	hash->value = ft_strjoin(getcwd(NULL, 0), "/.minishell_history");
+	ft_lstadd_back(&lst_env, ft_lstnew(hash));
 }
