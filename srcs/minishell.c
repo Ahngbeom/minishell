@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/16 20:35:57 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/16 21:00:11 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,17 +210,19 @@ t_list	*ft_pipe(t_list *list)
 			{
 				dup2(fd[i - 1][0], STDIN_FILENO);
 			}
-			if (((t_command *)(list)->content)->next_flag == 2) // argv(입구-출력) | (출구-입력)
+			if (((t_command *)(list)->content)->next_flag == 2) // argv(입구-출력) | (출구-입력) // 알림장: >만 나왔을때 섹폴뜸;
 			{
 				dup2(fd[i][1], STDOUT_FILENO);
 			}
-			if (((t_command *)(list)->content)->next_flag == 3) // >
+			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // > or >>
 			{
 				exe = list->content;
-				while (((t_command *)(list)->content)->next_flag == 3) // > 또는 >>
+				while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // > 또는 >>
 				{
-					// printf("argv:%s, 주소:%p\n", exe->argv[0], exe);
-					fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDWR | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한 , 0644: 소유자-WR,RD 그룹,개인-RD
+					if (((t_command *)(list)->content)->next_flag == 3)
+						fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDWR | O_CREAT | O_TRUNC, 0644); // S_IROTH : 개인에게 읽기권한 , 0644: 소유자-WR,RD 그룹,개인-RD
+					else
+						fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDWR | O_CREAT | O_APPEND, 0644);
 					dup2(fd[i][1], STDOUT_FILENO);
 					close(fd[i][1]);
 					if (((t_command *)(list)->next->content)->next_flag != 3) // aa > bb > cc
@@ -229,7 +231,7 @@ t_list	*ft_pipe(t_list *list)
 					}
 					list = (list)->next;
 				}
-				to_execve_2(exe);
+				to_execve_2(exe); // 만약 다음 플레그가 > 라면 그냥 나가야함
 			}
 			to_execve_2(list->content);
 		}
@@ -237,9 +239,9 @@ t_list	*ft_pipe(t_list *list)
 		{
 			wait(&status);
 			g_data.status = WEXITSTATUS(g_data.status);
-			while (((t_command *)(list)->content)->next_flag == 3) // >
+			while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
 			{
-				if (((t_command *)(list)->next->content)->next_flag != 3) // aa > bb > cc
+				if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
 				{
 					break ;
 				}
