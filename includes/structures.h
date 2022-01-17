@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 00:06:26 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 01:00:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ struct s_command
 
 struct s_pipe
 {
-	int		org_stdio[2];
+	int		org_stdioe[3];
 	int		fd[2];
 };
-
 
 #endif

@@ -1,12 +1,1 @@
-abcde
-minishell
-42
-00000000000000000000
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaazaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-!@#@!#!@#$@!%^%&&*$*#%@#$@#$!)@#*!@($&(!%)#!*%!#)$&)#$Makefile
-README.md
-includes
-libft
-minishell
-srcs
-test.txt
+WOW
