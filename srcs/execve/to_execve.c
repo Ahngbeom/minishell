@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/16 20:36:51 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/17 13:21:52 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	to_execve_2(t_command *command)
 
 	cmd_path = NULL;
 	cmd_path = execfile_finder(command->argv[0]);
-	printf("cmd_path:%s\n", cmd_path);
+	// printf("cmd_path:%s\n", cmd_path);
 	if (cmd_path == NULL)
 		exit(127);
 	if (execve(cmd_path, command->argv, NULL) == -1)

@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/16 21:00:11 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/17 13:20:11 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,12 +225,14 @@ t_list	*ft_pipe(t_list *list)
 						fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDWR | O_CREAT | O_APPEND, 0644);
 					dup2(fd[i][1], STDOUT_FILENO);
 					close(fd[i][1]);
-					if (((t_command *)(list)->next->content)->next_flag != 3) // aa > bb > cc
+					if (((t_command *)(list)->next->content)->next_flag != 3  && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
 					{
 						break ;
 					}
 					list = (list)->next;
 				}
+				// if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
+				// 	exit(0);
 				to_execve_2(exe); // 만약 다음 플레그가 > 라면 그냥 나가야함
 			}
 			to_execve_2(list->content);
@@ -239,18 +241,18 @@ t_list	*ft_pipe(t_list *list)
 		{
 			wait(&status);
 			g_data.status = WEXITSTATUS(g_data.status);
-			while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
-			{
-				if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
-				{
-					break ;
-				}
-				list = (list)->next;
-			}
 			if (((t_command *)(list)->content)->pre_flag)
 				close(fd[i - 1][0]); // for pipe
 			if (((t_command *)(list)->content)->next_flag) ////////// close
 				close(fd[i][1]);
+			while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
+			{
+				if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
+				{
+					return (list);
+				}
+				list = (list)->next;
+			}
 		}
 		if ((list)->next)
 		{
