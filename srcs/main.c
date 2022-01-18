@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 21:47:47 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 22:17:51 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int argc, char *argv[], char *env[])
 			abbreviation_converter(g_data.commands);
 			print_info(g_data.commands, 0);
 			minishell();
-			printf("command exit status : %s\n", g_data.exit_stat);
+			// printf("command exit status : %s\n", g_data.exit_stat);
 		}
 		else if (check < 0)
 			break ;
