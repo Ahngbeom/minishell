@@ -6,19 +6,22 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/13 14:13:56 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 20:03:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	No Options
+*/
 int	incorrect_exit(t_command *command)
 {
 	ft_putendl_fd(command->argv[0], 1);
 	if (argv_counter(command->argv) > 1)
-		printf("minishell: exit: %s: numeric argument required\n", command->argv[1]);
+		printf("minishell: exit: %s: numeric argument required\n", \
+				command->argv[1]);
 	ft_lstclear(&g_data.commands, command_free);
 	minishell_finalize();
-	// exit(EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	exit(ft_atoi(g_data.exit_stat));
 }

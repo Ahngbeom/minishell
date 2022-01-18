@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 02:05:30 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 17:26:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,12 @@ int		incorrect_exit(t_command *command);
 
 char	*ft_strjoin_with_free(char *str1, char *str2);
 
+void	print_info(t_list *list, int on_off);
+
 // Free Memory
 void	minishell_finalize(void);
 void	hash_free(void *ptr);
 void	split_free(char **split);
 void	command_free(void *command);
+
 #endif

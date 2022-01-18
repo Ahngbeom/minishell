@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 18:50:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 18:40:15 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 21:49:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ int	to_execve(t_command *command)
 		envp = envp_to_arr_converter(g_data.lst_env);
 		if (execve(cmd_path, command->argv, envp) == -1)
 			exit(errno);
-		exit(EXIT_SUCCESS);
 	}
 	else
 	{
 		waitpid(execve_pid, &status, 0);
 		if (WEXITSTATUS(status) == 127)
 			printf("minishell: %s: command not found\n", command->argv[0]);
+		free(g_data.exit_stat);
 		g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
+		printf("status : %d\n", WEXITSTATUS(status));
+		printf("exit status : %s\n", g_data.exit_stat);
 		if (cmd_path != NULL)
 			free(cmd_path);
 		if (envp != NULL)

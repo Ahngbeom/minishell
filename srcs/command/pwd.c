@@ -6,12 +6,15 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:25:37 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:43:16 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 19:56:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	No Options
+*/
 int	minishell_pwd(t_command *command)
 {
 	t_pipe	pipe_data;

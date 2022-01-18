@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:08:33 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 21:52:29 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	execution(t_command *command, int input_fd)
 		exit(to_execve(command));
 	}
 	waitpid(pid, &stat_loc, 0);
+	printf("execution exit status : %s\n", g_data.exit_stat);
 	if (input_fd != -1)
 		close(input_fd);
 	return (release_pipe(&pipe_data));

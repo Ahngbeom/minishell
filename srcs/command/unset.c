@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 18:52:45 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 19:56:52 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ static	void	delete_envv(char *key)
 	}
 }
 
+/*
+	No Options
+*/
 int	minishell_unset(t_command *command)
 {
 	int		i;

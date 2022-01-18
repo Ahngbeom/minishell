@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 02:07:33 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 19:53:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 // 		return (path);
 // }
 
+/*
+	Only Absolute or Relative PATH
+*/
 int	minishell_cd(t_command *command)
 {
 	t_pipe	pipe_data;
@@ -37,23 +40,20 @@ int	minishell_cd(t_command *command)
 		printf("minishell: cd: too many arguments\n");
 	else
 	{
-		update_envv("OLDPWD", getcwd(NULL, 0));
+		update_envv("OLDPWD", get_envv_value("PWD"));
 		if (command->argv[1] == NULL)
 		{
 			if (chdir(getenv("HOME")) == -1)
 				printf("minishell: cd: %s: %s\n", \
 					command->argv[1], strerror(errno));
-			else
-				update_envv("PWD", getcwd(NULL, 0));
 		}
 		else
 		{
 			if (chdir(command->argv[1]) == -1)
 				printf("minishell: cd: %s: %s\n", \
 					command->argv[1], strerror(errno));
-			else
-				update_envv("PWD", getcwd(NULL, 0));
 		}	
+		update_envv("PWD", getcwd(NULL, 0));
 	}
 	return (release_pipe(&pipe_data));
 }

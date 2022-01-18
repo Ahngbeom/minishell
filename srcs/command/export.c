@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:57:34 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 00:18:39 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/18 19:56:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ static int	noarguments_export(char	*argv[])
 	return (1);
 }
 
+/*
+	No Options
+*/
 int	minishell_export(t_command *command)
 {
 	t_pipe	pipe_data;
