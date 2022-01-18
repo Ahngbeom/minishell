@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 12:39:01 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/18 14:29:47 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,39 @@ void	if_flag_right_no_exe(t_list *list, int **fd, int i)
 	}
 }
 
+void	if_flag_left(t_list *list, t_command *exe, int **fd, int i)
+{
+	if (((t_command *)(list)->content)->next_flag == 5) // flag <
+	{
+		exe = list->content;
+		// printf("test_argv:%s\n", exe->argv[0]);
+		while (((t_command *)(list)->content)->next_flag == 5)
+		{
+			fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDONLY, 0644);
+			dup2(fd[i][1], STDIN_FILENO);
+			close(fd[i][1]);
+			if (((t_command *)(list)->next->content)->next_flag == 3) // ~ < ~ >
+			{
+				// printf("hi >!!\n");
+				list = (list)->next;
+				i++;
+				if_flag_right_no_exe(list, fd, i);
+				// printf("test_argv:%s\n", exe->argv[0]); // ???
+				to_execve_2(exe);
+			}
+			if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
+			{
+				// printf("hi(b)\n");
+				break ;
+			}
+			// printf("hi(2)\n");
+			list = (list)->next;
+		}
+		// printf("test_argv:%s\n", exe->argv[0]);
+		to_execve_2(exe);
+	}
+}
+
 t_list	*ft_pipe(t_list *list)
 {
 	int		size;
@@ -118,6 +151,7 @@ t_list	*ft_pipe(t_list *list)
 	int		status;
 	t_command	*exe;
 
+	exe = NULL; //
 	size = ft_lstsize(list);
 	i = -1;
 	fd = malloc((sizeof(int *) * size + 1));
@@ -137,35 +171,13 @@ t_list	*ft_pipe(t_list *list)
 				dup2(fd[i - 1][0], STDIN_FILENO);
 			}
 			if_pipe(list, fd, i);
-			if_flag_right(list, exe, fd, i); // flag 3 >, 4 >>
-			if (((t_command *)(list)->content)->next_flag == 5) // flag <
+			if_flag_right(list, exe, fd, i); // flag 3: >, 4: >>
+			if_flag_left(list, exe, fd, i); // flag 5: <
+			if (((t_command *)(list)->content)->next_flag == 6) // <<
 			{
-				exe = list->content;
-				// printf("test_argv:%s\n", exe->argv[0]);
-				while (((t_command *)(list)->content)->next_flag == 5)
-				{
-					fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDONLY, 0644);
-					dup2(fd[i][1], STDIN_FILENO);
-					close(fd[i][1]);
-					if (((t_command *)(list)->next->content)->next_flag == 3) // ~ < ~ >
-					{
-						// printf("hi >!!\n");
-						list = (list)->next;
-						i++;
-						if_flag_right_no_exe(list, fd, i);
-						// printf("test_argv:%s\n", exe->argv[0]); // ???
-						to_execve_2(exe);
-					}
-					if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
-					{
-						// printf("hi(b)\n");
-						break ;
-					}
-					// printf("hi(2)\n");
-					list = (list)->next;
-				}
-				// printf("test_argv:%s\n", exe->argv[0]);
-				to_execve_2(exe);
+				fd[i][1] = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				dup2(fd[i][1], STDOUT_FILENO);
+				close(fd[i][1]);
 			}
 			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
 				exit(0);
@@ -202,6 +214,22 @@ t_list	*ft_pipe(t_list *list)
 					break ;
 				list = (list)->next;
 			}
+		}
+		if (((t_command *)(list)->content)->next_flag == 6) // <<
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				fd[i][1] = open("temp", O_RDONLY, 0644);
+				dup2(fd[i][1], STDIN_FILENO);
+				close(fd[i][1]);
+				// printf("argv:%s\n", ((t_command *)(list)->next->content)->argv[0]);
+				to_execve_2(list->content);
+			}
+			wait(&status);
+			g_data.status = WEXITSTATUS(g_data.status);
+			close(fd[i][1]);
+			unlink("temp");
 		}
 		if ((list)->next)
 			list = (list)->next;
