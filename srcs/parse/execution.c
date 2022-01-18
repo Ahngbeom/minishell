@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 23:12:59 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 00:23:01 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	execution(t_command *command, int input_fd)
 	char	*cmd_path;
 	char	**envp;
 
-	printf("input fd : %d\n", input_fd);
 	set_pipe(&pipe_data);
 	cmd_path = execfile_finder(command->argv[0]);
 	envp = envp_to_arr_converter(g_data.lst_env);
@@ -31,10 +30,10 @@ int	execution(t_command *command, int input_fd)
 	{
 		close(pipe_data.fd[READ]);
 		close(pipe_data.fd[WRITE]);
-		if (input_fd != -1)
-			dup2(input_fd, STDIN_FILENO);
 		if (cmd_path == NULL)
 			exit(127);
+		if (input_fd != -1)
+			dup2(input_fd, STDIN_FILENO);
 		if (execve(cmd_path, command->argv, envp) == -1)
 			exit(errno);
 	}
@@ -44,8 +43,6 @@ int	execution(t_command *command, int input_fd)
 	if (g_data.exit_stat != NULL)
 		free(g_data.exit_stat);
 	g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
-	// printf("status : %d\n", WEXITSTATUS(status));
-	// printf("exit status : %s\n", g_data.exit_stat);
 	if (input_fd != -1)
 		close(input_fd);
 	if (cmd_path != NULL)

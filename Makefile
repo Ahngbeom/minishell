@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/18 17:27:00 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/19 00:26:55 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OS	= $(shell uname -s)
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra #-g
+CFLAGS = -Wall -Werror -Wextra -g
 INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
 RM = rm -fv

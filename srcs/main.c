@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 22:17:51 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 00:25:42 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static	int	preprocess(char *input)
 			free(trim);
 		return (1);
 	}
-	else
-		return (0);
+	free(trim);
+	return (0);
 }
 
 int	main(int argc, char *argv[], char *env[])

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 19:10:48 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 23:14:21 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 00:21:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ void	set_pipe(t_pipe *data)
 	// data->org_stdioe[STDERR_FILENO] = dup(STDERR_FILENO);
 	if (pipe(data->fd) == -1)
 		exit(EXIT_FAILURE);
-	printf("dupl[STDIN] : %d\n", data->org_stdioe[STDIN_FILENO]);
-	printf("dupl[STDOUT] : %d\n", data->org_stdioe[STDOUT_FILENO]);
-	printf("fd[READ] : %d\n", data->fd[READ]);
-	printf("fd[WRITE] : %d\n", data->fd[WRITE]);
 	dup2(data->fd[WRITE], STDOUT_FILENO);
 }
 
