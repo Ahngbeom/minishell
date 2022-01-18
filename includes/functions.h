@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/16 20:22:14 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/18 11:02:29 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define FUNCTIONS_H
 
 # include "structures.h"
+
+// pipe
+void	if_pipe(t_list *list, int **fd, int i);
+t_list	*ft_pipe(t_list *list);
 
 // void	prompt(void);
 char	*prompt(void);
