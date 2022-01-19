@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 14:29:47 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/19 12:01:51 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	if_flag_left(t_list *list, t_command *exe, int **fd, int i)
 			fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDONLY, 0644);
 			dup2(fd[i][1], STDIN_FILENO);
 			close(fd[i][1]);
-			if (((t_command *)(list)->next->content)->next_flag == 3) // ~ < ~ >
+			if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // ~ < ~ >
 			{
 				// printf("hi >!!\n");
 				list = (list)->next;
@@ -139,6 +139,33 @@ void	if_flag_left(t_list *list, t_command *exe, int **fd, int i)
 		}
 		// printf("test_argv:%s\n", exe->argv[0]);
 		to_execve_2(exe);
+	}
+}
+
+void	while_345(t_list **list, int *i)
+{
+	while (((t_command *)(*list)->content)->next_flag == 3 || ((t_command *)(*list)->content)->next_flag == 4) // > or >>
+	{
+		if (((t_command *)(*list)->next->content)->next_flag != 3 && ((t_command *)(*list)->next->content)->next_flag != 4) // aa > bb > cc
+			break ;
+		*list = (*list)->next;
+	}
+	while (((t_command *)(*list)->content)->next_flag == 5) // (~) <
+	{
+		if (((t_command *)(*list)->next->content)->next_flag == 3 || ((t_command *)(*list)->next->content)->next_flag == 4) // (~) < (~) > or >>
+		{
+			*list = (*list)->next;
+			(*i)++;
+			while (((t_command *)(*list)->content)->next_flag == 3 || ((t_command *)(*list)->content)->next_flag == 4) // >
+			{
+				if (((t_command *)(*list)->next->content)->next_flag != 3 && ((t_command *)(*list)->next->content)->next_flag != 4) // aa > bb > cc
+					break ;
+				*list = (*list)->next;
+			}
+		}
+		if (((t_command *)(*list)->next->content)->next_flag != 5) // aa > bb > cc
+			break ;
+		*list = (*list)->next;
 	}
 }
 
@@ -191,29 +218,30 @@ t_list	*ft_pipe(t_list *list)
 				close(fd[i - 1][0]); // for pipe
 			if (((t_command *)(list)->content)->next_flag) ////////// close
 				close(fd[i][1]);
-			while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
-			{
-				if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
-					break ;
-				list = (list)->next;
-			}
-			while (((t_command *)(list)->content)->next_flag == 5)
-			{
-				if (((t_command *)(list)->next->content)->next_flag == 3) // ~ < ~ >
-				{
-					list = (list)->next;
-					i++;
-					while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
-					{
-						if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
-							break ;
-						list = (list)->next;
-					}
-				}
-				if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
-					break ;
-				list = (list)->next;
-			}
+			while_345(&list, &i);
+			// while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
+			// {
+			// 	if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
+			// 		break ;
+			// 	list = (list)->next;
+			// }
+			// while (((t_command *)(list)->content)->next_flag == 5) // ~ <
+			// {
+			// 	if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // ~ < ~ >
+			// 	{
+			// 		list = (list)->next;
+			// 		i++;
+			// 		while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
+			// 		{
+			// 			if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
+			// 				break ;
+			// 			list = (list)->next;
+			// 		}
+			// 	}
+			// 	if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
+			// 		break ;
+			// 	list = (list)->next;
+			// }
 		}
 		if (((t_command *)(list)->content)->next_flag == 6) // <<
 		{
@@ -256,7 +284,7 @@ int	minishell(char *input)
 		cmd = list->content;
 		if (cmd->next_flag) // |
 		{
-			printf("(1)\n");
+			// printf("(1)\n");
 			// ft_pipe(list);
 			list = ft_pipe(list);
 			break ;
