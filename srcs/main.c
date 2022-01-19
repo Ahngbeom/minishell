@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 01:08:29 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 23:34:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,9 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	g_data.commands = NULL;
 	set_redirection();
 	g_data.exit_stat = ft_itoa(0);
-	g_data.pipe = malloc(sizeof(int) * 2);
-	g_data.input = ft_strdup("input");
-	g_data.output = ft_strdup("output");
 	set_termios();
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGINT, signal_handler);
+	// signal(SIGQUIT, SIG_IGN);
 }
 
 void	minishell_finalize(void)
@@ -35,11 +32,7 @@ void	minishell_finalize(void)
 	free(g_data.prompt);
 	ft_lstclear(&g_data.lst_env, hash_free);
 	split_free(g_data.envv_path);
-	free(g_data.pipe);
-	unlink(g_data.input);
-	unlink(g_data.output);
-	free(g_data.input);
-	free(g_data.output);
+	free(g_data.arr_redirect);
 }
 
 static	int	preprocess(char *input)
@@ -77,7 +70,8 @@ int	main(int argc, char *argv[], char *env[])
 	minishell_init(argc, argv, env);
 	while (1)
 	{
-		input = readline(prompt());
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);input = readline(prompt());
 		check = preprocess(input);
 		if (check == 0)
 		{
@@ -87,12 +81,14 @@ int	main(int argc, char *argv[], char *env[])
 			free(input);
 			abbreviation_converter(g_data.commands);
 			print_info(g_data.commands, 0);
+			
 			minishell();
 		}
 		else if (check < 0)
 			break ;
+		// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	}
 	minishell_finalize();
+	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	return (ft_atoi(g_data.exit_stat));
 }
-// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");

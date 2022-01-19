@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/19 12:08:06 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/19 17:02:02 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OS	= $(shell uname -s)
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g #fsanitize=address
 INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
 RM = rm -fv
@@ -106,9 +106,9 @@ FREE_SRCS_NAME = hash_free.c \
 FREE_SRCS = $(addprefix $(FREE_SRCS_PATH), $(FREE_SRCS_NAME))
 FREE_OBJS = $(FREE_SRCS:.c=.o)
 
-BAHN_SRCS_PATH = ./srcs/bahn_redir/
-BAHN_SRCS_NAME = redirection.c \
-					pipe.c
+BAHN_SRCS_PATH = ./srcs/bahn_pipe/
+BAHN_SRCS_NAME = pipe.c \
+					redirection.c
 BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
 BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 
@@ -134,7 +134,7 @@ $(NAME) : $(ALL_OBJS)
 		git submodule update --init --recursive
 		$(MAKE) all bonus -C $(LIBFT_PATH)
 		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@
-
+		clear
 clean : 
 		$(MAKE) clean -C $(LIBFT_PATH)
 		$(RM) $(ALL_OBJS)
