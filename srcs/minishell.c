@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 12:01:51 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/19 12:34:27 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,42 +169,40 @@ void	while_345(t_list **list, int *i)
 	}
 }
 
+void	set_pip(t_pipe *pip, t_list *list)
+{
+	pip->exe = NULL; //
+	pip->size = ft_lstsize(list);
+	pip->i = -1;
+	pip->fd = malloc((sizeof(int *) * pip->size + 1));
+	while (++(pip->i) < pip->size)
+	{
+		pip->fd[pip->i] = malloc(sizeof(int) * 2);
+		pipe(pip->fd[pip->i]);
+	}
+	pip->i = -1;
+}
+
 t_list	*ft_pipe(t_list *list)
 {
-	int		size;
-	int		i;
-	int		**fd;
-	pid_t	pid;
-	int		status;
-	t_command	*exe;
+	t_pipe	pip;
 
-	exe = NULL; //
-	size = ft_lstsize(list);
-	i = -1;
-	fd = malloc((sizeof(int *) * size + 1));
-	while (++i < size)
+	set_pip(&pip, list);
+	while (++(pip.i) < pip.size && ((t_command *)(list)->content)) //&& ((t_command *)(list)->content)->next_flag) // && (*list)->content
 	{
-		fd[i] = malloc(sizeof(int) * 2);
-		pipe(fd[i]);
-	}
-	i = -1;
-	while (++i < size && ((t_command *)(list)->content)->next_flag) //&& ((t_command *)(list)->content)->next_flag) // && (*list)->content
-	{
-		pid = fork();
-		if (pid == 0)
+		pip.pid = fork();
+		if (pip.pid == 0)
 		{
 			if (((t_command *)(list)->content)->pre_flag) // (|) argv
-			{
-				dup2(fd[i - 1][0], STDIN_FILENO);
-			}
-			if_pipe(list, fd, i);
-			if_flag_right(list, exe, fd, i); // flag 3: >, 4: >>
-			if_flag_left(list, exe, fd, i); // flag 5: <
+				dup2(pip.fd[pip.i - 1][0], STDIN_FILENO);
+			if_pipe(list, pip.fd, pip.i);
+			if_flag_right(list, pip.exe, pip.fd, pip.i); // flag 3: >, 4: >>
+			if_flag_left(list, pip.exe, pip.fd, pip.i); // flag 5: <
 			if (((t_command *)(list)->content)->next_flag == 6) // <<
 			{
-				fd[i][1] = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				dup2(fd[i][1], STDOUT_FILENO);
-				close(fd[i][1]);
+				pip.fd[pip.i][1] = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				dup2(pip.fd[pip.i][1], STDOUT_FILENO);
+				close(pip.fd[pip.i][1]);
 			}
 			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
 				exit(0);
@@ -212,51 +210,28 @@ t_list	*ft_pipe(t_list *list)
 		}
 		else // pid == 1
 		{
-			wait(&status);
+			wait(&pip.status);
 			g_data.status = WEXITSTATUS(g_data.status);
 			if (((t_command *)(list)->content)->pre_flag)
-				close(fd[i - 1][0]); // for pipe
+				close(pip.fd[pip.i - 1][0]); // for pipe
 			if (((t_command *)(list)->content)->next_flag) ////////// close
-				close(fd[i][1]);
-			while_345(&list, &i);
-			// while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
-			// {
-			// 	if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
-			// 		break ;
-			// 	list = (list)->next;
-			// }
-			// while (((t_command *)(list)->content)->next_flag == 5) // ~ <
-			// {
-			// 	if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // ~ < ~ >
-			// 	{
-			// 		list = (list)->next;
-			// 		i++;
-			// 		while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
-			// 		{
-			// 			if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
-			// 				break ;
-			// 			list = (list)->next;
-			// 		}
-			// 	}
-			// 	if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
-			// 		break ;
-			// 	list = (list)->next;
-			// }
+				close(pip.fd[pip.i][1]);
+			while_345(&list, &(pip.i));
 		}
 		if (((t_command *)(list)->content)->next_flag == 6) // <<
 		{
-			pid = fork();
-			if (pid == 0)
+			pip.pid = fork();
+			if (pip.pid == 0)
 			{
-				fd[i][1] = open("temp", O_RDONLY, 0644);
-				dup2(fd[i][1], STDIN_FILENO);
-				close(fd[i][1]);
+				pip.fd[pip.i][1] = open("temp", O_RDONLY, 0644);
+				dup2(pip.fd[pip.i][1], STDIN_FILENO);
+				close(pip.fd[pip.i][1]);
 				// printf("argv:%s\n", ((t_command *)(list)->next->content)->argv[0]);
 				to_execve_2(list->content);
 			}
-			wait(&status);
+			wait(&pip.status);
 			g_data.status = WEXITSTATUS(g_data.status);
-			close(fd[i][1]);
+			close(pip.fd[pip.i][1]);
 			unlink("temp");
 		}
 		if ((list)->next)

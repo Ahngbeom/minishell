@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/16 20:24:47 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/19 12:17:23 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct termios		t_termios;
 typedef struct s_data		t_data;
 typedef struct s_hash		t_hash;
 typedef struct s_command	t_command;
+typedef struct s_pipe		t_pipe;
 
 extern t_data				g_data;
 
@@ -40,6 +41,16 @@ struct s_command
 
 	int			next_flag;
 	int			pre_flag;
+};
+
+struct s_pipe
+{
+	int		size;
+	int		i;
+	int		**fd;
+	pid_t	pid;
+	int		status;
+	t_command	*exe;
 };
 
 struct s_data
