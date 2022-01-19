@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/12 14:30:28 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 00:29:36 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,19 @@ t_data	g_data;
 
 void	signal_handler(int signo)
 {
+	pid_t	pid;
+	int		status;
+
+	pid = waitpid(-1, &status, 0);
 	if (signo == SIGINT)
 	{
-		ft_putchar_fd(LF, 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
+		if (pid == WAIT_ANY)
+		{
+			ft_putchar_fd(LF, 1);
+			rl_on_new_line();
+			rl_replace_line("", 1);
+			rl_redisplay();
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 23:34:17 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 00:29:21 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	main(int argc, char *argv[], char *env[])
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, SIG_IGN);input = readline(prompt());
+		signal(SIGQUIT, signal_handler);
+		input = readline(prompt());
 		check = preprocess(input);
 		if (check == 0)
 		{
@@ -81,7 +82,6 @@ int	main(int argc, char *argv[], char *env[])
 			free(input);
 			abbreviation_converter(g_data.commands);
 			print_info(g_data.commands, 0);
-			
 			minishell();
 		}
 		else if (check < 0)
