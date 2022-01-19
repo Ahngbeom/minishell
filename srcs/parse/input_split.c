@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 13:30:19 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 01:02:36 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 12:35:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	input_split(t_list **list, char *input)
 			==16505==    by 0x10BC49: input_split (input_split.c:28)
 			==16505==    by 0x1097E2: main (main.c:86)
 			*/
+			printf("size of t_command : %ld\n", sizeof(t_command));
 			command = ft_calloc(sizeof(t_command), 1);
 			redir_idx = redirection_finder(g_data.arr_redirect, input, &command->type);
 			if (redir_idx >= 0)

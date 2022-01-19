@@ -6,11 +6,25 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 00:23:01 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 12:28:23 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	to_execve(t_pipe *pipe_data, \
+						char *cmd_path, char **argv, char **envp, \
+							int input_fd)
+{
+	close(pipe_data->fd[READ]);
+	close(pipe_data->fd[WRITE]);
+	if (cmd_path == NULL)
+		exit(127);
+	if (input_fd != -1)
+		dup2(input_fd, STDIN_FILENO);
+	if (execve(cmd_path, argv, envp) == -1)
+		exit(errno);
+}
 
 int	execution(t_command *command, int input_fd)
 {
@@ -27,16 +41,7 @@ int	execution(t_command *command, int input_fd)
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
-	{
-		close(pipe_data.fd[READ]);
-		close(pipe_data.fd[WRITE]);
-		if (cmd_path == NULL)
-			exit(127);
-		if (input_fd != -1)
-			dup2(input_fd, STDIN_FILENO);
-		if (execve(cmd_path, command->argv, envp) == -1)
-			exit(errno);
-	}
+		to_execve(&pipe_data, cmd_path, command->argv, envp, input_fd);
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 127)
 		printf("minishell: %s: command not found\n", command->argv[0]);

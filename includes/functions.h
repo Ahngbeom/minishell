@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 17:26:50 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 12:16:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ int		minishell(void);
 void	set_pipe(t_pipe *data);
 int		release_pipe(t_pipe *data);
 
-// Create PIPE for execve
+// Create PIPE for execve & Run execve(path, argv, envv);
 int		execution(t_command *command, int input_fd);
-
-// Run execve(path, argv, envv);
 char	**envp_to_arr_converter(t_list *list);
-int		to_execve(t_command *command);
-int		to_execve_2(t_command *command);
-int		to_execve_3(t_command *command);
+// int		to_execve(t_command *command);
+// int		to_execve_2(t_command *command);
+// int		to_execve_3(t_command *command);
 
 // COMMAND echo
 int		minishell_echo(t_command *command);

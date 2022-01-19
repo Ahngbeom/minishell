@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/19 00:26:55 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/19 12:08:06 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,8 +64,7 @@ CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
 PARSE_SRCS_PATH = ./srcs/parse/
-PARSE_SRCS_NAME = execution.c \
-					more_input.c \
+PARSE_SRCS_NAME = more_input.c \
 					arg_finder.c \
 					input_split.c \
 					abbreviation_converter.c \
@@ -83,8 +82,8 @@ ENVV_SRCS_NAME = set_envv.c \
 ENVV_SRCS = $(addprefix $(ENVV_SRCS_PATH), $(ENVV_SRCS_NAME))
 ENVV_OBJS = $(ENVV_SRCS:.c=.o)
 
-EXEC_SRCS_PATH = ./srcs/execve/
-EXEC_SRCS_NAME = to_execve.c \
+EXEC_SRCS_PATH = ./srcs/exec/
+EXEC_SRCS_NAME = execution.c \
 					envp_to_arr_converter.c
 EXEC_SRCS = $(addprefix $(EXEC_SRCS_PATH), $(EXEC_SRCS_NAME))
 EXEC_OBJS = $(EXEC_SRCS:.c=.o)
