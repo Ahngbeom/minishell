@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/19 17:02:02 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/20 02:28:49 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ PARSE_SRCS_PATH = ./srcs/parse/
 PARSE_SRCS_NAME = more_input.c \
 					arg_finder.c \
 					input_split.c \
+					split_2_command.c \
 					abbreviation_converter.c \
 					escape_sequence.c \
 					backslash.c
@@ -131,7 +132,7 @@ all : $(NAME)
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(NAME) : $(ALL_OBJS)
-		git submodule update --init --recursive
+# git submodule update --init --recursive
 		$(MAKE) all bonus -C $(LIBFT_PATH)
 		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@
 		clear

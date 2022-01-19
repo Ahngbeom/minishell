@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 00:29:21 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 02:36:41 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,34 @@ void	minishell_finalize(void)
 	free(g_data.arr_redirect);
 }
 
-static	int	preprocess(char *input)
+static	int	preprocess(char **input)
 {
-	char	*trim;
+	char	*temp;
 
-	trim = ft_strtrim(input, " ");
-	if (trim == NULL || !ft_strncmp(trim, "exit", ft_strlen("exit") + 1))
+	temp = *input;
+	*input = ft_strtrim(*input, " ");
+	free(temp);
+	if (*input == NULL || !ft_strncmp(*input, "exit", ft_strlen("exit") + 1))
 	{
 		ft_putendl_fd("exit", 1);
-		if (input != NULL)
-			free(input);
-		if (trim != NULL)
-			free(trim);
+		if (*input != NULL)
+			free(*input);
 		return (-1);
 	}
-	else if (ft_strlen(trim) == 0)
+	if (ft_strlen(*input) == 0)
 	{
-		if (input != NULL)
-			free(input);
-		if (ft_strlen(trim) > 0)
-			free(trim);
+		if (*input != NULL)
+			free(*input);
 		return (1);
 	}
-	free(trim);
+	if (!ft_isalnum(**input) && ft_isprint(**input) && **input != '$')
+	{
+		printf("minishell: syntax error near unexpected token `%c'\n", **input);
+		add_history(*input);
+		if (*input != NULL)
+			free(*input);
+		return (1);
+	}
 	return (0);
 }
 
@@ -73,15 +78,20 @@ int	main(int argc, char *argv[], char *env[])
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, signal_handler);
 		input = readline(prompt());
-		check = preprocess(input);
+		check = preprocess(&input);
 		if (check == 0)
 		{
 			input = more_input(input);
 			add_history(input);
 			input_split(&g_data.commands, input);
+			
+			split_2_command(&g_data.commands, input);
+			free(input);
+			continue ;
+			
 			free(input);
 			abbreviation_converter(g_data.commands);
-			print_info(g_data.commands, 0);
+			print_info(g_data.commands, 1);
 			minishell();
 		}
 		else if (check < 0)
