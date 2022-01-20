@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_free.c                                       :+:      :+:    :+:   */
+/*   command_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 15:57:25 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/10 20:03:51 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/22 15:58:22 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/19 16:50:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_free(char **split)
+void	command_free(void *content)
 {
-	int	i;
+	t_command	*cmd;
 
-	if (split == NULL)
-		return ;
-	i = -1;
-	while (split[++i] != NULL)
-		free(split[i]);
-	free(split);
+	cmd = content;
+	cmd->builtin_func = NULL;
+	split_free(cmd->argv);
+	cmd->argv = NULL;
+	cmd->type = NULL;
+	free(cmd);
+	cmd = NULL;
 }

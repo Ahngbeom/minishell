@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 01:33:21 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 01:39:18 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 00:21:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,24 @@
 
 char	**envp_to_arr_converter(t_list *list)
 {
-	t_list	*envv;
+	t_list	*lst_env;
 	t_hash	*hash;
-	char	**envp;
-	char	*temp;
+	char	**arr_env;
 	int		i;
 
-	envp = ft_calloc(sizeof(char *), ft_lstsize(list));
-	envv = list;
+	if (ft_lstsize(list) == 0)
+		return (NULL);
+	arr_env = ft_calloc(sizeof(char *), ft_lstsize(list) + 1);
+	lst_env = list;
 	i = -1;
-	while (envv != NULL)
+	while (lst_env != NULL)
 	{
-		hash = (t_hash *)envv->content;
-		temp = ft_strjoin(hash->key, "=");
-		envp[++i] = ft_strjoin(temp, hash->value);
-		free(temp);
-		envv = envv->next;
+		hash = (t_hash *)lst_env->content;
+		arr_env[++i] = \
+			ft_strjoin_with_free(\
+				ft_strjoin(hash->key, "="), \
+				ft_strdup(hash->value));
+		lst_env = lst_env->next;
 	}
-	return (envp);
+	return (arr_env);
 }

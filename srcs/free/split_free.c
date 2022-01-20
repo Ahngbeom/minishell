@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   incorrect_exit.c                                   :+:      :+:    :+:   */
+/*   split_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 20:03:23 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/21 15:57:25 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/19 16:58:52 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	No Options
-*/
-int	incorrect_exit(t_command *command)
+void	split_free(char **split)
 {
-	ft_putendl_fd(command->argv[0], 1);
-	if (argv_counter(command->argv) > 1)
-		printf("minishell: exit: %s: numeric argument required\n", \
-				command->argv[1]);
-	ft_lstclear(&g_data.commands, command_free);
-	minishell_finalize();
-	exit(ft_atoi(g_data.exit_stat));
+	int	i;
+
+	if (split == NULL)
+		return ;
+	i = -1;
+	while (split[++i] != NULL)
+		free(split[i]);
+	free(split);
 }

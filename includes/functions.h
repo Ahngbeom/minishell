@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 20:51:52 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 02:07:40 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,30 @@ char	*prompt(void);
 void	set_termios(void);
 void	signal_handler(int signo);
 
-// Arguments Vector Utils
-int		argv_counter(char *argv[]);
+// History
+void	set_history(t_list *lst_env);
 
-// Start to Minishell
-int		minishell(char **input);
+// Parsing
+void	input_split(t_list **list, char *input);
+void	split_2_command(t_list **list, char *input);
+void	abbreviation_converter(t_list *list);
 
-// Parsing for Input
-void	parsing(t_command *command);
+// Starting to Minishell
+int		minishell(void);
 
-// Run execve(path, argv, envv);
+// Set & Release PIPE (for Built-In ?)
+void	set_pipe(t_pipe *data);
+int		release_pipe(t_pipe *data);
+
+// Create PIPE for execve & Run execve(path, argv, envv);
+int		execution(t_command *command, int input_fd);
 char	**envp_to_arr_converter(t_list *list);
-int		to_execve(t_command *command);
-int		to_execve_2(t_command *command);
-int		to_execve_3(t_command *command);
+// int		to_execve(t_command *command);
+// int		to_execve_2(t_command *command);
+// int		to_execve_3(t_command *command);
 
 // COMMAND echo
 int		minishell_echo(t_command *command);
-int		minishell_echo_for_execve(t_command *command);
 
 // COMMAND cd
 int		minishell_cd(t_command *command);
@@ -56,34 +62,31 @@ int		minishell_unset(t_command *command);
 // COMMAND env
 int		minishell_env(t_command *command);
 
-// COMMAND $?
-int		minishell_exit_status(t_command *command);
-
 // Environment Variable Utils
 char	**set_envvpath(void);
 t_hash	*get_envv(char *key);
 char	*get_envv_value(char *key);
-t_list	**set_lstenvv(char *env[]);
+t_list	*set_lstenvv(char *env[]);
 int		envv_name_format_checker(char *key);
-char	*envv_converter(char *arg);
+void	envmark_converter(char **arg);
+void	update_envv(char *key, char *new_value);
 
-// Redirection Utils
-void	set_redirection(void);
+// Redirection
+void	minishell_redirection(t_list **list, int *fd, char *redirect);
 
-// Free Memory
-void	minishell_finalize(void);
-void	split_free(char **split);
-void	command_free(void *command);
+// Arguments Vector Utils
+int		argv_counter(char *argv[]);
+size_t	arg_finder(t_command *cmd, char *input);
+char	**add_arguments(char **argv, char *add);
 
 // Other Utils
+void	set_redirection(void);
+
 char	*more_input(char *input);
 int		get_next_line(int fd, char **line);
 
 char	*execfile_finder(char *command);
 int		redirection_finder(char *redirection[], char *input, char **save);
-void	input_split(t_list **list, char *input);
-
-size_t	arg_finder(t_command *cmd, char *input);
 
 void	backslash_converter(char **arg);
 
@@ -93,5 +96,13 @@ char	*escape_sequence(char *arg);
 int		incorrect_exit(t_command *command);
 
 char	*ft_strjoin_with_free(char *str1, char *str2);
+
+void	print_info(t_list *list, int on_off);
+
+// Free Memory
+void	minishell_finalize(void);
+void	hash_free(void *ptr);
+void	split_free(char **split);
+void	command_free(void *command);
 
 #endif

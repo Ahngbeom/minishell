@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 11:23:42 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/11 13:47:37 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 16:58:08 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*execfile_finder(char *command)
 	if (g_data.envv_path == NULL)
 		return (NULL);
 	if (!stat(command, &buf))
-		return (command);
+		return (ft_strdup(command));
 	i = -1;
 	while (g_data.envv_path[++i] != NULL)
 	{

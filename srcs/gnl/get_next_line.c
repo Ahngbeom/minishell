@@ -6,11 +6,15 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/09 14:41:58 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 20:36:38 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/16 21:48:14 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+#ifndef OPEN_MAX
+# define OPEN_MAX 10
+#endif
 
 int	find_line_feed(char *stc_buff)
 {
@@ -75,13 +79,13 @@ int	end_of_file(char **stc_buff, char **line, int read_size)
 int	get_next_line(int fd, char **line)
 {
 	static char		*stc_buff[OPEN_MAX];
-	char			buff[BUFFER_SIZE + 1];
+	char			buff[BUFSIZ + 1];
 	ssize_t			read_size;
 	ssize_t			lf_idx;
 
-	if (fd < 0 || !line || BUFFER_SIZE <= 0 || fd >= OPEN_MAX)
+	if (fd < 0 || !line || BUFSIZ <= 0 || fd >= OPEN_MAX)
 		return (-1);
-	read_size = read(fd, buff, BUFFER_SIZE);
+	read_size = read(fd, buff, BUFSIZ);
 	while (read_size > 0)
 	{
 		buff[read_size] = '\0';
@@ -92,7 +96,7 @@ int	get_next_line(int fd, char **line)
 		lf_idx = find_line_feed(stc_buff[fd]);
 		if (lf_idx >= 0)
 			return (extract_line(&stc_buff[fd], line, lf_idx));
-		read_size = read(fd, buff, BUFFER_SIZE);
+		read_size = read(fd, buff, BUFSIZ);
 	}
 	return (end_of_file(&stc_buff[fd], line, read_size));
 }

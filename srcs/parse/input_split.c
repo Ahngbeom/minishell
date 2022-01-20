@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 13:30:19 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/09 01:16:48 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 16:36:06 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,15 @@ void	input_split(t_list **list, char *input)
 			input++;
 		else
 		{
+			/*
+			==16505== 40 bytes in 1 blocks are definitely lost in loss record 14 of 64
+			==16505==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+			==16505==    by 0x10E129: ft_calloc (ft_calloc.c:20)
+			==16505==    by 0x10BC49: input_split (input_split.c:28)
+			==16505==    by 0x1097E2: main (main.c:86)
+			*/
 			command = ft_calloc(sizeof(t_command), 1);
-			redir_idx = redirection_finder(g_data.arr_redirect, input, &command->redirect);
+			redir_idx = redirection_finder(g_data.arr_redirect, input, &command->type);
 			if (redir_idx >= 0)
 			{
 				temp = ft_substr(input, 0, redir_idx);
@@ -36,7 +43,7 @@ void	input_split(t_list **list, char *input)
 					*list = ft_lstnew(command);
 				else
 					ft_lstadd_back(list, ft_lstnew(command));
-				input += redir_idx + 1;
+				input += redir_idx + ft_strlen(command->type);
 			}
 			else
 			{
