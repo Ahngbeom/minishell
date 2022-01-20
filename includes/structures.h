@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 16:29:47 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 20:58:40 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ struct s_command
 	char		**argv;
 	char		*type;
 
+	t_command	*next;
 	// int			o_flag;
 
 	// int			next_flag;

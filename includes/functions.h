@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 02:07:40 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 21:31:13 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	set_history(t_list *lst_env);
 
 // Parsing
 void	input_split(t_list **list, char *input);
-void	split_2_command(t_list **list, char *input);
+void	split_2_command(t_list **commands, char *input);
 void	abbreviation_converter(t_list *list);
 
 // Starting to Minishell

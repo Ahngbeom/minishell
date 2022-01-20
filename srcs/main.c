@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 13:35:34 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 21:22:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static	int	preprocess(char **input)
 			free(*input);
 		return (1);
 	}
-	if (!ft_isalnum(**input) && ft_isprint(**input) && **input != '$')
+	if (!ft_isalnum(**input) && ft_isprint(**input) &&\
+		 **input != '$' && **input != '\'' && **input != '\"')
 	{
 		printf("minishell: syntax error near unexpected token `%c'\n", **input);
 		add_history(*input);
@@ -68,6 +69,7 @@ static	int	preprocess(char **input)
 
 int	main(int argc, char *argv[], char *env[])
 {
+	t_list	*commands;
 	char	*input;
 	int		check;
 
@@ -83,15 +85,16 @@ int	main(int argc, char *argv[], char *env[])
 		{
 			input = more_input(input);
 			add_history(input);
-			input_split(&g_data.commands, input);
+			// input_split(&g_data.commands, input);
 			
-			// split_2_command(&g_data.commands, input);
-			// free(input);
-			// continue ;
+			commands = NULL;
+			split_2_command(&commands, input);
+			free(input);
+			continue ;
 			
 			free(input);
 			abbreviation_converter(g_data.commands);
-			print_info(g_data.commands, 0);
+			print_info(g_data.commands, 1);
 			minishell();
 		}
 		else if (check < 0)

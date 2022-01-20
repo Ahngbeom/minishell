@@ -6,95 +6,124 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 02:41:51 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 21:32:14 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	size_t	count_command(char *input)
-{
-	size_t	cnt;
-
-	cnt = 0;
-	while (*input != '\0')
-	{
-		if (*input != ';')
-		{
-			cnt++;
-			while (*(++input) != ';')
-			{
-				if (*input == '\0')
-					break ;
-			}
-		}
-		else
-			++input;
-	}
-	return (cnt);
-}
-
-// static	char	*ft_findstr(char *s, char c)
+// static	size_t	count_command(char *input)
 // {
-// 	while (*s != '\0')
+// 	size_t	cnt;
+
+// 	cnt = 0;
+// 	while (*input != '\0')
 // 	{
-// 		if (*s == c)
-// 			s++;
-// 		else
-// 			return (s);
-// 	}
-// 	return (0);
-// }
-
-// static	size_t	ft_strclen(char *s, char c)
-// {
-// 	size_t	length;
-// 	char	*ptr;
-
-// 	length = 0;
-// 	ptr = s;
-// 	while (*ptr != '\0' && *ptr != c)
-// 	{
-// 		length++;
-// 		ptr++;
-// 	}
-// 	return (length);
-// }
-
-// static	char	**ft_splitter(char **pptr, char *str_ptr, char c, size_t str_cnt)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (i < str_cnt)
-// 	{
-// 		pptr[i] = (char *)malloc(ft_strclen(ft_findstr(str_ptr, c), c) + 1);
-// 		if (pptr[i] == NULL)
+// 		if (*input == '\'')
 // 		{
-// 			while (pptr[i] != NULL)
-// 				free(pptr[i++]);
-// 			free(pptr);
-// 			return (pptr);
+// 			while (*(++input) != '\"')
+// 			{
+// 				if (*input == '\0')
+// 					break ; // more_input
+// 			}
+// 			++input;
 // 		}
-// 		ft_strlcpy(pptr[i], ft_findstr(str_ptr, c), ft_strclen(ft_findstr(str_ptr, c), c) + 1);
-// 		str_ptr = ft_findstr(ft_findstr(str_ptr, c) + ft_strclen(ft_findstr(str_ptr, c), c), c);
+// 		else if (*input == '\"')
+// 		{
+// 			while (*(++input) != '\"')
+// 			{
+// 				if (*input == '\0')
+// 					break ; // more_input
+// 			}
+// 			++input;
+// 		}
+// 		else if (*input == ';')
+// 		{
+// 			input++;
+// 			if (*input != '\0')
+// 				cnt++;
+// 		}
+// 		else
+// 			++input;
+// 	}
+// 	return (++cnt);
+// }
+
+// static	char	*command_extractor(char *input, int *start_idx)
+// {
+// 	char	*command;
+	
+// 	command = NULL;
+// 	while (input[*start_idx] != '\0')
+// 	{
+// 		if (input[*start_idx] == '\'')
+// 		{
+// 			while (input[++(*start_idx)] != '\"')
+// 			{
+// 				if (input[*start_idx] == '\0')
+// 					break ; // more_input
+// 			}
+// 			++(*start_idx);
+// 		}
+// 		else if (input[*start_idx] == '\"')
+// 		{
+// 			while (*(++input) != '\"')
+// 			{
+// 				if (input[*start_idx] == '\0')
+// 					break ; // more_input
+// 			}
+// 			++(input);
+// 		}
+// 		if (input[*start_idx] == ';')
+// 		{
+// 			command = ft_substr(input, 0, (*start_idx)++);
+// 			return (command);
+// 		}
+// 		else
+// 			++(*start_idx);
+// 	}
+// 	return (ft_strdup(input));
+// }
+
+// static	void	splitter(t_command *command, char *input, size_t count)
+// {
+// 	char	*copy_input;
+// 	char	*temp;
+// 	size_t	i;
+// 	int		idx;
+
+// 	copy_input = input;
+// 	temp = NULL;
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		idx = 0;
+// 		command->argv[i] = command_extractor(copy_input, &idx);
+// 		if (copy_input != NULL && copy_input != input)
+// 			temp = copy_input;
+// 		while (copy_input[idx] == ' ')
+// 			idx++;
+// 		if (copy_input[idx] != '\0')
+// 			copy_input = ft_substr(copy_input, idx, ft_strlen(copy_input));
+// 		if (temp != NULL)
+// 			free(temp);
 // 		i++;
 // 	}
-// 	pptr[i] = NULL;
-// 	return (pptr);
 // }
 
-void	split_2_command(t_list **list, char *input)
+void	split_2_command(t_list **commands, char *input)
 {
-	// char	**commands;
-	int		count_cmds;
+	t_command	*cmd;
 
-	printf("[split 2 command]\n");
-	(void)list;
-	count_cmds = count_command(input);
-	printf("%d\n", count_cmds);
-	// commands = (char **)malloc(sizeof(char *) * (count_cmds + 1));
-	// if (commands == NULL)
-	// 	return (NULL);
-	// return (ft_splitter(commands, sptr, c, count_cmds));
+	// while ()
+	// {
+		cmd = ft_calloc(sizeof(t_command), 1);
+		if (*commands == NULL)
+			*commands = ft_lstnew(cmd);
+		else
+			ft_lstadd_back(commands, ft_lstnew(cmd));
+		cmd->argv = ft_calloc(sizeof(char *), 2);
+		cmd->argv[0] = ft_strdup(input);
+	// }
+	// splitter(*commands, input, count_cmds);
 }
