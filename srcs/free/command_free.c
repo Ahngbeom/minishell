@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.c                                      :+:      :+:    :+:   */
+/*   command_free.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 12:21:07 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/24 12:39:59 by bahn             ###   ########.fr       */
+/*   Created: 2021/12/22 15:58:22 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/19 16:50:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// $?
-int	minishell_exit_status(t_command *command)
+void	command_free(void *content)
 {
-	(void)command;
-	// ft_putnbr_fd(errno, 1);
-	ft_putnbr_fd(g_data.status, 1);
-	ft_putchar_fd(LF, 1);
-	return (SELF_PROC);
+	t_command	*cmd;
+
+	cmd = content;
+	cmd->builtin_func = NULL;
+	split_free(cmd->argv);
+	cmd->argv = NULL;
+	cmd->type = NULL;
+	free(cmd);
+	cmd = NULL;
 }

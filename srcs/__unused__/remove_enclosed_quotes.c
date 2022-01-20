@@ -6,29 +6,29 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 14:30:34 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/01 15:57:53 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/05 12:42:06 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	more_input(char **arg)
-{
-	char	*more_input;
-	char	*result;
-	char	*temp;
+// static	int	more_input(char **arg)
+// {
+// 	char	*more_input;
+// 	char	*result;
+// 	char	*temp;
 
-	temp = *arg;
-	result = ft_strjoin(*arg, "\n");
-	free(temp);
-	more_input = readline("> ");
-	temp = result;
-	result = ft_strjoin(result, more_input);
-	free(temp);
-	free(more_input);
-	*arg = result;
-	return (1);
-}
+// 	temp = *arg;
+// 	result = ft_strjoin(*arg, "\n");
+// 	free(temp);
+// 	more_input = readline("> ");
+// 	temp = result;
+// 	result = ft_strjoin(result, more_input);
+// 	free(temp);
+// 	free(more_input);
+// 	*arg = result;
+// 	return (1);
+// }
 
 // static	int	arg_compose(char **arg, char *open_quotes, char *close_quotes)
 // {
@@ -65,13 +65,11 @@ static	int	quotes_finder(char **arg, char quetes)
 	{
 		r_find = ft_strrchr(*arg, quetes);
 		if (find == r_find)
-			return (more_input(arg));
-		else
-			// return (arg_compose(arg, find, r_find));
-			return (0);
+			more_input(arg);
 	}
 	else
 		return (0);
+	return (0);
 }
 
 char	*remove_enclosed_quotes(char *arg)

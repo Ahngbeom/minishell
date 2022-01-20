@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_free.c                                       :+:      :+:    :+:   */
+/*   hash_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/21 15:57:25 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/02 17:37:06 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/17 17:54:55 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/17 18:56:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	split_free(char **split)
+void	hash_free(void *ptr)
 {
-	int	i;
+	t_hash	*hash;
 
-	if (split == NULL)
-		return ;
-	i = -1;
-	while (split[++i] != NULL)
-		free(split[i]);
-	free(split);
+	hash = ptr;
+	free(hash->key);
+	free(hash->value);
+	free(hash);
 }

@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_finder.c                               :+:      :+:    :+:   */
+/*   envv_name_format_checker.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/01 16:06:05 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/04 15:46:43 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/17 22:36:12 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/17 22:41:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	redirection_finder(char *input, char *redirection[], char **save)
+int	envv_name_format_checker(char *key)
 {
-	char	*find_ptr;
-	char	*forefront;
-	int		i;
+	int	i;
 
-	forefront = NULL;
-	find_ptr = NULL;
+	if (ft_isdigit(*key))
+		return (0);
 	i = -1;
-	while (redirection[++i] != NULL)
+	while (key[++i] != '\0')
 	{
-		find_ptr = ft_strnstr(input, redirection[i], ft_strlen(input));
-		if (find_ptr != NULL && (forefront == NULL || forefront > find_ptr))
-		{
-			forefront = find_ptr;
-			if (save != NULL)
-				*save = redirection[i];
-		}
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			break ;
 	}
-	if (input < forefront)
-		return (forefront - input);
+	if (key[i] != '\0')
+		return (1);
 	else
 		return (0);
 }

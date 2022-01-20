@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execfile_finder.c                                  :+:      :+:    :+:   */
+/*   envp_to_arr_converter.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 11:23:42 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 16:58:08 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/11 01:33:21 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/19 00:21:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*execfile_finder(char *command)
+char	**envp_to_arr_converter(t_list *list)
 {
-	int			i;
-	char		*compose;
-	struct stat	buf;
+	t_list	*lst_env;
+	t_hash	*hash;
+	char	**arr_env;
+	int		i;
 
-	if (g_data.envv_path == NULL)
+	if (ft_lstsize(list) == 0)
 		return (NULL);
-	if (!stat(command, &buf))
-		return (ft_strdup(command));
+	arr_env = ft_calloc(sizeof(char *), ft_lstsize(list) + 1);
+	lst_env = list;
 	i = -1;
-	while (g_data.envv_path[++i] != NULL)
+	while (lst_env != NULL)
 	{
-		compose = ft_strjoin(g_data.envv_path[i], command);
-		if (!stat(compose, &buf))
-			return (compose);
-		free(compose);
+		hash = (t_hash *)lst_env->content;
+		arr_env[++i] = \
+			ft_strjoin_with_free(\
+				ft_strjoin(hash->key, "="), \
+				ft_strdup(hash->value));
+		lst_env = lst_env->next;
 	}
-	return (NULL);
+	return (arr_env);
 }

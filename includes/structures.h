@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 12:17:23 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/20 23:33:26 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct termios		t_termios;
 typedef struct s_data		t_data;
 typedef struct s_hash		t_hash;
 typedef struct s_command	t_command;
+typedef struct s_pip		t_pip;
 typedef struct s_pipe		t_pipe;
 
 extern t_data				g_data;
@@ -31,10 +32,13 @@ struct s_command
 	// Not is 0 (Zero)
 	int			bulit_in_flag;
 
-	int			(*func)(t_command *);
+	int			(*builtin_func)(t_command *);
+	// int			(*func)(t_command *);
 	char		**argv;
+	char		*type;
+
 	t_list		*lst_argv;
-	char		*redirect;
+	// char		*redirect;
 
 	// 리다이렉션, 파이프를 처리하기위해 출력 결과를 저장하기 위한 변수
 	char		*output;
@@ -43,7 +47,7 @@ struct s_command
 	int			pre_flag;
 };
 
-struct s_pipe
+struct s_pip
 {
 	int		size;
 	int		i;
@@ -55,15 +59,14 @@ struct s_pipe
 
 struct s_data
 {
-	struct termios	termios;
 	char			*prompt;
-	char			**org_envv;
-	t_list			**envv;
+	t_list			*lst_env;
 	char			**envv_path;
 
 	char			**arr_redirect;
 
 	t_list			*commands;
+	char			*exit_stat;
 	int				status;
 };
 
@@ -71,6 +74,24 @@ struct s_hash
 {
 	char	*key;
 	char	*value;
+};
+
+// struct s_command
+// {
+// 	int			(*builtin_func)(t_command *);
+// 	char		**argv;
+// 	char		*type;
+
+// 	// int			o_flag;
+
+// 	// int			next_flag;
+// 	// int			pre_flag;
+// };
+
+struct s_pipe
+{
+	int		org_stdioe[2];
+	int		fd[2];
 };
 
 #endif

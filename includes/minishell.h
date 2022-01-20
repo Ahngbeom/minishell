@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:04:38 by bahn              #+#    #+#             */
-/*   Updated: 2021/12/31 20:51:05 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/19 16:30:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 # define EOT 4
 # define LF	10
 
-// # define CMD_ECHO "echo"
-// # define CMD_CD "cd"
-// # define CMD_PWD "pwd"
-// # define CMD_EXPORT "export"
-// # define CMD_UNSET "unset"
-// # define CMD_ENV "env"
-// # define CMD_EXIT "exit"
+# define READ 0
+# define WRITE 1
 
-# define EXEC_PROC 0
-# define SELF_PROC 1
+# define KEY 0
+# define VALUE 1
 
-// # define BIN_PATH "/bin/"
+# define SEMI_COLON ";"
+# define PIPE "|"
+# define TRNC_REDIR ">"
+# define APND_REDIR ">>"
+# define R_TRNC_REDIR "<"
+# define R_APND_REDIR "<<"
 
 # include <unistd.h>			// fork()
 # include <signal.h>			// signal()

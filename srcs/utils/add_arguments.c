@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   incorrect_exit.c                                   :+:      :+:    :+:   */
+/*   add_arguments.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 20:03:23 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/17 00:37:20 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/17 00:45:07 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	No Options
-*/
-int	incorrect_exit(t_command *command)
+char	**add_arguments(char **argv, char *add)
 {
-	ft_putendl_fd(command->argv[0], 1);
-	if (argv_counter(command->argv) > 1)
-		printf("minishell: exit: %s: numeric argument required\n", \
-				command->argv[1]);
-	ft_lstclear(&g_data.commands, command_free);
-	minishell_finalize();
-	exit(ft_atoi(g_data.exit_stat));
+	char	**new;
+	int		i;
+
+	new = ft_calloc(sizeof(char *), argv_counter(argv) + 2);
+	i = -1;
+	while (argv[++i] != NULL)
+	{
+		new[i] = argv[i];
+	}
+	new[i] = ft_strdup(add);
+	free(argv);
+	return (new);
 }

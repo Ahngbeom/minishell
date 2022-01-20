@@ -6,13 +6,13 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 11:13:50 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/21 00:29:17 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_flag(t_list *i_list)
+static void	set_flag(t_list *i_list)
 {
 	t_list	*list;
 	t_command	*content;
@@ -23,37 +23,39 @@ void	set_flag(t_list *i_list)
 	{
 		content = (t_command *)list->content;
 		next_con = (t_command *)list->next->content;
-		if (ft_strncmp(content->redirect, ";", 2) == 0)
+		if (ft_strncmp(content->type, ";", 2) == 0)
 		{
 			content->next_flag = 1;
 			next_con->pre_flag = 1;
 		}
-		if (ft_strncmp(content->redirect, "|", 2) == 0)
+		if (ft_strncmp(content->type, "|", 2) == 0)
 		{
 			content->next_flag = 2;
 			next_con->pre_flag = 2;
 		}
-		if (ft_strncmp(content->redirect, ">", 2) == 0)
+		
+		if (ft_strncmp(content->type, ">", 2) == 0)
 		{
 			content->next_flag = 3;
 			next_con->pre_flag = 3;
 		}
-		if (ft_strncmp(content->redirect, ">>", 3) == 0)
+		if (ft_strncmp(content->type, ">>", 3) == 0)
 		{
 			content->next_flag = 4;
 			next_con->pre_flag = 4;
 		}
-		if (ft_strncmp(content->redirect, "<", 2) == 0)
+		if (ft_strncmp(content->type, "<", 2) == 0)
 		{
 			content->next_flag = 5;
 			next_con->pre_flag = 5;
 		}
-		if (ft_strncmp(content->redirect, "<<", 2) == 0)
+		if (ft_strncmp(content->type, "<<", 2) == 0)
 		{
 			content->next_flag = 6;
 			next_con->pre_flag = 6;
 		}
-		list = list->next;
+		if (list->next)
+			list = list->next;
 	}
 }
 
@@ -65,7 +67,7 @@ void	if_pipe(t_list *list, int **fd, int i)
 	}
 }
 
-void	if_flag_right(t_list *list, t_command *exe, int **fd, int i)
+static void	if_flag_right(t_list *list, t_command *exe, int **fd, int i)
 {
 	if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // > or >>
 	{
@@ -88,7 +90,7 @@ void	if_flag_right(t_list *list, t_command *exe, int **fd, int i)
 	}
 }
 
-void	if_flag_right_no_exe(t_list *list, int **fd, int i)
+static void	if_flag_right_no_exe(t_list *list, int **fd, int i)
 {
 	if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // > or >>
 	{
@@ -109,7 +111,7 @@ void	if_flag_right_no_exe(t_list *list, int **fd, int i)
 	}
 }
 
-void	if_flag_left(t_list *list, t_command *exe, int **fd, int *i)
+static void	if_flag_left(t_list *list, t_command *exe, int **fd, int *i)
 {
 	if (((t_command *)(list)->content)->next_flag == 5) // flag <
 	{
@@ -139,7 +141,7 @@ void	if_flag_left(t_list *list, t_command *exe, int **fd, int *i)
 	}
 }
 
-void	if_flag_d_left(t_list *list, t_command *exe, t_pipe pip, int *i)
+static void	if_flag_d_left(t_list *list, t_command *exe, t_pip pip, int *i)
 {
 	char *temp;
 	int		out_fd;
@@ -180,7 +182,7 @@ void	if_flag_d_left(t_list *list, t_command *exe, t_pipe pip, int *i)
 	}
 }
 
-void	while_3456(t_list **list, int *i) //  > >> <
+static void	while_3456(t_list **list, int *i) //  > >> <
 {
 	if (((t_command *)(*list)->content)->next_flag == 6)
 		unlink("temp");
@@ -209,7 +211,7 @@ void	while_3456(t_list **list, int *i) //  > >> <
 	}
 }
 
-void	do_son(t_list *list, t_pipe pip)
+static void	do_son(t_list *list, t_pip pip)
 {
 	pip.exe = list->content;
 	if (((t_command *)(list)->content)->pre_flag) // (|) argv
@@ -223,7 +225,7 @@ void	do_son(t_list *list, t_pipe pip)
 	to_execve_2(list->content); // 만약 다음 플레그가 > 라면 그냥 나가야함
 }
 
-void	set_pip(t_pipe *pip, t_list *list)
+static void	set_pip(t_pip *pip, t_list *list)
 {
 	pip->exe = NULL; //
 	pip->size = ft_lstsize(list);
@@ -239,7 +241,7 @@ void	set_pip(t_pipe *pip, t_list *list)
 
 t_list	*ft_pipe(t_list *list)
 {
-	t_pipe	pip;
+	t_pip	pip;
 
 	set_pip(&pip, list);
 	while (++(pip.i) < pip.size && ((t_command *)(list)->content)) //&& ((t_command *)(list)->content)->next_flag) // && (*list)->content
@@ -267,33 +269,72 @@ t_list	*ft_pipe(t_list *list)
 	return (list);
 }
 
-int	minishell(char *input)
+static	void	command_finder(t_command *command)
+{
+	if (!ft_strncmp(command->argv[0], "echo", ft_strlen("echo") + 1))
+		command->builtin_func = minishell_echo;
+	else if (!ft_strncmp(command->argv[0], "cd", ft_strlen("cd") + 1))
+		command->builtin_func = minishell_cd;
+	else if (!ft_strncmp(command->argv[0], "pwd", ft_strlen("pwd") + 1))
+		command->builtin_func = minishell_pwd;
+	else if (!ft_strncmp(command->argv[0], "export", ft_strlen("export") + 1))
+		command->builtin_func = minishell_export;
+	else if (!ft_strncmp(command->argv[0], "unset", ft_strlen("unset") + 1))
+		command->builtin_func = minishell_unset;
+	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
+		command->builtin_func = minishell_env;
+	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("exit") + 1))
+		command->builtin_func = incorrect_exit;
+	else
+		command->builtin_func = NULL;
+}
+
+static void	print_result(t_list **list, int *fd)
+{
+	char	buf[BUFSIZ];
+
+	ft_bzero(buf, BUFSIZ);
+	while (read(*fd, buf, BUFSIZ) > 0)
+	{
+		ft_putstr_fd(buf, STDOUT_FILENO);
+		ft_bzero(buf, ft_strlen(buf));
+	}
+	close(*fd);
+	*fd = -1;
+	*list = (*list)->next;
+}
+
+int	minishell(void) // 알림장: 세그먼트폴트가 자꾸뜸
 {
 	t_list		*list;
 	t_command	*cmd;
+	int			fd;
 
-	input = escape_sequence(input);
-	add_history(input);
-	input = remove_enclosed_quotes(input);
-	input_split(&g_data.commands, ft_strtrim(input, " "));
-	free(input);
-	set_flag(g_data.commands);
+	fd = -1;
 	list = g_data.commands;
+	set_flag(g_data.commands);
 	while (list != NULL)
 	{
 		cmd = list->content;
+		command_finder(cmd);
 		if (cmd->next_flag) // |
 		{
 			list = ft_pipe(list);
 			break ;
 		}
+		
+		if (cmd->builtin_func != NULL)
+			fd = cmd->builtin_func(cmd);
 		else
-		{
-			parsing(cmd);
-			if (!cmd->bulit_in_flag)
-				to_execve(cmd);
-		}
-		list = list->next;
+			fd = execution(cmd, fd);
+		if (cmd->type == NULL || \
+			!ft_strncmp(cmd->type, SEMI_COLON, ft_strlen(cmd->type) + 1))
+			print_result(&list, &fd);
+		else if (!ft_strncmp(cmd->type, PIPE, ft_strlen(cmd->type) + 1))
+			list = list->next;
+		else
+			minishell_redirection(&list, &fd, cmd->type);
+		g_data.envv_path = set_envvpath();
 	}
 	ft_lstclear(&g_data.commands, command_free);
 	return (0);
