@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 12:46:33 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/20 10:41:16 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	if_flag_right_no_exe(t_list *list, int **fd, int i)
 	}
 }
 
-void	if_flag_left(t_list *list, t_command *exe, int **fd, int i)
+void	if_flag_left(t_list *list, t_command *exe, int **fd, int *i)
 {
 	if (((t_command *)(list)->content)->next_flag == 5) // flag <
 	{
@@ -117,30 +117,32 @@ void	if_flag_left(t_list *list, t_command *exe, int **fd, int i)
 		// printf("test_argv:%s\n", exe->argv[0]);
 		while (((t_command *)(list)->content)->next_flag == 5)
 		{
-			fd[i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDONLY, 0644);
-			dup2(fd[i][1], STDIN_FILENO);
-			close(fd[i][1]);
-			if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // ~ < ~ >
+			fd[*i][1] = open(((t_command *)(list)->next->content)->argv[0], O_RDONLY, 0644);
+			dup2(fd[*i][1], STDIN_FILENO);
+			close(fd[*i][1]);
+			if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // (~) < (~) > or >>
 			{
-				// printf("hi >!!\n");
 				list = (list)->next;
-				i++;
-				if_flag_right_no_exe(list, fd, i);
+				(*i)++;
+				if_flag_right_no_exe(list, fd, *i);
 				// printf("test_argv:%s\n", exe->argv[0]); // ???
 				to_execve_2(exe);
 			}
 			if (((t_command *)(list)->next->content)->next_flag != 5) // aa > bb > cc
 			{
-				// printf("hi(b)\n");
 				break ;
 			}
-			// printf("hi(2)\n");
 			list = (list)->next;
 		}
 		// printf("test_argv:%s\n", exe->argv[0]);
 		to_execve_2(exe);
 	}
 }
+
+// void	if_flag_d_left(t_list *list, t_command *exe, int **fd, int i)
+// {
+// 	;
+// }
 
 void	while_345(t_list **list, int *i)
 {
@@ -152,7 +154,7 @@ void	while_345(t_list **list, int *i)
 	}
 	while (((t_command *)(*list)->content)->next_flag == 5) // (~) <
 	{
-		if (((t_command *)(*list)->next->content)->next_flag == 3 || ((t_command *)(*list)->next->content)->next_flag == 4) // (~) < (~) > or >>
+		if (((t_command *)(*list)->next->content)->next_flag == 3 || ((t_command *)(*list)->next->content)->next_flag == 4) // next > or >>
 		{
 			*list = (*list)->next;
 			(*i)++;
@@ -193,16 +195,47 @@ t_list	*ft_pipe(t_list *list)
 		pip.pid = fork();
 		if (pip.pid == 0)
 		{
+			pip.exe = list->content;
 			if (((t_command *)(list)->content)->pre_flag) // (|) argv
 				dup2(pip.fd[pip.i - 1][0], STDIN_FILENO);
 			if_pipe(list, pip.fd, pip.i);
 			if_flag_right(list, pip.exe, pip.fd, pip.i); // flag 3: >, 4: >>
-			if_flag_left(list, pip.exe, pip.fd, pip.i); // flag 5: <
+			if_flag_left(list, pip.exe, pip.fd, &(pip.i)); // flag 5: <
+			// if_flag_d_left(list, pip.exe, pip.fd, pip.i); // flag 6: <<
 			if (((t_command *)(list)->content)->next_flag == 6) // <<
 			{
-				pip.fd[pip.i][1] = open("temp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				dup2(pip.fd[pip.i][1], STDOUT_FILENO);
+				char *temp;
+				int		fd;
+				fd = dup(STDOUT_FILENO);
+				pip.pid = fork();
+				if (pip.pid == 0)
+				{
+					pip.fd[pip.i][1] = open("temp", O_WRONLY | O_CREAT | O_APPEND, 0644);
+					while (1)
+					{
+						temp = readline("> ");
+						if (ft_strncmp(temp, ((t_command *)(list)->next->content)->argv[0], ft_strlen(((t_command *)(list)->next->content)->argv[0]) + 1) == 0)
+							exit(0);
+						dup2(pip.fd[pip.i][1], STDOUT_FILENO);
+						printf("%s\n", temp);
+						free(temp);
+						dup2(fd, STDOUT_FILENO);
+					}
+				}
+				wait(&pip.status);
+				pip.fd[pip.i][1] = open("temp", O_RDONLY, 0644);
+				dup2(pip.fd[pip.i][1], STDIN_FILENO);
 				close(pip.fd[pip.i][1]);
+				if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // (~) << (~) > or >>
+				{
+					pip.exe = list->content;
+					list = (list)->next;
+					pip.i++;
+					if_flag_right_no_exe(list, pip.fd, pip.i);
+					to_execve_2(pip.exe);
+				}
+				// printf("argv[%s]\n", ((t_command *)(list)->content)->argv[0]);
+				to_execve_2(list->content);
 			}
 			if (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4)
 				exit(0);
@@ -220,18 +253,17 @@ t_list	*ft_pipe(t_list *list)
 		}
 		if (((t_command *)(list)->content)->next_flag == 6) // <<
 		{
-			pip.pid = fork();
-			if (pip.pid == 0)
+			if (((t_command *)(list)->next->content)->next_flag == 3 || ((t_command *)(list)->next->content)->next_flag == 4) // next > or >>
 			{
-				pip.fd[pip.i][1] = open("temp", O_RDONLY, 0644);
-				dup2(pip.fd[pip.i][1], STDIN_FILENO);
-				close(pip.fd[pip.i][1]);
-				// printf("argv:%s\n", ((t_command *)(list)->next->content)->argv[0]);
-				to_execve_2(list->content);
+				list = (list)->next;
+				(pip.i)++;
+				while (((t_command *)(list)->content)->next_flag == 3 || ((t_command *)(list)->content)->next_flag == 4) // >
+				{
+					if (((t_command *)(list)->next->content)->next_flag != 3 && ((t_command *)(list)->next->content)->next_flag != 4) // aa > bb > cc
+						break ;
+					list = (list)->next;
+				}
 			}
-			wait(&pip.status);
-			g_data.status = WEXITSTATUS(g_data.status);
-			close(pip.fd[pip.i][1]);
 			unlink("temp");
 		}
 		if ((list)->next)
