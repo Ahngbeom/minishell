@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 02:36:41 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/20 13:35:34 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	main(int argc, char *argv[], char *env[])
 			add_history(input);
 			input_split(&g_data.commands, input);
 			
-			split_2_command(&g_data.commands, input);
-			free(input);
-			continue ;
+			// split_2_command(&g_data.commands, input);
+			// free(input);
+			// continue ;
 			
 			free(input);
 			abbreviation_converter(g_data.commands);
-			print_info(g_data.commands, 1);
+			print_info(g_data.commands, 0);
 			minishell();
 		}
 		else if (check < 0)
