@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 14:41:24 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/21 11:50:43 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		release_pipe(t_pipe *data);
 // Create PIPE for execve & Run execve(path, argv, envv);
 int		execution(t_command *command, int input_fd);
 char	**envp_to_arr_converter(t_list *list);
+int	to_execve(t_command *command);
 int		to_execve_2(t_command *command);
 // int		to_execve_3(t_command *command);
 

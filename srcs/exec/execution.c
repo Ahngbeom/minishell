@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 14:47:05 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/21 13:24:32 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	execution(t_command *command, int input_fd)
 	char	*cmd_path;
 	char	**envp;
 
-	set_pipe(&pipe_data);
 	cmd_path = execfile_finder(command->argv[0]);
 	envp = envp_to_arr_converter(g_data.lst_env);
 	pid = fork();

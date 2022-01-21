@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 14:48:22 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/21 14:17:18 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int	main(int argc, char *argv[], char *env[])
 		{
 			input = more_input(input);
 			add_history(input);
-			input_split(&g_data.commands, input);
+			// printf("argv:%s %s\n", ((t_command *)g_data.commands->content)->argv[0], ((t_command *)g_data.commands->content)->argv[1]); //////////
+			input_split(&g_data.commands, input); // deleted '?
 			
 			// split_2_command(&g_data.commands, input);
 			// free(input);
@@ -92,6 +93,7 @@ int	main(int argc, char *argv[], char *env[])
 			free(input);
 			abbreviation_converter(g_data.commands);
 			print_info(g_data.commands, 0);
+			// printf("argv:%s %s\n", ((t_command *)g_data.commands->content)->argv[0], ((t_command *)g_data.commands->content)->argv[1]); // argv test
 			minishell();
 		}
 		else if (check < 0)

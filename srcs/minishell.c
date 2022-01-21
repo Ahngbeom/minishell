@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 00:29:17 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/21 11:52:39 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,7 +304,7 @@ static void	print_result(t_list **list, int *fd)
 	*list = (*list)->next;
 }
 
-int	minishell(void) // 알림장: 세그먼트폴트가 자꾸뜸
+int	minishell(void)
 {
 	t_list		*list;
 	t_command	*cmd;
@@ -326,7 +326,10 @@ int	minishell(void) // 알림장: 세그먼트폴트가 자꾸뜸
 		if (cmd->builtin_func != NULL)
 			fd = cmd->builtin_func(cmd);
 		else
+		{
 			fd = execution(cmd, fd);
+			// fd = to_execve(cmd);
+		}
 		if (cmd->type == NULL || \
 			!ft_strncmp(cmd->type, SEMI_COLON, ft_strlen(cmd->type) + 1))
 			print_result(&list, &fd);

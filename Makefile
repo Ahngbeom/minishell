@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/20 02:28:49 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/21 11:15:49 by minsikim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,6 +129,7 @@ ALL_OBJS = $(OBJS) \
 all : $(NAME)
 
 .c.o :
+	git submodule update --init --recursive
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(NAME) : $(ALL_OBJS)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_finder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 01:13:30 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:29:08 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/21 14:20:05 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ size_t	arg_finder(t_command *cmd, char *input)
 	{
 		if (*input == '\"' || *input == '\'')
 		{
+			if (*input == '\'' && *(input + 1) == '$') // add for echo '$HOME'
+				g_data.not_convert = 1;
 			cnt++;
 			if (cmd != NULL)
 				cmd->argv[++i] = \

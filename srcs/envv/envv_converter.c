@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envv_converter.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 23:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 21:46:43 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/21 14:17:45 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ void	envmark_converter(char **arg)
 	if (find == NULL || ft_strlen(*arg) <= 1)
 		return ;
 	if (find > *arg)
+	{
 		prev_tmp = ft_substr(*arg, 0, find - *arg);
+	}
 	if (*(find + 1) == '?')
 		exit_stat_converter(arg, find);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   abbreviation_converter.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 20:55:52 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/17 23:31:29 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/21 14:18:04 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	abbreviation_converter(t_list *list)
 		while (command->argv[++i] != NULL)
 		{
 			tilde_converter(&command->argv[i]);
-			envmark_converter(&command->argv[i]);
+			if (g_data.not_convert == 0) ////////////// add for '$HOME'
+				envmark_converter(&command->argv[i]);
 		}
 		ptr = ptr->next;
 	}
