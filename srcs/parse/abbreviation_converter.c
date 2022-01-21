@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 20:55:52 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 14:18:04 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/21 14:55:20 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,5 @@ void	abbreviation_converter(t_list *list)
 		}
 		ptr = ptr->next;
 	}
+	g_data.not_convert = 0;
 }
