@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/22 15:50:36 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/23 01:56:41 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,10 @@ PARSE_SRCS_NAME = more_input.c \
 					arg_finder.c \
 					input_split.c \
 					split_2_command.c \
+					quote.c \
+					more_input2.c \
 					command_type.c \
+					split_without_quotes.c \
 					abbreviation_converter.c \
 					escape_sequence.c \
 					backslash.c
