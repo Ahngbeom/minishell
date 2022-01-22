@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 16:59:00 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/22 13:44:27 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	minishell(void)
 	int			fd;
 
 	fd = -1;
-	list = g_data.commands;
+	list = g_data.lst_cmds;
 	while (list != NULL)
 	{
 		cmd = list->content;
@@ -72,6 +72,6 @@ int	minishell(void)
 			minishell_redirection(&list, &fd, cmd->type);
 		g_data.envv_path = set_envvpath();
 	}
-	ft_lstclear(&g_data.commands, command_free);
+	ft_lstclear(&g_data.lst_cmds, command_free);
 	return (0);
 }

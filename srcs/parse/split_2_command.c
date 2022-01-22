@@ -6,33 +6,11 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 02:41:51 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/22 18:11:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static	size_t	count_command(char *input)
-{
-	size_t	cnt;
-
-	cnt = 0;
-	while (*input != '\0')
-	{
-		if (*input != ';')
-		{
-			cnt++;
-			while (*(++input) != ';')
-			{
-				if (*input == '\0')
-					break ;
-			}
-		}
-		else
-			++input;
-	}
-	return (cnt);
-}
 
 // static	char	*ft_findstr(char *s, char c)
 // {
@@ -84,15 +62,82 @@ static	size_t	count_command(char *input)
 // 	return (pptr);
 // }
 
+static	size_t	command_finder(char **input, char **splitted)
+{
+	char	*ptr;
+	int		length;
+	char	*temp;
+
+	ptr = *input;
+	length = 0;
+	while (*ptr != '\0')
+	{
+		if (quote_finder(&ptr, &length))
+			continue ;
+		else if (type_finder(ptr))
+		{
+			length++;
+			ptr++;
+			break ;
+		}
+		length++;
+		ptr++;
+	}
+	if (length > 0)
+	{
+		*splitted = ft_substr(*input, 0, length);
+		temp = *input;
+		*input = ft_substr(*input, length, ft_strlen(*input));
+		free(temp);
+		if (ft_strlen(*splitted) != length)
+		{
+			temp = *splitted;
+			*splitted = ft_substr(*input, 0, length);
+			free(temp);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+static void	arg_extractor(t_command *command, char *sentence)
+{
+	char	*type;
+
+	type = type_finder(sentence);
+	if (type)
+	{
+		sentence = ft_substr(sentence, 0, type - sentence);
+	}
+	command->argv = ft_split(sentence, " ");
+}
+
 void	split_2_command(t_list **list, char *input)
 {
-	// char	**commands;
-	int		count_cmds;
+	t_command	*command;
+	char		*splitted;
 
-	printf("[split 2 command]\n");
-	(void)list;
-	count_cmds = count_command(input);
-	printf("%d\n", count_cmds);
+	splitted = NULL;
+	while (command_finder(&input, &splitted) > 0)
+	{
+		command = ft_calloc(sizeof(t_command), 1);
+		arg_extractor(command, splitted);
+		set_type(command, splitted);
+		if (*list == NULL)
+			*list = ft_lstnew(command);
+		else
+			ft_lstadd_back(list, ft_lstnew(command));
+		printf("splitted : %s\n", splitted);
+		// printf("argv[0] : %s\n", command->argv[0]);
+		printf("type : %s\n", command->type);
+		// splitted -> cmd->argv;
+		free(splitted);
+		splitted = NULL;
+		printf("input : %s\n", input);
+
+	}
+	if (input != NULL)
+		free(input);
 	// commands = (char **)malloc(sizeof(char *) * (count_cmds + 1));
 	// if (commands == NULL)
 	// 	return (NULL);
