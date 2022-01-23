@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 14:37:59 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 15:31:30 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,25 @@ static size_t	command_finder(char **input, char **splitted)
 	return (0);
 }
 
-static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr)
+static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, t_command *command)
 {
 	char	quotes;
+	char	*end_quotes;
 
 	quotes = *start_quotes;
 	if (start_quotes < type_ptr)
 	{
-		start_quotes = ft_strchr(start_quotes + 1, quotes);
-		if (start_quotes && start_quotes < type_ptr)
+		end_quotes = ft_strchr(start_quotes + 1, quotes);
+		if (end_quotes && end_quotes < type_ptr)
 		{
+			set_type(command, &type_ptr);
 			return (1);
 		}
 	}
 	return (0);
 }
 
-static int	enclosed_quotes_checker(char *sentence, char *type_ptr)
+static int	enclosed_quotes_checker(char *sentence, char *type_ptr, t_command *command)
 {
 	char	*sgle;
 	char	*dble;
@@ -94,11 +96,14 @@ static int	enclosed_quotes_checker(char *sentence, char *type_ptr)
 	sgle = ft_strchr(sentence, '\'');
 	dble = ft_strchr(sentence, '\"');
 	if (sgle && dble)
-		return (determine_enclosed_quotes(sgle, type_ptr) && determine_enclosed_quotes(dble, type_ptr));
+	{
+		return (determine_enclosed_quotes(sgle, type_ptr, command) && \
+				determine_enclosed_quotes(dble, type_ptr, command));
+	}
 	else if (sgle)
-		return (determine_enclosed_quotes(sgle, type_ptr));
+		return (determine_enclosed_quotes(sgle, type_ptr, command));
 	else if (dble)
-		return (determine_enclosed_quotes(dble, type_ptr));
+		return (determine_enclosed_quotes(dble, type_ptr, command));
 	return (0);
 }
 
@@ -108,8 +113,9 @@ static void	arg_extractor(t_command *command, char **sentence)
 	char	*temp;
 
 	type = type_finder(*sentence, NULL, NULL);
-	if (type && enclosed_quotes_checker(*sentence, type))
+	if (type && enclosed_quotes_checker(*sentence, type, command))
 	{
+		printf("?\n");
 		// set_type(command, sentence);
 		temp = *sentence;
 		*sentence = ft_substr(*sentence, 0, type - *sentence);
