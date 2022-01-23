@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/23 23:16:42 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/24 00:38:53 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -g #fsanitize=address
 INCFLAGS = -I./includes -I./libft $(CPPFLAGS)
 
-RM = rm -fv
+RM = rm -f
 
 LIBFT_PATH = ./libft
 LIBFT_LINK = -Llibft -lft
@@ -66,7 +66,6 @@ CMD_OBJS = $(CMD_SRCS:.c=.o)
 PARSE_SRCS_PATH = ./srcs/parse/
 PARSE_SRCS_NAME = more_input.c \
 					arg_finder.c \
-					input_split.c \
 					split_2_command.c \
 					quote.c \
 					more_input2.c \
@@ -137,17 +136,18 @@ all : $(NAME)
 
 $(NAME) : $(ALL_OBJS)
 # git submodule update --init --recursive
-	@ $(MAKE) all bonus -C $(LIBFT_PATH)
+	@ $(MAKE) --no-print-directory all bonus -C $(LIBFT_PATH)
 	@ $(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@
 # clear
 clean : 
-	@ $(MAKE) clean -C $(LIBFT_PATH)
-	@ $(RM) $(ALL_OBJS)
+	@ $(MAKE) --no-print-directory clean -C $(LIBFT_PATH)
+	-@ $(RM) $(ALL_OBJS)
 
 fclean : clean
-	@ $(MAKE) fclean -C $(LIBFT_PATH)
-	@ $(RM) $(NAME)
+	@ $(MAKE) --no-print-directory fclean -C $(LIBFT_PATH) 
+	-@ $(RM) $(NAME)
 
 re : fclean all
 
 .PHONY : all clean fclean re
+# .SILENT : all clean fclean re

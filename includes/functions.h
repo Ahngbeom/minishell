@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 23:24:12 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 00:08:45 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	signal_handler(int signo);
 void	set_history(t_list *lst_env);
 
 // Parsing
-void	input_split(t_list **list, char *input);
+// void	input_split(t_list **list, char *input);
 void	split_2_command(t_list **list, char *input);
 int		quote_finder(char **ptr, int *length, char **input);
 char	*more_input(char *input);

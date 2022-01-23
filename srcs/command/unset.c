@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 19:56:52 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 00:34:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,12 @@ static	void	delete_envv(char *key)
 */
 int	minishell_unset(t_command *command)
 {
+	t_pipe	pipe_data;
 	int		i;
 
+	set_pipe(&pipe_data);
 	if (argv_counter(command->argv) == 1)
-		return (EXIT_SUCCESS);
+		return (release_pipe(&pipe_data));
 	i = 0;
 	while (command->argv[++i] != NULL)
 	{
@@ -92,5 +94,5 @@ int	minishell_unset(t_command *command)
 		command->argv[i] = remove_envmark(command->argv[i]);
 		delete_envv(command->argv[i]);
 	}
-	return (EXIT_SUCCESS);
+	return (release_pipe(&pipe_data));
 }

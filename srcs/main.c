@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 03:19:42 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 23:51:25 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static	int	preprocess(char **input)
 			free(*input);
 		return (1);
 	}
-	if (!ft_isalnum(**input) && ft_isprint(**input) && **input != '$')
+	if (!ft_isalnum(**input) && ft_isprint(**input) && \
+		**input != '$' && **input != '/')
 	{
 		printf("minishell: syntax error near unexpected token `%c'\n", **input);
 		add_history(*input);
