@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 13:47:26 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 23:24:12 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		quote_finder(char **ptr, int *length, char **input);
 char	*more_input(char *input);
 char	*more_input2(char *input, char quotes);
 char	*type_finder(char *str, int *length, char **input);
-void	remove_quotes(char **str);
+void	remove_quotes(t_command *command);
 char	**split_without_quotes(char *s, char c);
 void	set_type(t_command *command, char **sentence);
 // int		set_type(t_command *command, char **sentence);

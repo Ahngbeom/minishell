@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 01:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 14:38:09 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 23:24:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,51 +39,74 @@ int	quote_finder(char **ptr, int *length, char **input)
 		return (0);
 }
 
-void	remove_quotes(char **str)
+void	remove_quotes(t_command *command)
 {
-	char	*sgle;
-	char	*dble;
-	char	*endq;
+	int		i;
 	char	*temp;
 
-	temp = NULL;
-	sgle = ft_strchr(*str, '\'');
-	dble = ft_strchr(*str, '\"');
-	if (sgle && dble)
+	i = -1;
+	while (command->argv[++i] != NULL)
 	{
-		if (sgle < dble)
+		if (command->argv[i][0] == '\'')
 		{
-			temp = ft_substr(*str, 0, sgle - *str);
-			sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\'') - (sgle + 1));
-			endq = *str;
-			*str = ft_strjoin_with_free(temp, sgle);
-			free(endq);
+			temp = command->argv[i];
+			command->argv[i] = ft_strtrim(command->argv[i], "\'");
+			free(temp);
 		}
-		else
+		else if (command->argv[i][0] == '\"')
 		{
-			temp = ft_substr(*str, 0, sgle - *str);
-			sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\"') - (sgle + 1));
-			endq = *str;
-			*str = ft_strjoin_with_free(temp, sgle);
-			free(endq);
+			temp = command->argv[i];
+			command->argv[i] = ft_strtrim(command->argv[i], "\"");
+			free(temp);
 		}
-	}
-	else if (sgle)
-	{
-		temp = ft_substr(*str, 0, sgle - *str);
-		sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\'') - (sgle + 1));
-		endq = *str;
-		*str = ft_strjoin_with_free(temp, sgle);
-		free(endq);
-	}
-	else if (dble)
-	{
-		temp = ft_substr(*str, 0, sgle - *str);
-		sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\"') - (sgle + 1));
-		endq = *str;
-		*str = ft_strjoin_with_free(temp, sgle);
-		free(endq);
-	}
-	else
-		return ;
+	}	
 }
+
+// void	remove_quotes(char **str)
+// {
+// 	char	*sgle;
+// 	char	*dble;
+// 	char	*endq;
+// 	char	*temp;
+
+// 	temp = NULL;
+// 	sgle = ft_strchr(*str, '\'');
+// 	dble = ft_strchr(*str, '\"');
+// 	if (sgle && dble)
+// 	{
+// 		if (sgle < dble)
+// 		{
+// 			temp = ft_substr(*str, 0, sgle - *str);
+// 			sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\'') - (sgle + 1));
+// 			endq = *str;
+// 			*str = ft_strjoin_with_free(temp, sgle);
+// 			free(endq);
+// 		}
+// 		else
+// 		{
+// 			temp = ft_substr(*str, 0, sgle - *str);
+// 			sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\"') - (sgle + 1));
+// 			endq = *str;
+// 			*str = ft_strjoin_with_free(temp, sgle);
+// 			free(endq);
+// 		}
+// 	}
+// 	else if (sgle)
+// 	{
+// 		temp = ft_substr(*str, 0, sgle - *str);
+// 		sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\'') - (sgle + 1));
+// 		endq = *str;
+// 		*str = ft_strjoin_with_free(temp, sgle);
+// 		free(endq);
+// 	}
+// 	else if (dble)
+// 	{
+// 		temp = ft_substr(*str, 0, sgle - *str);
+// 		sgle = ft_substr(sgle, 1, ft_strchr(sgle, '\"') - (sgle + 1));
+// 		endq = *str;
+// 		*str = ft_strjoin_with_free(temp, sgle);
+// 		free(endq);
+// 	}
+// 	else
+// 		return ;
+// }

@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/23 01:56:41 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/23 23:16:42 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,20 +133,20 @@ ALL_OBJS = $(OBJS) \
 all : $(NAME)
 
 .c.o :
-	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
+	@ $(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(NAME) : $(ALL_OBJS)
 # git submodule update --init --recursive
-		$(MAKE) all bonus -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@
-		clear
+	@ $(MAKE) all bonus -C $(LIBFT_PATH)
+	@ $(CC) $(CFLAGS) $(INCFLAGS) $^ $(LIBFT_LINK) $(LDFLAGS) -lreadline -o $@
+# clear
 clean : 
-		$(MAKE) clean -C $(LIBFT_PATH)
-		$(RM) $(ALL_OBJS)
+	@ $(MAKE) clean -C $(LIBFT_PATH)
+	@ $(RM) $(ALL_OBJS)
 
 fclean : clean
-		$(MAKE) fclean -C $(LIBFT_PATH)
-		$(RM) $(NAME)
+	@ $(MAKE) fclean -C $(LIBFT_PATH)
+	@ $(RM) $(NAME)
 
 re : fclean all
 

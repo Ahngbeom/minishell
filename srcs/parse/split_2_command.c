@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 17:31:10 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 23:24:43 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ static void	arg_extractor(t_command *command, char **sentence)
 		*sentence = ft_substr(*sentence, 0, type - *sentence);
 		free(temp);
 	}
-	// remove_quotes(&sentence);
 	temp = *sentence;
 	*sentence = ft_strtrim(*sentence, " ");
 	free(temp);
@@ -142,6 +141,7 @@ void	split_2_command(t_list **list, char *input)
 		// printf("splitted : [%s]\n\n", splitted);
 		command = ft_calloc(sizeof(t_command), 1);
 		arg_extractor(command, &splitted);
+		remove_quotes(command);
 		if (*list == NULL)
 			*list = ft_lstnew(command);
 		else
