@@ -6,13 +6,13 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 15:40:55 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 03:27:53 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 14:16:41 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*type_finder(char *str)
+char	*type_finder(char *str, int *length, char **input)
 {
 	char	*find;
 	int		i;
@@ -20,10 +20,18 @@ char	*type_finder(char *str)
 	i = -1;
 	while (g_data.arr_redirect[++i] != NULL)
 	{
-		find = ft_strnstr(str, g_data.arr_redirect[i], \
-						ft_strlen(g_data.arr_redirect[i]));
+		if (input != NULL)
+			find = ft_strnstr(str, g_data.arr_redirect[i], \
+								ft_strlen(g_data.arr_redirect[i]));
+		else
+			find = ft_strnstr(str, g_data.arr_redirect[i], \
+								ft_strlen(str));
 		if (find)
+		{
+			if (length != NULL)
+				*length = (find + 1) - *input;
 			return (find);
+		}
 	}
 	return (NULL);
 }

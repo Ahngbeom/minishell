@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 21:22:04 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 04:05:35 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 04:46:01 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ char	**split_without_quotes(char *s, char c)
 	i = -1;
 	while (ptr[++i] != '\0')
 	{
+		// printf("ptr[%d] : %s(flag : %d)\n", i, ptr + i, quotes_flag);
 		if (ptr[i] == '\'' || ptr[i] == '\"')
 		{
 			if (quotes_flag)

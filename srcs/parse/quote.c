@@ -6,20 +6,22 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 01:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 04:29:06 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 14:38:09 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	move_to_end_quotes(char **ptr, int *length, char quotes)
+static	int	move_to_end_quotes(char **ptr, int *length, char quotes, char **input)
 {
 	char	*endq;
 
-	endq = ft_strrchr(*ptr, quotes);
+	endq = ft_strchr((*ptr) + 1, quotes);
+	// printf("move [%s(%p)] -> [%s(%p)]\n", *ptr, *ptr, endq, endq);
 	if (endq != NULL)
 	{
-		*length = (++endq) - *ptr;
+		++endq;
+		*length = endq - *input;
 		*ptr = endq;
 	}
 	else
@@ -27,25 +29,14 @@ static	int	move_to_end_quotes(char **ptr, int *length, char quotes)
 	return (1);
 }
 
-int	quote_finder(char **ptr, int *length)
+int	quote_finder(char **ptr, int *length, char **input)
 {
-	char	*sgle;
-	char	*dble;
-
-	sgle = ft_strchr(*ptr, '\'');
-	dble = ft_strchr(*ptr, '\"');
-	if (sgle && dble)
-	{
-		if (sgle < dble)
-			return (move_to_end_quotes(ptr, length, '\''));
-		else
-			return (move_to_end_quotes(ptr, length, '\"'));
-	}
-	else if (sgle)
-		return (move_to_end_quotes(ptr, length, '\''));
-	else if (dble)
-		return (move_to_end_quotes(ptr, length, '\"'));
-	return (0);
+	if (**ptr == '\'')
+		return (move_to_end_quotes(ptr, length, '\'', input));
+	else if (**ptr == '\"')
+		return (move_to_end_quotes(ptr, length, '\"', input));
+	else 
+		return (0);
 }
 
 void	remove_quotes(char **str)
