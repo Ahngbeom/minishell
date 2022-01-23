@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 15:31:30 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 17:31:10 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ static size_t	command_finder(char **input, char **splitted)
 		temp = *input;
 		*input = ft_substr(*input, length, ft_strlen(*input));
 		free(temp);
-		// temp = *input;
-		// *input = ft_strtrim(*input, " ");
-		// free(temp);
 		if (ft_strlen(*splitted) != length)
 		{
 			temp = *splitted;
@@ -75,6 +72,11 @@ static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, t_comma
 	char	quotes;
 	char	*end_quotes;
 
+	if (start_quotes == NULL)
+	{
+		set_type(command, &type_ptr);
+		return (1);
+	}
 	quotes = *start_quotes;
 	if (start_quotes < type_ptr)
 	{
@@ -104,7 +106,8 @@ static int	enclosed_quotes_checker(char *sentence, char *type_ptr, t_command *co
 		return (determine_enclosed_quotes(sgle, type_ptr, command));
 	else if (dble)
 		return (determine_enclosed_quotes(dble, type_ptr, command));
-	return (0);
+	else
+		return (determine_enclosed_quotes(NULL, type_ptr, command));
 }
 
 static void	arg_extractor(t_command *command, char **sentence)
@@ -115,7 +118,6 @@ static void	arg_extractor(t_command *command, char **sentence)
 	type = type_finder(*sentence, NULL, NULL);
 	if (type && enclosed_quotes_checker(*sentence, type, command))
 	{
-		printf("?\n");
 		// set_type(command, sentence);
 		temp = *sentence;
 		*sentence = ft_substr(*sentence, 0, type - *sentence);
@@ -132,29 +134,28 @@ void	split_2_command(t_list **list, char *input)
 {
 	t_command	*command;
 	char		*splitted;
-	int			i;
+	// int			i;
 
 	splitted = NULL;
 	while (command_finder(&input, &splitted) > 0)
 	{
-		printf("splitted : [%s]\n\n", splitted);
+		// printf("splitted : [%s]\n\n", splitted);
 		command = ft_calloc(sizeof(t_command), 1);
 		arg_extractor(command, &splitted);
-		// set_type(command, &splitted);
 		if (*list == NULL)
 			*list = ft_lstnew(command);
 		else
 			ft_lstadd_back(list, ft_lstnew(command));
-		i = -1;
-		while (command->argv[++i] != NULL)
-		{
-			printf("argv[%d] : [%s]\n", i, command->argv[i]);
-		}
-		printf("argv[%d] : %s\n", i, command->argv[i]);
-		printf("type : %s\n", command->type);
+		// i = -1;
+		// while (command->argv[++i] != NULL)
+		// {
+		// 	printf("argv[%d] : [%s]\n", i, command->argv[i]);
+		// }
+		// printf("argv[%d] : %s\n", i, command->argv[i]);
+		// printf("type : %s\n", command->type);
 		free(splitted);
 		splitted = NULL;
-		printf("input : [%s]\n\n", input);
+		// printf("input : [%s]\n\n", input);
 
 	}
 	if (input != NULL)

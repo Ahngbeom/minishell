@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 15:40:55 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 15:30:56 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/23 17:31:00 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	set_type(t_command *command, char **sentence)
 {
 	int		i;
 	char	*find;
-	// char	*temp;
 
 	i = -1;
 	find = NULL;
@@ -51,9 +50,6 @@ void	set_type(t_command *command, char **sentence)
 		if (find)
 		{
 			command->type = g_data.arr_redirect[i];
-			// temp = *sentence;
-			// *sentence = ft_substr(*sentence, 0, find - *sentence);
-			// free(temp);
 			return ;
 		}
 	}
