@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 12:47:20 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 13:02:51 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ int	main(int argc, char *argv[], char *env[])
 			split_2_command(&g_data.lst_cmds, ft_strdup(input));
 			free(input);
 			abbreviation_converter(g_data.lst_cmds);
-			print_info(g_data.lst_cmds, 1);
+			print_info(g_data.lst_cmds, 0);
 			minishell();
 		}
 		else if (check < 0)
 			break ;
-		// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
+		system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	}
 	minishell_finalize();
 	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");

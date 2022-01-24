@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 12:52:53 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 13:11:45 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,23 @@ static void	set_pip(t_pip *pip, t_list *list)
 	pip->i = -1;
 }
 
+void	free_fd(t_pip *pip)
+{
+	int		i;
+
+	if (pip->fd == NULL)
+	{
+		return ;
+	}
+	i = 0;
+	while (pip->fd[i])
+	{
+		free(pip->fd[i]);
+		i++;
+	}
+	free(pip->fd);
+}
+
 t_list	*ft_pipe(t_list *list)
 {
 	t_pip	pip;
@@ -264,8 +281,12 @@ t_list	*ft_pipe(t_list *list)
 		if ((list)->next)
 			list = (list)->next;
 		else if (((t_command *)(list)->content)->next_flag == 0)
+		{
+			free_fd(&pip);
 			return (list);
+		}
 	}
+	free_fd(&pip);
 	return (list);
 }
 
