@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/24 01:22:57 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/24 14:01:12 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,6 @@ SIG_SRCS_PATH = ./srcs/signal/
 SIG_SRCS_NAME = handler.c 
 SIG_SRCS = $(addprefix $(SIG_SRCS_PATH), $(SIG_SRCS_NAME))
 SIG_OBJS = $(SIG_SRCS:.c=.o)
-
-HIST_SRCS_PATH = ./srcs/history/
-HIST_SRCS_NAME = history.c
-HIST_SRCS = $(addprefix $(HIST_SRCS_PATH), $(HIST_SRCS_NAME))
-HIST_OBJS = $(HIST_SRCS:.c=.o)
 
 GNL_SRCS_PATH = ./srcs/gnl/
 GNL_SRCS_NAME = get_next_line.c
@@ -97,6 +92,7 @@ UTILS_SRCS_NAME = execfile_finder.c \
 					argv_counter.c \
 					add_arguments.c \
 					incorrect_exit.c \
+					exit_status_switch.c \
 					ft_strjoin_with_free.c \
 					set_redirection.c \
 					redirection_finder.c

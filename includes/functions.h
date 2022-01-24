@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 02:31:38 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 13:50:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	set_history(t_list *lst_env);
 
 // Parsing
 // void	input_split(t_list **list, char *input);
-void	split_2_command(t_list **list, char *input);
+int		split_2_command(t_list **list, char *input);
 int		quote_finder(char **ptr, int *length, char **input);
 char	*more_input(char *input);
 char	*more_input2(char *input, char quotes);
@@ -102,6 +102,7 @@ char	*remove_enclosed_quotes(char *arg);
 char	*escape_sequence(char *arg);
 
 int		incorrect_exit(t_command *command);
+void	exit_status_switch(int status);
 
 char	*ft_strjoin_with_free(char *str1, char *str2);
 

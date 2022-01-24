@@ -6,13 +6,11 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 15:06:17 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 00:29:36 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 13:59:28 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_data	g_data;
 
 void	signal_handler(int signo)
 {

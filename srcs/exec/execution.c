@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 02:31:27 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 14:05:14 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	execution(t_list **list, t_command *command, int input_fd, int *flag)
 	char	**envp;
 
 	set_pipe(&pipe_data);
-	
 	cmd_path = execfile_finder(command->argv[0]);
 	envp = envp_to_arr_converter(g_data.lst_env);
 	pid = fork();
@@ -51,6 +50,7 @@ int	execution(t_list **list, t_command *command, int input_fd, int *flag)
 		}
 		to_execve(&pipe_data, cmd_path, command->argv, envp, input_fd);
 	}
+	status = 0;
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 127)
 		printf("minishell: %s: command not found\n", command->argv[0]);

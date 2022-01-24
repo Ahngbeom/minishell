@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 02:15:07 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 13:54:15 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,18 @@ int	main(int argc, char *argv[], char *env[])
 		check = preprocess(&input);
 		if (check == 0)
 		{
-			// input = more_input(input);
 			add_history(input);
-			// input_split(&g_data.commands, input);
-			split_2_command(&g_data.lst_cmds, ft_strdup(input));
+			check = split_2_command(&g_data.lst_cmds, ft_strdup(input));
 			free(input);
+			if (check == -1)
+				continue ;
 			abbreviation_converter(g_data.lst_cmds);
-			print_info(g_data.lst_cmds, 1);
+			print_info(g_data.lst_cmds, 0);
 			minishell();
 		}
 		else if (check < 0)
 			break ;
-		// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	}
 	minishell_finalize();
-	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	return (ft_atoi(g_data.exit_stat));
 }

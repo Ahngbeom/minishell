@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 01:25:01 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 13:38:05 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ static size_t	command_finder(char **input, char **splitted)
 	char	*ptr;
 	int		length;
 	char	*temp;
+	int		q_finder;
 
 	ptr = *input;
 	length = 0;
 	while (*ptr != '\0')
 	{
-		if (quote_finder(&ptr, &length, input))
+		q_finder = quote_finder(&ptr, &length, input);
+		if (q_finder == -1)
+			return (q_finder);
+		else if (q_finder)
 			continue ;
 		if (type_finder(ptr, &length, input))
 			break ;
@@ -105,13 +109,15 @@ static void	arg_extractor(t_command *command, char **sentence)
 	command->argv = split_without_quotes(*sentence, ' ');
 }
 
-void	split_2_command(t_list **list, char *input)
+int	split_2_command(t_list **list, char *input)
 {
 	t_command	*command;
 	char		*splitted;
+	int			cmd_finder;
 
 	splitted = NULL;
-	while (command_finder(&input, &splitted) > 0)
+	cmd_finder = command_finder(&input, &splitted);
+	while (cmd_finder > 0)
 	{
 		command = ft_calloc(sizeof(t_command), 1);
 		arg_extractor(command, &splitted);
@@ -122,7 +128,14 @@ void	split_2_command(t_list **list, char *input)
 			ft_lstadd_back(list, ft_lstnew(command));
 		free(splitted);
 		splitted = NULL;
+		cmd_finder = command_finder(&input, &splitted);
 	}
 	if (input != NULL)
 		free(input);
+	if (cmd_finder == -1)
+	{
+		ft_lstclear(list, command_free);
+		return (cmd_finder);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 01:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 00:25:08 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 13:53:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ static	int	move_to_end_quotes(char **ptr, int *length, char quotes, char **input
 		*ptr = endq;
 	}
 	else
-		more_input2(*ptr, quotes);
+	{
+		printf("minishell: `%c': Not enclosed quotes\n", quotes);
+		exit_status_switch(2);
+		return (-1);
+	}
 	return (1);
 }
 
