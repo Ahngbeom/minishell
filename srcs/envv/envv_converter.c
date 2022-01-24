@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 23:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 00:11:02 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 01:40:08 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static void	envv_converter(char **arg, char *find)
 	if (*arg == NULL)
 		*arg = ft_strdup("\0");
 	if (next_tmp != NULL)
+	{
 		*arg = ft_strjoin(*arg, next_tmp);
+		free(next_tmp);
+	}
 	else
 		*arg = ft_strdup(*arg);
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 23:27:35 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 01:06:59 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ static void	arg_extractor(t_command *command, char **sentence)
 		*sentence = ft_substr(*sentence, 0, type - *sentence);
 		free(temp);
 	}
-	temp = *sentence;
-	*sentence = ft_strtrim(*sentence, " ");
-	free(temp);
+	*sentence = ft_strtrim_with_free(*sentence, " ");
 	command->argv = quotes_split(*sentence, ' ');
+	free(*sentence);
 }
 
 int	split_2_command(t_list **list, char *input)
@@ -88,8 +87,6 @@ int	split_2_command(t_list **list, char *input)
 		add_command_to_list(list, &command);
 		arg_extractor(command, &splitted);
 		remove_quotes(command);
-		free(splitted);
-		splitted = NULL;
 		extractor = command_extractor(&processed, &splitted);
 	}
 	if (processed != NULL)
