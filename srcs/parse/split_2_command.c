@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 00:00:16 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 01:25:01 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void	split_2_command(t_list **list, char *input)
 	splitted = NULL;
 	while (command_finder(&input, &splitted) > 0)
 	{
-		// printf("splitted : [%s]\n\n", splitted);
 		command = ft_calloc(sizeof(t_command), 1);
 		arg_extractor(command, &splitted);
 		remove_quotes(command);

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 00:08:45 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 02:31:38 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	set_pipe(t_pipe *data);
 int		release_pipe(t_pipe *data);
 
 // Create PIPE for execve & Run execve(path, argv, envv);
-int		execution(t_command *command, int input_fd);
+int		execution(t_list **list, t_command *command, int input_fd, int *reverse_redir);
 char	**envp_to_arr_converter(t_list *list);
 // int		to_execve(t_command *command);
 // int		to_execve_2(t_command *command);
@@ -81,6 +81,7 @@ void	update_envv(char *key, char *new_value);
 
 // Redirection
 void	minishell_redirection(t_list **list, int *fd, char *redirect);
+void	minishell_r_redirection(t_list **cmd_ptr, char *type, t_pipe *pipe_data, int *flag);
 
 // Arguments Vector Utils
 int		argv_counter(char *argv[]);

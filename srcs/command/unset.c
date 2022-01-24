@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:48:40 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 00:34:10 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 00:46:58 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static	void	delete_envv(char *key)
 		{
 			temp = ptr->next->next;
 			ft_lstdelone(ptr->next, hash_free);
-			ptr = temp;
+			ptr->next = temp;
 			break ;
 		}
 		ptr = ptr->next;

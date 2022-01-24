@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 15:40:55 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/23 17:31:00 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 01:24:57 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*type_finder(char *str, int *length, char **input)
 		if (find)
 		{
 			if (length != NULL)
-				*length = (find + 1) - *input;
+				*length = (find + ft_strlen(g_data.arr_redirect[i])) - *input;
 			return (find);
 		}
 	}
