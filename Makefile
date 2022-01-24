@@ -6,7 +6,7 @@
 #    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/24 23:27:45 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/25 00:13:34 by bahn             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,8 +55,7 @@ CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
 PARSE_SRCS_PATH = ./srcs/parse/
-PARSE_SRCS_NAME = arg_finder.c \
-					split_2_command.c \
+PARSE_SRCS_NAME = split_2_command.c \
 					quote.c \
 					command_type.c \
 					quotes_split.c \
