@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 13:24:32 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:54:24 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	to_execve_b(t_pipe *pipe_data, \
 		exit(errno);
 }
 
-int	execution(t_command *command, int input_fd)
+int	execution(t_list **list, t_command *command, int input_fd, int *flag)
 {
 	t_pipe	pipe_data;
 	pid_t	pid;
@@ -81,13 +81,23 @@ int	execution(t_command *command, int input_fd)
 	char	*cmd_path;
 	char	**envp;
 
+	set_pipe(&pipe_data);
+	
 	cmd_path = execfile_finder(command->argv[0]);
 	envp = envp_to_arr_converter(g_data.lst_env);
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
 	else if (pid == 0)
+	{
+		if (command->type && \
+			(!ft_strncmp(command->type, R_TRNC_REDIR, ft_strlen(command->type) + 1) ||\
+				!ft_strncmp(command->type, R_APND_REDIR, ft_strlen(command->type) + 1)))
+		{
+			minishell_r_redirection(list, command->type, &pipe_data, flag);
+		}
 		to_execve_b(&pipe_data, cmd_path, command->argv, envp, input_fd);
+	}
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 127)
 		printf("minishell: %s: command not found\n", command->argv[0]);

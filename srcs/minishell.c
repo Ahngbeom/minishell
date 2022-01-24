@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 11:52:39 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:52:53 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,10 +309,12 @@ int	minishell(void)
 	t_list		*list;
 	t_command	*cmd;
 	int			fd;
+	int			reverse_redir;
 
+	reverse_redir = 0;
 	fd = -1;
-	list = g_data.commands;
-	set_flag(g_data.commands);
+	set_flag(g_data.lst_cmds);
+	list = g_data.lst_cmds;
 	while (list != NULL)
 	{
 		cmd = list->content;
@@ -326,11 +328,8 @@ int	minishell(void)
 		if (cmd->builtin_func != NULL)
 			fd = cmd->builtin_func(cmd);
 		else
-		{
-			fd = execution(cmd, fd);
-			// fd = to_execve(cmd);
-		}
-		if (cmd->type == NULL || \
+			fd = execution(&list, cmd, fd, &reverse_redir);
+		if (reverse_redir || cmd->type == NULL || \
 			!ft_strncmp(cmd->type, SEMI_COLON, ft_strlen(cmd->type) + 1))
 			print_result(&list, &fd);
 		else if (!ft_strncmp(cmd->type, PIPE, ft_strlen(cmd->type) + 1))
@@ -339,6 +338,6 @@ int	minishell(void)
 			minishell_redirection(&list, &fd, cmd->type);
 		g_data.envv_path = set_envvpath();
 	}
-	ft_lstclear(&g_data.commands, command_free);
+	ft_lstclear(&g_data.lst_cmds, command_free);
 	return (0);
 }

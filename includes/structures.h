@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 14:06:10 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:50:32 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ struct s_pip
 struct s_data
 {
 	char			*prompt;
+
+	t_list			*lst_cmds;
+	
 	t_list			*lst_env;
 	char			**envv_path;
 
 	char			**arr_redirect;
 
-	t_list			*commands;
 	char			*exit_stat;
 	int				status;
 

@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 23:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 14:17:45 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:50:13 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,21 @@ void	envmark_converter(char **arg)
 	find = ft_strchr(*arg, '$');
 	if (find == NULL || ft_strlen(*arg) <= 1)
 		return ;
-	if (find > *arg)
+	while (find)
 	{
-		prev_tmp = ft_substr(*arg, 0, find - *arg);
-	}
-	if (*(find + 1) == '?')
-		exit_stat_converter(arg, find);
-	else
-		envv_converter(arg, find + 1);
-	if (prev_tmp != NULL)
-	{
-		tmp = *arg;
-		*arg = ft_strjoin(prev_tmp, *arg);
-		free(tmp);
-		free(prev_tmp);
+		if (find > *arg)
+			prev_tmp = ft_substr(*arg, 0, find - *arg);
+		if (*(find + 1) == '?')
+			exit_stat_converter(arg, find);
+		else
+			envv_converter(arg, find + 1);
+		if (prev_tmp != NULL)
+		{
+			tmp = *arg;
+			*arg = ft_strjoin(prev_tmp, *arg);
+			free(tmp);
+			free(prev_tmp);
+		}
+		find = ft_strchr(*arg, '$');
 	}
 }

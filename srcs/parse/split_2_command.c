@@ -6,95 +6,123 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 02:41:51 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 01:25:01 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	size_t	count_command(char *input)
+static size_t	command_finder(char **input, char **splitted)
 {
-	size_t	cnt;
+	char	*ptr;
+	int		length;
+	char	*temp;
 
-	cnt = 0;
-	while (*input != '\0')
+	ptr = *input;
+	length = 0;
+	while (*ptr != '\0')
 	{
-		if (*input != ';')
-		{
-			cnt++;
-			while (*(++input) != ';')
-			{
-				if (*input == '\0')
-					break ;
-			}
-		}
-		else
-			++input;
+		if (quote_finder(&ptr, &length, input))
+			continue ;
+		if (type_finder(ptr, &length, input))
+			break ;
+		length++;
+		ptr++;
 	}
-	return (cnt);
+	if (length > 0)
+	{
+		*splitted = ft_substr(*input, 0, length);
+		temp = *input;
+		*input = ft_substr(*input, length, ft_strlen(*input));
+		free(temp);
+		if (ft_strlen(*splitted) != length)
+		{
+			temp = *splitted;
+			*splitted = ft_substr(*input, 0, length);
+			free(temp);
+		}
+		return (1);
+	}
+	return (0);
 }
 
-// static	char	*ft_findstr(char *s, char c)
-// {
-// 	while (*s != '\0')
-// 	{
-// 		if (*s == c)
-// 			s++;
-// 		else
-// 			return (s);
-// 	}
-// 	return (0);
-// }
+static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, t_command *command)
+{
+	char	quotes;
+	char	*end_quotes;
 
-// static	size_t	ft_strclen(char *s, char c)
-// {
-// 	size_t	length;
-// 	char	*ptr;
+	if (start_quotes == NULL)
+	{
+		set_type(command, &type_ptr);
+		return (1);
+	}
+	quotes = *start_quotes;
+	if (start_quotes < type_ptr)
+	{
+		end_quotes = ft_strchr(start_quotes + 1, quotes);
+		if (end_quotes && end_quotes < type_ptr)
+		{
+			set_type(command, &type_ptr);
+			return (1);
+		}
+	}
+	return (0);
+}
 
-// 	length = 0;
-// 	ptr = s;
-// 	while (*ptr != '\0' && *ptr != c)
-// 	{
-// 		length++;
-// 		ptr++;
-// 	}
-// 	return (length);
-// }
+static int	enclosed_quotes_checker(char *sentence, char *type_ptr, t_command *command)
+{
+	char	*sgle;
+	char	*dble;
 
-// static	char	**ft_splitter(char **pptr, char *str_ptr, char c, size_t str_cnt)
-// {
-// 	size_t	i;
+	sgle = ft_strchr(sentence, '\'');
+	dble = ft_strchr(sentence, '\"');
+	if (sgle && dble)
+		return (determine_enclosed_quotes(sgle, type_ptr, command) && \
+				determine_enclosed_quotes(dble, type_ptr, command));
+	else if (sgle)
+		return (determine_enclosed_quotes(sgle, type_ptr, command));
+	else if (dble)
+		return (determine_enclosed_quotes(dble, type_ptr, command));
+	else
+		return (determine_enclosed_quotes(NULL, type_ptr, command));
+}
 
-// 	i = 0;
-// 	while (i < str_cnt)
-// 	{
-// 		pptr[i] = (char *)malloc(ft_strclen(ft_findstr(str_ptr, c), c) + 1);
-// 		if (pptr[i] == NULL)
-// 		{
-// 			while (pptr[i] != NULL)
-// 				free(pptr[i++]);
-// 			free(pptr);
-// 			return (pptr);
-// 		}
-// 		ft_strlcpy(pptr[i], ft_findstr(str_ptr, c), ft_strclen(ft_findstr(str_ptr, c), c) + 1);
-// 		str_ptr = ft_findstr(ft_findstr(str_ptr, c) + ft_strclen(ft_findstr(str_ptr, c), c), c);
-// 		i++;
-// 	}
-// 	pptr[i] = NULL;
-// 	return (pptr);
-// }
+static void	arg_extractor(t_command *command, char **sentence)
+{
+	char	*type;
+	char	*temp;
+
+	type = type_finder(*sentence, NULL, NULL);
+	if (type && enclosed_quotes_checker(*sentence, type, command))
+	{
+		temp = *sentence;
+		*sentence = ft_substr(*sentence, 0, type - *sentence);
+		free(temp);
+	}
+	temp = *sentence;
+	*sentence = ft_strtrim(*sentence, " ");
+	free(temp);
+	command->argv = split_without_quotes(*sentence, ' ');
+}
 
 void	split_2_command(t_list **list, char *input)
 {
-	// char	**commands;
-	int		count_cmds;
+	t_command	*command;
+	char		*splitted;
 
-	printf("[split 2 command]\n");
-	(void)list;
-	count_cmds = count_command(input);
-	printf("%d\n", count_cmds);
-	// commands = (char **)malloc(sizeof(char *) * (count_cmds + 1));
-	// if (commands == NULL)
-	// 	return (NULL);
-	// return (ft_splitter(commands, sptr, c, count_cmds));
+	splitted = NULL;
+	while (command_finder(&input, &splitted) > 0)
+	{
+		command = ft_calloc(sizeof(t_command), 1);
+		arg_extractor(command, &splitted);
+		remove_quotes(command);
+		if (*list == NULL)
+			*list = ft_lstnew(command);
+		else
+			ft_lstadd_back(list, ft_lstnew(command));
+		free(splitted);
+		splitted = NULL;
+	}
+	if (input != NULL)
+		free(input);
 }

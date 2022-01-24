@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/21 14:17:18 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:47:20 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	g_data.lst_env = set_lstenvv(env);
 	// set_history(g_data.lst_env);
 	g_data.envv_path = set_envvpath();
-	g_data.commands = NULL;
+	g_data.lst_cmds = NULL;
 	set_redirection();
 	g_data.exit_stat = ft_itoa(0);
 	set_termios();
@@ -55,7 +55,8 @@ static	int	preprocess(char **input)
 			free(*input);
 		return (1);
 	}
-	if (!ft_isalnum(**input) && ft_isprint(**input) && **input != '$')
+	if (!ft_isalnum(**input) && ft_isprint(**input) && \
+		**input != '$' && **input != '/')
 	{
 		printf("minishell: syntax error near unexpected token `%c'\n", **input);
 		add_history(*input);
@@ -81,19 +82,13 @@ int	main(int argc, char *argv[], char *env[])
 		check = preprocess(&input);
 		if (check == 0)
 		{
-			input = more_input(input);
+			// input = more_input(input);
 			add_history(input);
-			// printf("argv:%s %s\n", ((t_command *)g_data.commands->content)->argv[0], ((t_command *)g_data.commands->content)->argv[1]); //////////
-			input_split(&g_data.commands, input); // deleted '?
-			
-			// split_2_command(&g_data.commands, input);
-			// free(input);
-			// continue ;
-			
+			// input_split(&g_data.commands, input);
+			split_2_command(&g_data.lst_cmds, ft_strdup(input));
 			free(input);
-			abbreviation_converter(g_data.commands);
-			print_info(g_data.commands, 0);
-			// printf("argv:%s %s\n", ((t_command *)g_data.commands->content)->argv[0], ((t_command *)g_data.commands->content)->argv[1]); // argv test
+			abbreviation_converter(g_data.lst_cmds);
+			print_info(g_data.lst_cmds, 1);
 			minishell();
 		}
 		else if (check < 0)
