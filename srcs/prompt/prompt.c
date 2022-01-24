@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 14:58:58 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 00:04:43 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 13:13:16 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*prompt(void)
 	if (g_data.prompt != NULL)
 		free(g_data.prompt);
 	g_data.prompt = ft_strjoin_with_free(\
-						ft_strdup("\e[1;32mminishell\e[0m:"), \
+						ft_strdup("minishell:"), \
 						getcwd(NULL, 0));
 	g_data.prompt = ft_strjoin_with_free(g_data.prompt, ft_strdup("$ "));
 	return (g_data.prompt);
