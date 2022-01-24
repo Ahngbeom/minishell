@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status_switch.c                               :+:      :+:    :+:   */
+/*   increase_shlvl.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 13:49:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 15:34:28 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/24 21:25:13 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 21:28:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_status_switch(int status)
+void	increase_shlvl(void)
 {
+	t_hash	*envv;
 	char	*temp;
 
-	temp = g_data.exit_stat;
-	g_data.exit_stat = ft_itoa(status);
+	envv = get_envv("SHLVL");
+	if (envv == NULL)
+		return ;
+	temp = envv->value;
+	envv->value = ft_itoa(ft_atoi(get_envv("SHLVL")->value) + 1);
 	free(temp);
 }

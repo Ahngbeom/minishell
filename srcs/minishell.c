@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 02:30:31 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 20:40:26 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	void	command_finder(t_command *command)
 	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
 		command->builtin_func = minishell_env;
 	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("exit") + 1))
-		command->builtin_func = incorrect_exit;
+		command->builtin_func = minishell_exit;
 	else
 		command->builtin_func = NULL;
 }
@@ -52,9 +52,7 @@ int	minishell(void)
 	t_list		*list;
 	t_command	*cmd;
 	int			fd;
-	int			reverse_redir;
 
-	reverse_redir = 0;
 	fd = -1;
 	list = g_data.lst_cmds;
 	while (list != NULL)
@@ -64,8 +62,8 @@ int	minishell(void)
 		if (cmd->builtin_func != NULL)
 			fd = cmd->builtin_func(cmd);
 		else
-			fd = execution(&list, cmd, fd, &reverse_redir);
-		if (reverse_redir || cmd->type == NULL || \
+			fd = execution(cmd, fd);
+		if (cmd->type == NULL || \
 			!ft_strncmp(cmd->type, SEMI_COLON, ft_strlen(cmd->type) + 1))
 			print_result(&list, &fd);
 		else if (!ft_strncmp(cmd->type, PIPE, ft_strlen(cmd->type) + 1))

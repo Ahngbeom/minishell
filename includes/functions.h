@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 13:50:28 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 23:36:19 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,15 @@ void	signal_handler(int signo);
 void	set_history(t_list *lst_env);
 
 // Parsing
-// void	input_split(t_list **list, char *input);
 int		split_2_command(t_list **list, char *input);
+size_t	command_extractor(char **input, char **splitted);
 int		quote_finder(char **ptr, int *length, char **input);
 char	*more_input(char *input);
 char	*more_input2(char *input, char quotes);
 char	*type_finder(char *str, int *length, char **input);
 void	remove_quotes(t_command *command);
-char	**split_without_quotes(char *s, char c);
+char	**quotes_split(char *s, char c);
 void	set_type(t_command *command, char **sentence);
-// int		set_type(t_command *command, char **sentence);
 void	abbreviation_converter(t_list *list);
 
 // Starting to Minishell
@@ -46,7 +45,7 @@ void	set_pipe(t_pipe *data);
 int		release_pipe(t_pipe *data);
 
 // Create PIPE for execve & Run execve(path, argv, envv);
-int		execution(t_list **list, t_command *command, int input_fd, int *reverse_redir);
+int		execution(t_command *command, int input_fd);
 char	**envp_to_arr_converter(t_list *list);
 // int		to_execve(t_command *command);
 // int		to_execve_2(t_command *command);
@@ -70,6 +69,9 @@ int		minishell_unset(t_command *command);
 // COMMAND env
 int		minishell_env(t_command *command);
 
+// COMMAND exit with arguments
+int		minishell_exit(t_command *command);
+
 // Environment Variable Utils
 char	**set_envvpath(void);
 t_hash	*get_envv(char *key);
@@ -81,17 +83,24 @@ void	update_envv(char *key, char *new_value);
 
 // Redirection
 void	minishell_redirection(t_list **list, int *fd, char *redirect);
-void	minishell_r_redirection(t_list **cmd_ptr, char *type, t_pipe *pipe_data, int *flag);
 
 // Arguments Vector Utils
 int		argv_counter(char *argv[]);
-size_t	arg_finder(t_command *cmd, char *input);
+// size_t	arg_finder(t_command *cmd, char *input);
 char	**add_arguments(char **argv, char *add);
 
 // Other Utils
+void	increase_shlvl(void);
+
+void	minishell_error(t_pipe *pipe_data, \
+						char *command, char *target, char *message);
+
+int		exit_checker(char *input);
+int		syntax_checker(char *input);
+
 void	set_redirection(void);
 
-int		get_next_line(int fd, char **line);
+void	add_command_to_list(t_list **list, t_command **command);
 
 char	*execfile_finder(char *command);
 int		redirection_finder(char *redirection[], char *input, char **save);
@@ -101,12 +110,11 @@ void	backslash_converter(char **arg);
 char	*remove_enclosed_quotes(char *arg);
 char	*escape_sequence(char *arg);
 
-int		incorrect_exit(t_command *command);
 void	exit_status_switch(int status);
 
 char	*ft_strjoin_with_free(char *str1, char *str2);
-
-void	print_info(t_list *list, int on_off);
+char	*ft_strtrim_with_free(char *str, char const *set);
+char	*ft_strdup_with_free(char *src);
 
 // Free Memory
 void	minishell_finalize(void);

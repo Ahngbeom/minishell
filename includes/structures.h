@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/22 13:43:37 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 20:44:34 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,10 @@ t_data						g_data;
 struct s_data
 {
 	char			*prompt;
-
 	t_list			*lst_cmds;
-	
 	t_list			*lst_env;
 	char			**envv_path;
-
 	char			**arr_redirect;
-
 	char			*exit_stat;
 };
 
@@ -50,11 +46,6 @@ struct s_command
 	int			(*builtin_func)(t_command *);
 	char		**argv;
 	char		*type;
-
-	// int			o_flag;
-
-	// int			next_flag;
-	// int			pre_flag;
 };
 
 struct s_pipe

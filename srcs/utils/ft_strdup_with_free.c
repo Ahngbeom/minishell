@@ -1,22 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status_switch.c                               :+:      :+:    :+:   */
+/*   ft_strdup_with_free.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/24 13:49:15 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 15:34:28 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/21 15:47:03 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 20:26:49 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	exit_status_switch(int status)
+char	*ft_strdup_with_free(char *src)
 {
-	char	*temp;
+	int		i;
+	int		src_len;
+	char	*cpy;
 
-	temp = g_data.exit_stat;
-	g_data.exit_stat = ft_itoa(status);
-	free(temp);
+	i = 0;
+	src_len = ft_strlen(src);
+	cpy = malloc(sizeof(char) * src_len + 1);
+	if (!cpy)
+		return (NULL);
+	while (i < src_len)
+	{
+		cpy[i] = src[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	free(src);
+	return (cpy);
 }
