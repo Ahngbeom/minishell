@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 15:25:37 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 00:57:20 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 18:00:05 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	minishell_pwd(t_command *command)
 	char	*cwd;
 
 	set_pipe(&pipe_data);
-	if (argv_counter(command->argv) > 1)
-		printf("minishell: pwd: ignoring non-option arguments\n");
-	else if (command->argv[1] && *command->argv[1] == '-')
+	if (command->argv[1] && *command->argv[1] == '-')
 		printf("minishell: pwd: %s: invalid option\n", command->argv[1]);
 	else
 	{

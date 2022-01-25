@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 14:40:43 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 17:05:16 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	free_fd(t_pip pip)
 	i = 0;
 	while (i < pip.size)
 	{
+		close(pip.fd[i][1]);
+		close(pip.fd[i][0]);
 		free(pip.fd[i]);
 		i++;
 	}
@@ -53,20 +55,16 @@ t_list	*ft_pipe(t_list *list)
 		pip.pid = fork();
 		if (pip.pid == 0)
 			do_son(list, pip);
-		else
-		{
-			printf("n_flag[%d]\n", ((t_command *)(list)->content)->next_flag);
-			close(pip.fd[pip.i][1]);
-			close(pip.fd[pip.i][0]);
-			wait(&pip.status);
-			g_data.status = WEXITSTATUS(g_data.status);
-			while_3456(&list, &(pip.i));
-		}
+		wait(&pip.status);
+		g_data.status = WEXITSTATUS(g_data.status);
+		close(pip.fd[pip.i][1]);
+		while_3456(&list, &(pip.i));
 		if ((list)->next)
 			list = (list)->next;
 		else if (((t_command *)(list)->content)->next_flag == 0)
 			break ;
 	}
+	pip.i = -1;
 	free_fd(pip);
 	return (list);
 }

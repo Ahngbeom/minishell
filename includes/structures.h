@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 12:40:09 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 19:54:21 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ struct s_data
 	int				status;
 
 	int				not_convert;
+	char			*temp;
+	char			**arv;
 };
 
 struct s_hash

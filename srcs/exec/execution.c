@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 11:23:33 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 16:55:58 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ int	execution(t_command *command, int input_fd)
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 127)
 		printf("minishell: %s: command not found\n", command->argv[0]);
-	if (g_data.exit_stat != NULL)
-		free(g_data.exit_stat);
-	g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
+	exit_status_switch(WEXITSTATUS(status));
 	if (input_fd != -1)
 		close(input_fd);
 	if (cmd_path != NULL)

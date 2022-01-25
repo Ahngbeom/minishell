@@ -6,7 +6,7 @@
 #    By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/25 12:39:05 by minsikim         ###   ########.fr        #
+#    Updated: 2022/01/25 17:01:39 by minsikim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,7 +131,6 @@ ALL_OBJS = $(OBJS) \
 all : $(NAME)
 
 .c.o :
-	git submodule update --init --recursive
 	$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
 
 $(NAME) : $(ALL_OBJS)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:58:54 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 21:11:55 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 17:52:34 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	minishell_cd(t_command *command)
 	else
 	{
 		update_envv("OLDPWD", get_envv_value("PWD"));
-		if (command->argv[1] == NULL)
+		if (argv_counter(command->argv) == 1)
 		{
 			if (chdir(getenv("HOME")) == -1)
 				chdir_error(command, &pipe_data);
