@@ -6,7 +6,7 @@
 #    By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/25 17:01:39 by minsikim         ###   ########.fr        #
+#    Updated: 2022/01/25 20:15:38 by minsikim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ CMD_OBJS = $(CMD_SRCS:.c=.o)
 PARSE_SRCS_PATH = ./srcs/parse/
 PARSE_SRCS_NAME = split_2_command.c \
 					quote.c \
+					remove_quotes.c \
 					command_type.c \
 					quotes_split.c \
 					abbreviation_converter.c

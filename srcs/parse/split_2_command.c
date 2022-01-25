@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 19:41:37 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 20:15:24 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, \
 	char	quotes;
 	char	*end_quotes;
 
-	if (start_quotes == NULL)
+	if (start_quotes == NULL && type_ptr)
 	{
 		set_type(command, &type_ptr);
 		return (1);
 	}
 	quotes = *start_quotes;
-	if (start_quotes < type_ptr)
+	if (type_ptr && start_quotes < type_ptr)
 	{
 		end_quotes = ft_strchr(start_quotes + 1, quotes);
 		if (end_quotes && end_quotes < type_ptr)
