@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 14:03:20 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:40:09 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,21 @@ struct s_command
 
 struct s_pip
 {
-	int		size;
-	int		i;
-	int		**fd;
-	pid_t	pid;
-	int		status;
+	int			size;
+	int			i;
+	int			**fd;
+	pid_t		pid;
+	int			status;
 	t_command	*exe;
 };
 
 struct s_data
 {
 	char			*prompt;
-
 	t_list			*lst_cmds;
-	
 	t_list			*lst_env;
 	char			**envv_path;
-
 	char			**arr_redirect;
-
 	char			*exit_stat;
 	int				status;
 

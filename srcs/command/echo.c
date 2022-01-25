@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 14:46:46 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 00:20:19 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 22:57:04 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,41 +42,3 @@ int	minishell_echo(t_command *command)
 		ft_putchar_fd('\n', 1);
 	return (release_pipe(&pipe_data));
 }
-
-// static	int	envmark_checker(char *env)
-// {
-// 	if (*env == '$')
-// 	{
-// 		if (*(env + 1) == '?')
-// 			ft_putstr_fd(g_data.exit_stat, 1);
-// 		else
-// 		{
-// 			// Try echo $HOME@@@@ on bash and minishell
-// 			// Try echo $HOME\ $HOME\\ on bash and minishell
-// 			ft_putstr_fd(get_envv_value(ft_substr(env, 1, ft_strlen(env) - 1)), 1);
-// 		}
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-// static	int	backslash_checker(char *arg, int *ch_idx)
-// {
-// 	if (arg[*ch_idx] == '\\')
-// 	{
-// 		if (arg[*ch_idx + 1] == '\\' || 
-// 				arg[*ch_idx + 1] == '\'' || 
-// 					arg[*ch_idx + 1] == '\"')
-// 		{
-// 			*ch_idx += 1;
-// 			return (1);
-// 		}
-// 		return (0);
-// 	}
-// 	else if (arg[*ch_idx] == '\\' || 
-// 				arg[*ch_idx] == '\'' || 
-// 					arg[*ch_idx] == '\"')
-// 		return (0);
-// 	else
-// 		return (1);
-// }

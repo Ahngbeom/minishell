@@ -6,7 +6,7 @@
 #    By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/24 14:50:46 by minsikim         ###   ########.fr        #
+#    Updated: 2022/01/25 12:39:05 by minsikim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBFT_PATH = ./libft
 LIBFT_LINK = -Llibft -lft
 
 SRCS_PATH = ./srcs/
-SRCS_NAME = main.c minishell.c print_info.c
+SRCS_NAME = main.c minishell.c
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJS = $(SRCS:.c=.o)
 
@@ -43,37 +43,23 @@ SIG_SRCS_NAME = handler.c
 SIG_SRCS = $(addprefix $(SIG_SRCS_PATH), $(SIG_SRCS_NAME))
 SIG_OBJS = $(SIG_SRCS:.c=.o)
 
-HIST_SRCS_PATH = ./srcs/history/
-HIST_SRCS_NAME = history.c
-HIST_SRCS = $(addprefix $(HIST_SRCS_PATH), $(HIST_SRCS_NAME))
-HIST_OBJS = $(HIST_SRCS:.c=.o)
-
-GNL_SRCS_PATH = ./srcs/gnl/
-GNL_SRCS_NAME = get_next_line.c
-GNL_SRCS = $(addprefix $(GNL_SRCS_PATH), $(GNL_SRCS_NAME))
-GNL_OBJS = $(GNL_SRCS:.c=.o)
-
 CMD_SRCS_PATH = ./srcs/command/
 CMD_SRCS_NAME = echo.c \
 				cd.c \
 				pwd.c \
 				export.c \
 				unset.c \
-				env.c
+				env.c \
+				exit.c
 CMD_SRCS = $(addprefix $(CMD_SRCS_PATH), $(CMD_SRCS_NAME))
 CMD_OBJS = $(CMD_SRCS:.c=.o)
 
 PARSE_SRCS_PATH = ./srcs/parse/
-PARSE_SRCS_NAME = more_input.c \
-					arg_finder.c \
-					split_2_command.c \
+PARSE_SRCS_NAME = split_2_command.c \
 					quote.c \
-					more_input2.c \
 					command_type.c \
-					split_without_quotes.c \
-					abbreviation_converter.c \
-					escape_sequence.c \
-					backslash.c
+					quotes_split.c \
+					abbreviation_converter.c
 PARSE_SRCS = $(addprefix $(PARSE_SRCS_PATH), $(PARSE_SRCS_NAME))
 PARSE_OBJS = $(PARSE_SRCS:.c=.o)
 
@@ -93,13 +79,20 @@ EXEC_SRCS = $(addprefix $(EXEC_SRCS_PATH), $(EXEC_SRCS_NAME))
 EXEC_OBJS = $(EXEC_SRCS:.c=.o)
 
 UTILS_SRCS_PATH = ./srcs/utils/
-UTILS_SRCS_NAME = execfile_finder.c \
+UTILS_SRCS_NAME = set_redirection.c \
+					increase_shlvl.c \
+					systax_checker.c \
+					command_extractor.c \
+					minishell_error.c \
+					add_command_to_list.c \
+					execfile_finder.c \
+					redirection_finder.c \
 					argv_counter.c \
 					add_arguments.c \
-					incorrect_exit.c \
+					exit_status_switch.c \
 					ft_strjoin_with_free.c \
-					set_redirection.c \
-					redirection_finder.c
+					ft_strtrim_with_free.c \
+					ft_strdup_with_free.c
 UTILS_SRCS = $(addprefix $(UTILS_SRCS_PATH), $(UTILS_SRCS_NAME))
 UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 
@@ -116,18 +109,16 @@ BAHN_SRCS_NAME = pipe.c \
 BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
 BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 
-PIPE_SRCS_PATH = ./srcs/pipe/
-PIPE_SRCS_NAME = pipe.c \
+MSKP_SRCS_PATH = ./srcs/minsikim_pipe/
+MSKP_SRCS_NAME = pipe.c \
 					if_flag.c \
 					if_flag_2.c
-PIPE_SRCS = $(addprefix $(PIPE_SRCS_PATH), $(PIPE_SRCS_NAME))
-PIPE_OBJS = $(PIPE_SRCS:.c=.o)
+MSKP_SRCS = $(addprefix $(MSKP_SRCS_PATH), $(MSKP_SRCS_NAME))
+MSKP_OBJS = $(MSKP_SRCS:.c=.o)
 
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
 			$(PROMPT_OBJS) \
-			$(HIST_OBJS) \
-			$(GNL_OBJS) \
 			$(CMD_OBJS) \
 			$(PARSE_OBJS) \
 			$(ENVV_OBJS) \
@@ -135,7 +126,7 @@ ALL_OBJS = $(OBJS) \
 			$(UTILS_OBJS) \
 			$(FREE_OBJS) \
 			$(BAHN_OBJS) \
-			$(PIPE_OBJS)
+			$(MSKP_OBJS)
 
 all : $(NAME)
 

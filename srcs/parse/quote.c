@@ -6,13 +6,14 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 01:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 00:25:08 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 20:33:17 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	move_to_end_quotes(char **ptr, int *length, char quotes, char **input)
+static	int	move_to_end_quotes(char **ptr, int *length, char quotes, \
+								char **input)
 {
 	char	*endq;
 
@@ -24,7 +25,11 @@ static	int	move_to_end_quotes(char **ptr, int *length, char quotes, char **input
 		*ptr = endq;
 	}
 	else
-		more_input2(*ptr, quotes);
+	{
+		printf("minishell: `%c': Not enclosed quotes\n", quotes);
+		exit_status_switch(2);
+		return (-1);
+	}
 	return (1);
 }
 
@@ -34,7 +39,7 @@ int	quote_finder(char **ptr, int *length, char **input)
 		return (move_to_end_quotes(ptr, length, '\'', input));
 	else if (**ptr == '\"')
 		return (move_to_end_quotes(ptr, length, '\"', input));
-	else 
+	else
 		return (0);
 }
 

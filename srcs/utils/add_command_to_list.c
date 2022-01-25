@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   add_command_to_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 01:37:28 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:42:27 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/24 15:54:33 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 20:23:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_history(t_list *lst_env)
+void	add_command_to_list(t_list **list, t_command **command)
 {
-	t_hash	*hash;
-
-	hash = ft_calloc(sizeof(t_hash), 1);
-	hash->key = ft_strdup("HISTFILE");
-	hash->value = ft_strjoin(getcwd(NULL, 0), "/.minishell_history");
-	ft_lstadd_back(&lst_env, ft_lstnew(hash));
+	*command = ft_calloc(sizeof(t_command), 1);
+	if (*list == NULL)
+		*list = ft_lstnew(*command);
+	else
+		ft_lstadd_back(list, ft_lstnew(*command));
 }

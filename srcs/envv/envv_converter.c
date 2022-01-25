@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 23:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 12:50:13 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 10:41:56 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ static void	envv_converter(char **arg, char *find)
 	if (*arg == NULL)
 		*arg = ft_strdup("\0");
 	if (next_tmp != NULL)
+	{
 		*arg = ft_strjoin(*arg, next_tmp);
+		free(next_tmp);
+	}
 	else
 		*arg = ft_strdup(*arg);
 }

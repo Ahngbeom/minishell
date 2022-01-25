@@ -6,47 +6,14 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 01:25:01 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 01:06:59 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	command_finder(char **input, char **splitted)
-{
-	char	*ptr;
-	int		length;
-	char	*temp;
-
-	ptr = *input;
-	length = 0;
-	while (*ptr != '\0')
-	{
-		if (quote_finder(&ptr, &length, input))
-			continue ;
-		if (type_finder(ptr, &length, input))
-			break ;
-		length++;
-		ptr++;
-	}
-	if (length > 0)
-	{
-		*splitted = ft_substr(*input, 0, length);
-		temp = *input;
-		*input = ft_substr(*input, length, ft_strlen(*input));
-		free(temp);
-		if (ft_strlen(*splitted) != length)
-		{
-			temp = *splitted;
-			*splitted = ft_substr(*input, 0, length);
-			free(temp);
-		}
-		return (1);
-	}
-	return (0);
-}
-
-static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, t_command *command)
+static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, \
+										t_command *command)
 {
 	char	quotes;
 	char	*end_quotes;
@@ -69,7 +36,8 @@ static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, t_comma
 	return (0);
 }
 
-static int	enclosed_quotes_checker(char *sentence, char *type_ptr, t_command *command)
+static int	enclosed_quotes_checker(char *sentence, char *type_ptr, \
+									t_command *command)
 {
 	char	*sgle;
 	char	*dble;
@@ -99,30 +67,34 @@ static void	arg_extractor(t_command *command, char **sentence)
 		*sentence = ft_substr(*sentence, 0, type - *sentence);
 		free(temp);
 	}
-	temp = *sentence;
-	*sentence = ft_strtrim(*sentence, " ");
-	free(temp);
-	command->argv = split_without_quotes(*sentence, ' ');
+	*sentence = ft_strtrim_with_free(*sentence, " ");
+	command->argv = quotes_split(*sentence, ' ');
+	free(*sentence);
 }
 
-void	split_2_command(t_list **list, char *input)
+int	split_2_command(t_list **list, char *input)
 {
 	t_command	*command;
 	char		*splitted;
+	int			extractor;
+	char		*processed;
 
+	processed = ft_strdup_with_free(input);
 	splitted = NULL;
-	while (command_finder(&input, &splitted) > 0)
+	extractor = command_extractor(&processed, &splitted);
+	while (extractor > 0)
 	{
-		command = ft_calloc(sizeof(t_command), 1);
+		add_command_to_list(list, &command);
 		arg_extractor(command, &splitted);
 		remove_quotes(command);
-		if (*list == NULL)
-			*list = ft_lstnew(command);
-		else
-			ft_lstadd_back(list, ft_lstnew(command));
-		free(splitted);
-		splitted = NULL;
+		extractor = command_extractor(&processed, &splitted);
 	}
-	if (input != NULL)
-		free(input);
+	if (processed != NULL)
+		free(processed);
+	if (extractor == -1)
+	{
+		ft_lstclear(list, command_free);
+		return (extractor);
+	}
+	return (0);
 }

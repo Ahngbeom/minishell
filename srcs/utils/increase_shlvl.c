@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envv_name_format_checker.c                         :+:      :+:    :+:   */
+/*   increase_shlvl.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/17 22:36:12 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 21:44:25 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/24 21:25:13 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 21:28:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	envv_name_format_checker(char *key)
+void	increase_shlvl(void)
 {
-	int	i;
+	t_hash	*envv;
+	char	*temp;
 
-	if (ft_isdigit(*key))
-		return (1);
-	i = -1;
-	while (key[++i] != '\0')
-	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return (1);
-	}
-	return (0);
+	envv = get_envv("SHLVL");
+	if (envv == NULL)
+		return ;
+	temp = envv->value;
+	envv->value = ft_itoa(ft_atoi(get_envv("SHLVL")->value) + 1);
+	free(temp);
 }

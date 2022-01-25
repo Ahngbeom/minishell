@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envv_name_format_checker.c                         :+:      :+:    :+:   */
+/*   ft_strdup_with_free.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/17 22:36:12 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 21:44:25 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/21 15:47:03 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 20:26:49 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	envv_name_format_checker(char *key)
+char	*ft_strdup_with_free(char *src)
 {
-	int	i;
+	int		i;
+	int		src_len;
+	char	*cpy;
 
-	if (ft_isdigit(*key))
-		return (1);
-	i = -1;
-	while (key[++i] != '\0')
+	i = 0;
+	src_len = ft_strlen(src);
+	cpy = malloc(sizeof(char) * src_len + 1);
+	if (!cpy)
+		return (NULL);
+	while (i < src_len)
 	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return (1);
+		cpy[i] = src[i];
+		i++;
 	}
-	return (0);
+	cpy[i] = '\0';
+	free(src);
+	return (cpy);
 }

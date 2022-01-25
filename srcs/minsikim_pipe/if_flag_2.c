@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 10:23:17 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 12:20:11 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ void	do_son_2(t_list *list, t_pip pip, int *i, int out_fd)
 		free(temp);
 		dup2(out_fd, STDOUT_FILENO);
 	}
+}
+
+void	do_son(t_list *list, t_pip pip)
+{
+	pip.exe = list->content;
+	if (((t_command *)(list)->content)->pre_flag)
+		dup2(pip.fd[pip.i - 1][0], STDIN_FILENO);
+	if_pipe(list, pip.fd, pip.i);
+	if_flag_right(list, pip.exe, pip.fd, pip.i);
+	if_flag_left(list, pip.exe, pip.fd, &(pip.i));
+	if_flag_d_left(list, pip.exe, pip, &(pip.i));
+	to_execve_2(list->content);
 }
 
 void	if_flag_d_left(t_list *list, t_command *exe, t_pip pip, int *i)
@@ -96,19 +108,4 @@ void	while_34(t_list **list)
 			break ;
 		*list = (*list)->next;
 	}
-}
-
-void	do_son(t_list *list, t_pip pip)
-{
-	pip.exe = list->content;
-	if (((t_command *)(list)->content)->pre_flag)
-		dup2(pip.fd[pip.i - 1][0], STDIN_FILENO);
-	if_pipe(list, pip.fd, pip.i);
-	if_flag_right(list, pip.exe, pip.fd, pip.i);
-	if_flag_left(list, pip.exe, pip.fd, &(pip.i));
-	if_flag_d_left(list, pip.exe, pip, &(pip.i));
-	if (((t_command *)(list)->content)->next_flag == 3 || \
-		((t_command *)(list)->content)->next_flag == 4)
-		exit(0);
-	to_execve_2(list->content);
 }
