@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 12:20:11 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:13:47 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	do_son(t_list *list, t_pip pip)
 {
 	pip.exe = list->content;
 	if (((t_command *)(list)->content)->pre_flag)
+	{
 		dup2(pip.fd[pip.i - 1][0], STDIN_FILENO);
+		close(pip.fd[pip.i - 1][1]);
+		close(pip.fd[pip.i - 1][0]);
+	}
 	if_pipe(list, pip.fd, pip.i);
 	if_flag_right(list, pip.exe, pip.fd, pip.i);
 	if_flag_left(list, pip.exe, pip.fd, &(pip.i));

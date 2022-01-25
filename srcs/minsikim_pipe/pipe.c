@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 12:36:48 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 14:40:43 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,11 @@ t_list	*ft_pipe(t_list *list)
 			do_son(list, pip);
 		else
 		{
+			printf("n_flag[%d]\n", ((t_command *)(list)->content)->next_flag);
+			close(pip.fd[pip.i][1]);
+			close(pip.fd[pip.i][0]);
 			wait(&pip.status);
 			g_data.status = WEXITSTATUS(g_data.status);
-			if (((t_command *)(list)->content)->pre_flag)
-				close(pip.fd[pip.i - 1][0]);
-			if (((t_command *)(list)->content)->next_flag)
-				close(pip.fd[pip.i][1]);
 			while_3456(&list, &(pip.i));
 		}
 		if ((list)->next)
