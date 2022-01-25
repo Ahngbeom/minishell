@@ -6,7 +6,7 @@
 #    By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/24 12:52:29 by minsikim         ###   ########.fr        #
+#    Updated: 2022/01/24 14:50:46 by minsikim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,13 @@ BAHN_SRCS_NAME = pipe.c \
 BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
 BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 
+PIPE_SRCS_PATH = ./srcs/pipe/
+PIPE_SRCS_NAME = pipe.c \
+					if_flag.c \
+					if_flag_2.c
+PIPE_SRCS = $(addprefix $(PIPE_SRCS_PATH), $(PIPE_SRCS_NAME))
+PIPE_OBJS = $(PIPE_SRCS:.c=.o)
+
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
 			$(PROMPT_OBJS) \
@@ -127,7 +134,8 @@ ALL_OBJS = $(OBJS) \
 			$(EXEC_OBJS) \
 			$(UTILS_OBJS) \
 			$(FREE_OBJS) \
-			$(BAHN_OBJS)
+			$(BAHN_OBJS) \
+			$(PIPE_OBJS)
 
 all : $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:52:01 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 12:50:37 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/25 10:23:05 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,28 @@ void	set_pipe(t_pipe *data);
 int		release_pipe(t_pipe *data);
 
 // Create PIPE for execve & Run execve(path, argv, envv);
-int		execution(t_list **list, t_command *command, int input_fd, int *reverse_redir);
+int		execution(t_list **list, t_command *command, \
+					int input_fd, int *reverse_redir);
 char	**envp_to_arr_converter(t_list *list);
 int	to_execve(t_command *command);
 int		to_execve_2(t_command *command);
 // int		to_execve_3(t_command *command);
+
+//PIPE.c
+void	set_pip(t_pip *pip, t_list *list);
+void	free_fd(t_pip pip);
+t_list	*ft_pipe(t_list *list);
+void	set_flag(t_list *i_list);
+
+void	if_pipe(t_list *list, int **fd, int i);
+void	if_flag_right(t_list *list, t_command *exe, int **fd, int i);
+void	if_flag_right_no_exe(t_list *list, int **fd, int i);
+void	if_flag_left(t_list *list, t_command *exe, int **fd, int *i);
+void	if_flag_d_left(t_list *list, t_command *exe, t_pip pip, int *i);
+void	while_34(t_list **list);
+void	while_3456(t_list **list, int *i);
+void	do_son(t_list *list, t_pip pip);
+void	do_son_2(t_list *list, t_pip pip, int *i, int out_fd);
 
 // COMMAND echo
 int		minishell_echo(t_command *command);
@@ -85,7 +102,8 @@ void	update_envv(char *key, char *new_value);
 
 // Redirection
 void	minishell_redirection(t_list **list, int *fd, char *redirect);
-void	minishell_r_redirection(t_list **cmd_ptr, char *type, t_pipe *pipe_data, int *flag);
+void	minishell_r_redirection(t_list **cmd_ptr, char *type, \
+									t_pipe *pipe_data, int *flag);
 
 // Arguments Vector Utils
 int		argv_counter(char *argv[]);

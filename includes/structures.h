@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 21:48:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 12:50:32 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:03:20 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,14 @@ t_data						g_data;
 
 struct s_command
 {
-	// Value is 1 If this Command is Built-in(bash) Command
-	// Not is 0 (Zero)
 	int			bulit_in_flag;
 
 	int			(*builtin_func)(t_command *);
-	// int			(*func)(t_command *);
 	char		**argv;
 	char		*type;
 
 	t_list		*lst_argv;
-	// char		*redirect;
 
-	// 리다이렉션, 파이프를 처리하기위해 출력 결과를 저장하기 위한 변수
 	char		*output;
 
 	int			next_flag;
@@ -79,18 +74,6 @@ struct s_hash
 	char	*key;
 	char	*value;
 };
-
-// struct s_command
-// {
-// 	int			(*builtin_func)(t_command *);
-// 	char		**argv;
-// 	char		*type;
-
-// 	// int			o_flag;
-
-// 	// int			next_flag;
-// 	// int			pre_flag;
-// };
 
 struct s_pipe
 {

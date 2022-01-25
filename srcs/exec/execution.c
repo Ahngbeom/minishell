@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 12:54:24 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:30:01 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	to_execve_2(t_command *command)
 
 	cmd_path = NULL;
 	cmd_path = execfile_finder(command->argv[0]);
-	// printf("cmd_path:%s\n", cmd_path);
 	if (cmd_path == NULL)
 		exit(127);
 	if (execve(cmd_path, command->argv, NULL) == -1)
@@ -59,7 +58,7 @@ int	to_execve_2(t_command *command)
 	exit(EXIT_SUCCESS);
 }
 
-static void	to_execve_b(t_pipe *pipe_data, \
+static void	to_execve_bahn(t_pipe *pipe_data, \
 						char *cmd_path, char **argv, char **envp, \
 							int input_fd)
 {
@@ -96,7 +95,7 @@ int	execution(t_list **list, t_command *command, int input_fd, int *flag)
 		{
 			minishell_r_redirection(list, command->type, &pipe_data, flag);
 		}
-		to_execve_b(&pipe_data, cmd_path, command->argv, envp, input_fd);
+		to_execve_bahn(&pipe_data, cmd_path, command->argv, envp, input_fd);
 	}
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 127)

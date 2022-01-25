@@ -6,7 +6,7 @@
 /*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 13:02:51 by minsikim         ###   ########.fr       */
+/*   Updated: 2022/01/24 14:35:05 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,11 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	(void)argc;
 	(void)argv;
 	g_data.lst_env = set_lstenvv(env);
-	// set_history(g_data.lst_env);
 	g_data.envv_path = set_envvpath();
 	g_data.lst_cmds = NULL;
 	set_redirection();
 	g_data.exit_stat = ft_itoa(0);
 	set_termios();
-	// signal(SIGINT, signal_handler);
-	// signal(SIGQUIT, SIG_IGN);
 }
 
 void	minishell_finalize(void)
@@ -82,9 +79,7 @@ int	main(int argc, char *argv[], char *env[])
 		check = preprocess(&input);
 		if (check == 0)
 		{
-			// input = more_input(input);
 			add_history(input);
-			// input_split(&g_data.commands, input);
 			split_2_command(&g_data.lst_cmds, ft_strdup(input));
 			free(input);
 			abbreviation_converter(g_data.lst_cmds);
@@ -96,6 +91,5 @@ int	main(int argc, char *argv[], char *env[])
 		system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	}
 	minishell_finalize();
-	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	return (ft_atoi(g_data.exit_stat));
 }
