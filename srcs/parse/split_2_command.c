@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 01:06:59 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 19:10:24 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, \
 	char	quotes;
 	char	*end_quotes;
 
-	if (start_quotes == NULL)
+	if (start_quotes == NULL && type_ptr)
 	{
 		set_type(command, &type_ptr);
 		return (1);
 	}
 	quotes = *start_quotes;
-	if (start_quotes < type_ptr)
+	if (type_ptr && start_quotes < type_ptr)
 	{
 		end_quotes = ft_strchr(start_quotes + 1, quotes);
 		if (end_quotes && end_quotes < type_ptr)
@@ -32,6 +32,10 @@ static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, \
 			set_type(command, &type_ptr);
 			return (1);
 		}
+	}
+	else
+	{
+		
 	}
 	return (0);
 }
@@ -68,6 +72,7 @@ static void	arg_extractor(t_command *command, char **sentence)
 		free(temp);
 	}
 	*sentence = ft_strtrim_with_free(*sentence, " ");
+	printf("sentence : %s\n", *sentence);
 	command->argv = quotes_split(*sentence, ' ');
 	free(*sentence);
 }

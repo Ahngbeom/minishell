@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 01:12:35 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 20:33:17 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 18:55:36 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,4 @@ int	quote_finder(char **ptr, int *length, char **input)
 		return (move_to_end_quotes(ptr, length, '\"', input));
 	else
 		return (0);
-}
-
-void	remove_quotes(t_command *command)
-{
-	int		i;
-	char	*temp;
-
-	i = -1;
-	while (command->argv[++i] != NULL)
-	{
-		if (command->argv[i][0] == '\'')
-		{
-			temp = command->argv[i];
-			command->argv[i] = ft_strtrim(command->argv[i], "\'");
-			free(temp);
-		}
-		else if (command->argv[i][0] == '\"')
-		{
-			temp = command->argv[i];
-			command->argv[i] = ft_strtrim(command->argv[i], "\"");
-			free(temp);
-			envmark_converter(&command->argv[i]);
-		}
-		else
-			envmark_converter(&command->argv[i]);
-	}	
 }
