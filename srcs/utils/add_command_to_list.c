@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   incorrect_exit.c                                   :+:      :+:    :+:   */
+/*   add_command_to_list.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/23 16:25:03 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 20:03:23 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/24 15:54:33 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 20:23:37 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	No Options
-*/
-int	incorrect_exit(t_command *command)
+void	add_command_to_list(t_list **list, t_command **command)
 {
-	ft_putendl_fd(command->argv[0], 1);
-	if (argv_counter(command->argv) > 1)
-		printf("minishell: exit: %s: numeric argument required\n", \
-				command->argv[1]);
-	ft_lstclear(&g_data.commands, command_free);
-	minishell_finalize();
-	exit(ft_atoi(g_data.exit_stat));
+	*command = ft_calloc(sizeof(t_command), 1);
+	if (*list == NULL)
+		*list = ft_lstnew(*command);
+	else
+		ft_lstadd_back(list, ft_lstnew(*command));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_finder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/01 16:06:05 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 00:38:20 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 10:41:03 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	redirection_finder(char *redirection[], char *input, char **save)
 	i = -1;
 	while (redirection[++i] != NULL)
 	{
-		// find_ptr = ft_strnstr(input, redirection[i], ft_strlen(input));
 		quotes_chekcer(input, &find_ptr, redirection[i]);
 		if (find_ptr != NULL && (forefront == NULL || forefront >= find_ptr))
 		{

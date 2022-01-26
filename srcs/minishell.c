@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/18 15:03:56 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/19 16:59:00 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 19:56:18 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	void	command_finder(t_command *command)
 	else if (!ft_strncmp(command->argv[0], "env", ft_strlen("env") + 1))
 		command->builtin_func = minishell_env;
 	else if (!ft_strncmp(command->argv[0], "exit", ft_strlen("exit") + 1))
-		command->builtin_func = incorrect_exit;
+		command->builtin_func = minishell_exit;
 	else
 		command->builtin_func = NULL;
 }
@@ -47,6 +47,22 @@ static void	print_result(t_list **list, int *fd)
 	*list = (*list)->next;
 }
 
+void	do_minishell(t_list **list, t_command **cmd, int *fd)
+{
+	if ((*cmd)->builtin_func != NULL)
+		*fd = (*cmd)->builtin_func(*cmd);
+	else
+		*fd = execution(*cmd, *fd);
+	if ((*cmd)->type == NULL || \
+		!ft_strncmp((*cmd)->type, SEMI_COLON, ft_strlen((*cmd)->type) + 1))
+		print_result(list, fd);
+	else if (!ft_strncmp((*cmd)->type, PIPE, ft_strlen((*cmd)->type) + 1))
+		*list = (*list)->next;
+	else
+		minishell_redirection(list, fd, (*cmd)->type);
+	g_data.envv_path = set_envvpath();
+}
+
 int	minishell(void)
 {
 	t_list		*list;
@@ -54,24 +70,19 @@ int	minishell(void)
 	int			fd;
 
 	fd = -1;
-	list = g_data.commands;
+	set_flag(g_data.lst_cmds);
+	list = g_data.lst_cmds;
 	while (list != NULL)
 	{
 		cmd = list->content;
 		command_finder(cmd);
-		if (cmd->builtin_func != NULL)
-			fd = cmd->builtin_func(cmd);
-		else
-			fd = execution(cmd, fd);
-		if (cmd->type == NULL || \
-			!ft_strncmp(cmd->type, SEMI_COLON, ft_strlen(cmd->type) + 1))
-			print_result(&list, &fd);
-		else if (!ft_strncmp(cmd->type, PIPE, ft_strlen(cmd->type) + 1))
-			list = list->next;
-		else
-			minishell_redirection(&list, &fd, cmd->type);
-		g_data.envv_path = set_envvpath();
+		if (cmd->next_flag)
+		{
+			list = ft_pipe(list);
+			break ;
+		}
+		do_minishell(&list, &cmd, &fd);
 	}
-	ft_lstclear(&g_data.commands, command_free);
+	ft_lstclear(&g_data.lst_cmds, command_free);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 15:57:58 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 19:36:00 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/24 20:39:11 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	minishell_redirection(t_list **cmd_ptr, int *fd, char *redirect)
 		file = open(cmd->argv[0], O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
 	else if (!ft_strncmp(redirect, APND_REDIR, ft_strlen(redirect) + 1))
 		file = open(cmd->argv[0], O_CREAT | O_RDWR | O_APPEND, S_IRWXU);
-	else
-		exit(EXIT_FAILURE);
 	if ((*cmd_ptr)->next != NULL && redir_type_checker(cmd->type))
 		minishell_redirection(cmd_ptr, fd, cmd->type);
 	else

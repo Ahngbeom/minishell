@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_redirection.c                                  :+:      :+:    :+:   */
+/*   increase_shlvl.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/04 14:18:02 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 01:20:36 by bahn             ###   ########.fr       */
+/*   Created: 2022/01/24 21:25:13 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 21:28:03 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_redirection(void)
+void	increase_shlvl(void)
 {
-	g_data.arr_redirect = ft_calloc(sizeof(char *), 7);
-	g_data.arr_redirect[0] = SEMI_COLON;
-	g_data.arr_redirect[1] = PIPE;
-	g_data.arr_redirect[2] = APND_REDIR;
-	g_data.arr_redirect[3] = R_APND_REDIR;
-	g_data.arr_redirect[4] = TRNC_REDIR;
-	g_data.arr_redirect[5] = R_TRNC_REDIR;
+	t_hash	*envv;
+	char	*temp;
+
+	envv = get_envv("SHLVL");
+	if (envv == NULL)
+		return ;
+	temp = envv->value;
+	envv->value = ft_itoa(ft_atoi(get_envv("SHLVL")->value) + 1);
+	free(temp);
 }

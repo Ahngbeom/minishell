@@ -6,124 +6,95 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 01:43:13 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 21:32:14 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/26 14:37:12 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static	size_t	count_command(char *input)
-// {
-// 	size_t	cnt;
-
-// 	cnt = 0;
-// 	while (*input != '\0')
-// 	{
-// 		if (*input == '\'')
-// 		{
-// 			while (*(++input) != '\"')
-// 			{
-// 				if (*input == '\0')
-// 					break ; // more_input
-// 			}
-// 			++input;
-// 		}
-// 		else if (*input == '\"')
-// 		{
-// 			while (*(++input) != '\"')
-// 			{
-// 				if (*input == '\0')
-// 					break ; // more_input
-// 			}
-// 			++input;
-// 		}
-// 		else if (*input == ';')
-// 		{
-// 			input++;
-// 			if (*input != '\0')
-// 				cnt++;
-// 		}
-// 		else
-// 			++input;
-// 	}
-// 	return (++cnt);
-// }
-
-// static	char	*command_extractor(char *input, int *start_idx)
-// {
-// 	char	*command;
-	
-// 	command = NULL;
-// 	while (input[*start_idx] != '\0')
-// 	{
-// 		if (input[*start_idx] == '\'')
-// 		{
-// 			while (input[++(*start_idx)] != '\"')
-// 			{
-// 				if (input[*start_idx] == '\0')
-// 					break ; // more_input
-// 			}
-// 			++(*start_idx);
-// 		}
-// 		else if (input[*start_idx] == '\"')
-// 		{
-// 			while (*(++input) != '\"')
-// 			{
-// 				if (input[*start_idx] == '\0')
-// 					break ; // more_input
-// 			}
-// 			++(input);
-// 		}
-// 		if (input[*start_idx] == ';')
-// 		{
-// 			command = ft_substr(input, 0, (*start_idx)++);
-// 			return (command);
-// 		}
-// 		else
-// 			++(*start_idx);
-// 	}
-// 	return (ft_strdup(input));
-// }
-
-// static	void	splitter(t_command *command, char *input, size_t count)
-// {
-// 	char	*copy_input;
-// 	char	*temp;
-// 	size_t	i;
-// 	int		idx;
-
-// 	copy_input = input;
-// 	temp = NULL;
-// 	i = 0;
-// 	while (i < count)
-// 	{
-// 		idx = 0;
-// 		command->argv[i] = command_extractor(copy_input, &idx);
-// 		if (copy_input != NULL && copy_input != input)
-// 			temp = copy_input;
-// 		while (copy_input[idx] == ' ')
-// 			idx++;
-// 		if (copy_input[idx] != '\0')
-// 			copy_input = ft_substr(copy_input, idx, ft_strlen(copy_input));
-// 		if (temp != NULL)
-// 			free(temp);
-// 		i++;
-// 	}
-// }
-
-void	split_2_command(t_list **commands, char *input)
+static int	determine_enclosed_quotes(char *start_quotes, char *type_ptr, \
+										t_command *command)
 {
-	t_command	*cmd;
+	char	quotes;
+	char	*end_quotes;
 
-	// while ()
-	// {
-		cmd = ft_calloc(sizeof(t_command), 1);
-		if (*commands == NULL)
-			*commands = ft_lstnew(cmd);
-		else
-			ft_lstadd_back(commands, ft_lstnew(cmd));
-		cmd->argv = ft_calloc(sizeof(char *), 2);
-		cmd->argv[0] = ft_strdup(input);
-	// }
-	// splitter(*commands, input, count_cmds);
+	if (start_quotes == NULL && type_ptr)
+	{
+		set_type(command, &type_ptr);
+		return (1);
+	}
+	quotes = *start_quotes;
+	if (type_ptr && start_quotes < type_ptr)
+	{
+		end_quotes = ft_strchr(start_quotes + 1, quotes);
+		if (end_quotes && end_quotes < type_ptr)
+		{
+			set_type(command, &type_ptr);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+static int	enclosed_quotes_checker(char *sentence, char *type_ptr, \
+									t_command *command)
+{
+	char	*sgle;
+	char	*dble;
+
+	sgle = ft_strchr(sentence, '\'');
+	dble = ft_strchr(sentence, '\"');
+	if (sgle && dble)
+		return (determine_enclosed_quotes(sgle, type_ptr, command) && \
+				determine_enclosed_quotes(dble, type_ptr, command));
+	else if (sgle)
+		return (determine_enclosed_quotes(sgle, type_ptr, command));
+	else if (dble)
+		return (determine_enclosed_quotes(dble, type_ptr, command));
+	else
+		return (determine_enclosed_quotes(NULL, type_ptr, command));
+}
+
+static void	arg_extractor(t_command *command, char **sentence)
+{
+	char	*type;
+	char	*temp;
+
+	type = type_finder(*sentence, NULL, NULL);
+	if (type && enclosed_quotes_checker(*sentence, type, command))
+	{
+		temp = *sentence;
+		*sentence = ft_substr(*sentence, 0, type - *sentence);
+		free(temp);
+	}
+	*sentence = ft_strtrim_with_free(*sentence, " ");
+	command->argv = quotes_split(*sentence, ' ');
+	free(*sentence);
+}
+
+int	split_2_command(t_list **list, char *input)
+{
+	t_command	*command;
+	char		*splitted;
+	int			extractor;
+	char		*processed;
+
+	processed = ft_strdup_with_free(input);
+	splitted = NULL;
+	extractor = command_extractor(&processed, &splitted);
+	while (extractor > 0)
+	{
+		add_command_to_list(list, &command);
+		arg_extractor(command, &splitted);
+		remove_quotes(command);
+		extractor = command_extractor(&processed, &splitted);
+	}
+	if (processed != NULL)
+		free(processed);
+	if (extractor == -1)
+	{
+		ft_lstclear(list, command_free);
+		return (extractor);
+	}
+	return (0);
 }

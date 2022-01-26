@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/20 21:22:17 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/26 14:35:21 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ static	void	minishell_init(int argc, char *argv[], char *env[])
 	(void)argc;
 	(void)argv;
 	g_data.lst_env = set_lstenvv(env);
-	// set_history(g_data.lst_env);
+	increase_shlvl();
 	g_data.envv_path = set_envvpath();
-	g_data.commands = NULL;
+	g_data.lst_cmds = NULL;
 	set_redirection();
 	g_data.exit_stat = ft_itoa(0);
 	set_termios();
-	// signal(SIGINT, signal_handler);
-	// signal(SIGQUIT, SIG_IGN);
 }
 
 void	minishell_finalize(void)
@@ -37,33 +35,27 @@ void	minishell_finalize(void)
 
 static	int	preprocess(char **input)
 {
-	char	*temp;
-
-	temp = *input;
-	*input = ft_strtrim(*input, " ");
-	free(temp);
-	if (*input == NULL || !ft_strncmp(*input, "exit", ft_strlen("exit") + 1))
-	{
-		ft_putendl_fd("exit", 1);
-		if (*input != NULL)
-			free(*input);
+	*input = ft_strtrim_with_free(*input, " ");
+	if (exit_checker(*input))
 		return (-1);
-	}
 	if (ft_strlen(*input) == 0)
 	{
 		if (*input != NULL)
 			free(*input);
 		return (1);
 	}
-	if (!ft_isalnum(**input) && ft_isprint(**input) &&\
-		 **input != '$' && **input != '\'' && **input != '\"')
-	{
-		printf("minishell: syntax error near unexpected token `%c'\n", **input);
-		add_history(*input);
-		if (*input != NULL)
-			free(*input);
+	if (syntax_checker(*input))
 		return (1);
-	}
+	add_history(*input);
+	return (0);
+}
+
+static int	parsing(char *input)
+{
+	if (split_2_command(&g_data.lst_cmds, input) == -1)
+		return (1);
+	exit_status_switch(0);
+	abbreviation_converter(g_data.lst_cmds);
 	return (0);
 }
 
@@ -81,27 +73,11 @@ int	main(int argc, char *argv[], char *env[])
 		signal(SIGQUIT, signal_handler);
 		input = readline(prompt());
 		check = preprocess(&input);
-		if (check == 0)
-		{
-			input = more_input(input);
-			add_history(input);
-			// input_split(&g_data.commands, input);
-			
-			commands = NULL;
-			split_2_command(&commands, input);
-			free(input);
-			continue ;
-			
-			free(input);
-			abbreviation_converter(g_data.commands);
-			print_info(g_data.commands, 1);
-			minishell();
-		}
-		else if (check < 0)
+		if (check < 0)
 			break ;
-		// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
+		if (check == 0 && !parsing(input))
+			minishell();
 	}
 	minishell_finalize();
-	// system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	return (ft_atoi(g_data.exit_stat));
 }

@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strdup_with_free.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/18 01:37:28 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/18 01:42:27 by bahn             ###   ########.fr       */
+/*   Created: 2020/12/21 15:47:03 by bahn              #+#    #+#             */
+/*   Updated: 2022/01/24 20:26:49 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	set_history(t_list *lst_env)
+char	*ft_strdup_with_free(char *src)
 {
-	t_hash	*hash;
+	int		i;
+	int		src_len;
+	char	*cpy;
 
-	hash = ft_calloc(sizeof(t_hash), 1);
-	hash->key = ft_strdup("HISTFILE");
-	hash->value = ft_strjoin(getcwd(NULL, 0), "/.minishell_history");
-	ft_lstadd_back(&lst_env, ft_lstnew(hash));
+	i = 0;
+	src_len = ft_strlen(src);
+	cpy = malloc(sizeof(char) * src_len + 1);
+	if (!cpy)
+		return (NULL);
+	while (i < src_len)
+	{
+		cpy[i] = src[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	free(src);
+	return (cpy);
 }
