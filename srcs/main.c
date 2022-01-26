@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 17:01:22 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 20:07:21 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 20:23:27 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,10 @@ int	main(int argc, char *argv[], char *env[])
 		input = readline(prompt());
 		check = preprocess(&input);
 		if (check < 0)
-		{
-			system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 			break ;
-		}
 		if (check == 0 && !parsing(input))
 			minishell();
-		system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	}
 	minishell_finalize();
-	system("leaks minishell > leaks_result && cat leaks_result && rm -rf leaks_result");
 	return (ft_atoi(g_data.exit_stat));
 }

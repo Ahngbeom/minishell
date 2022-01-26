@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/18 15:05:30 by bahn              #+#    #+#              #
-#    Updated: 2022/01/25 18:44:13 by bahn             ###   ########.fr        #
+#    Updated: 2022/01/25 20:15:38 by minsikim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,13 @@ BAHN_SRCS_NAME = pipe.c \
 BAHN_SRCS = $(addprefix $(BAHN_SRCS_PATH), $(BAHN_SRCS_NAME))
 BAHN_OBJS = $(BAHN_SRCS:.c=.o)
 
+MSKP_SRCS_PATH = ./srcs/minsikim_pipe/
+MSKP_SRCS_NAME = pipe.c \
+					if_flag.c \
+					if_flag_2.c
+MSKP_SRCS = $(addprefix $(MSKP_SRCS_PATH), $(MSKP_SRCS_NAME))
+MSKP_OBJS = $(MSKP_SRCS:.c=.o)
+
 ALL_OBJS = $(OBJS) \
 			$(SIG_OBJS) \
 			$(PROMPT_OBJS) \
@@ -119,7 +126,8 @@ ALL_OBJS = $(OBJS) \
 			$(EXEC_OBJS) \
 			$(UTILS_OBJS) \
 			$(FREE_OBJS) \
-			$(BAHN_OBJS)
+			$(BAHN_OBJS) \
+			$(MSKP_OBJS)
 
 all : $(NAME)
 

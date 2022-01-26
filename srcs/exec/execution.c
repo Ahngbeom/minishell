@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:33:53 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/24 20:39:54 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 16:55:58 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	to_execve_2(t_command *command)
+{
+	char	*cmd_path;
+
+	cmd_path = NULL;
+	cmd_path = execfile_finder(command->argv[0]);
+	if (cmd_path == NULL)
+		exit(127);
+	if (execve(cmd_path, command->argv, NULL) == -1)
+		exit(errno);
+	exit(EXIT_SUCCESS);
+}
 
 static void	to_execve(t_pipe *pipe_data, \
 						char *cmd_path, char **argv, \
@@ -36,7 +49,6 @@ int	execution(t_command *command, int input_fd)
 	int		status;
 	char	*cmd_path;
 
-	set_pipe(&pipe_data);
 	cmd_path = execfile_finder(command->argv[0]);
 	pid = fork();
 	if (pid == -1)
@@ -47,9 +59,7 @@ int	execution(t_command *command, int input_fd)
 	waitpid(pid, &status, 0);
 	if (WEXITSTATUS(status) == 127)
 		printf("minishell: %s: command not found\n", command->argv[0]);
-	if (g_data.exit_stat != NULL)
-		free(g_data.exit_stat);
-	g_data.exit_stat = ft_itoa(WEXITSTATUS(status));
+	exit_status_switch(WEXITSTATUS(status));
 	if (input_fd != -1)
 		close(input_fd);
 	if (cmd_path != NULL)

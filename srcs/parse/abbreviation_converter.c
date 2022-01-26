@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   abbreviation_converter.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: minsikim <minsikim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 20:55:52 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 01:34:30 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/25 10:41:14 by minsikim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ void	abbreviation_converter(t_list *list)
 			tilde_checker(&command->argv[i]);
 		ptr = ptr->next;
 	}
+	g_data.not_convert = 0;
 }
