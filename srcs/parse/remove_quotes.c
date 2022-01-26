@@ -6,7 +6,7 @@
 /*   By: bahn <bahn@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 18:43:32 by bahn              #+#    #+#             */
-/*   Updated: 2022/01/25 20:11:01 by bahn             ###   ########.fr       */
+/*   Updated: 2022/01/26 13:19:50 by bahn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	quotes_compose(char **arg, char *quotes_ptr, char quotes)
 		next_quotes < ft_strchr(*arg, '\''))))
 		envmark_converter(&quotes_str);
 	temp = ft_strjoin_with_free(pre_str, quotes_str);
+	free(*arg);
 	*arg = ft_strjoin_with_free(temp, next_str);
 }
 
